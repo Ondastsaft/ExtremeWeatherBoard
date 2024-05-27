@@ -1,6 +1,8 @@
-﻿namespace ExtremeWeatherBoard.DAL
+﻿using ExtremeWeatherBoard.Interfaces.Repositories;
+
+namespace ExtremeWeatherBoard.DAL
 {
-    public class MessageRepository
+    public class MessageRepository:IMessageRepository
     {
     }
 }

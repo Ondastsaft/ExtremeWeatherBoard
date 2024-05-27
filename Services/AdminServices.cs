@@ -1,6 +1,8 @@
-﻿namespace ExtremeWeatherBoard.Services
+﻿using ExtremeWeatherBoard.Interfaces.Services;
+
+namespace ExtremeWeatherBoard.Services
 {
-    public class AdminServices
+    public class AdminServices:IAdminServices
     {
     }
 }

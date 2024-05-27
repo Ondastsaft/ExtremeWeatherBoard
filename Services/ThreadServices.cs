@@ -1,6 +1,8 @@
-﻿namespace ExtremeWeatherBoard.Services
+﻿using ExtremeWeatherBoard.Interfaces.Repositories;
+
+namespace ExtremeWeatherBoard.Services
 {
-    public class ThreadServices
+    public class ThreadServices:IThreadRepository
     {
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace ExtremeWeatherBoard.Interfaces.Services
 {
-    public class IUserServices
+    public interface IUserServices
     {
     }
 }
