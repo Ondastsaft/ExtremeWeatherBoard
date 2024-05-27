@@ -17,7 +17,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Pages\Scaffolded\" />
+    <Folder Include="Pages\Scaffolded\AdminLogCRUD\" />
+    <Folder Include="Pages\Scaffolded\AdminUserCRUD\" />
+    <Folder Include="Pages\Scaffolded\CategoryCRUD\" />
+    <Folder Include="Pages\Scaffolded\CommentCRUD\" />
+    <Folder Include="Pages\Scaffolded\MessageCRUD\" />
+    <Folder Include="Pages\Scaffolded\UserCRUD\" />
+    <Folder Include="Pages\Scaffolded\ThreadCRUD\" />
+    <Folder Include="Pages\Scaffolded\SubCategoryCRUD\" />
   </ItemGroup>
 
 </Project>

@@ -8,6 +8,7 @@ namespace ExtremeWeatherBoard.Models
         public ICollection<Comment>? Comments { get; set; }
         public ICollection<Message>? SentMessages { get; set; }
         public ICollection<Message>? ReceivedMessages { get; set; }
+        public string? ImageURL { get; set; }
 
     }
 }
