@@ -10,8 +10,8 @@ namespace ExtremeWeatherBoard.Models
         [Required]
         public DateTime CreatedAt { get; set; }
         [Required]
-        public string? UserId { get; set; }
-        public User? User { get; set; }
+        public int UserId { get; set; }
+        public UserData? User { get; set; }
         public int SubCategoryId { get; set; }
         public SubCategory? SubCategory { get; set; }
         public ICollection<Comment>? Comments { get; set; }

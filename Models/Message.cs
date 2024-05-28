@@ -11,11 +11,7 @@ namespace ExtremeWeatherBoard.Models
         public string? Text { get; set; }
         [Required]
         public DateTime SentAt { get; set; }
-        [Required]
-        public string? SenderId { get; set; }
-        public User? Sender { get; set; }
-        [Required]
-        public string? ReceiverId { get; set; }
-        public User? Receiver { get; set; }
+        public UserData? Sender { get; set; }
+        public UserData? Receiver { get; set; }
     }
 }
