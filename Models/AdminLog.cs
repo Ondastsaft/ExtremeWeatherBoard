@@ -12,7 +12,7 @@ namespace ExtremeWeatherBoard.Models
         [Required]
         public DateTime Timestamp { get; set; }
         [Required]
-        public string? AdminUserId { get; set; }
-        public AdminUser? AdminUser { get; set; }
+        public int AdminUserDataId { get; set; }
+        public AdminUserData? AdminUserData { get; set; }
     }
 }

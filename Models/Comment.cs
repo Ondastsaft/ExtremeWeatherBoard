@@ -11,9 +11,8 @@ namespace ExtremeWeatherBoard.Models
         public string? Text { get; set; }
         [Required]
         public DateTime PostedAt { get; set; }
-        [Required]
-        public string? UserId { get; set; }
-        public User? User { get; set; }
+        public int UserDataId { get; set; }
+        public UserData? UserData { get; set; }
         public int ThreadId { get; set; }
         public Thread? Thread { get; set; }
     }
