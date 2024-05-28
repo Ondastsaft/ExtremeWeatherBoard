@@ -1,11 +1,17 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ExtremeWeatherBoard.Models
 {
     public class AdminUserData : UserData
     {
-        public ICollection<Category> Categories { get; set; }
-        public ICollection<SubCategory> SubCategories { get; set; }
-        public ICollection<AdminLog> AdminLog { get; set; }
+
+        [InverseProperty("Creator")]
+        public virtual ICollection<Category>? Categories { get; set; }
+
+        [InverseProperty("Creator")]
+        public virtual ICollection<SubCategory>? SubCategories { get; set; }
+        [InverseProperty("LogsAdminUserData")]
+        public virtual ICollection<AdminLog>? AdminLogs { get; set; }
     }
 }
