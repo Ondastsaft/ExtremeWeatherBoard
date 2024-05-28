@@ -4,7 +4,7 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <UserSecretsId>aspnet-ExtremeWeatherBoard-97f1326f-6947-484c-99a5-9defe884a43a</UserSecretsId>
+    <UserSecretsId>aspnet-ExtremeWeatherBoard-0ba90a3f-c916-4667-b22b-91d7a01da280</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -13,18 +13,10 @@
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="8.0.4" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.4" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.4" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.2" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Pages\Scaffolded\AdminLogCRUD\" />
-    <Folder Include="Pages\Scaffolded\AdminUserCRUD\" />
-    <Folder Include="Pages\Scaffolded\CategoryCRUD\" />
-    <Folder Include="Pages\Scaffolded\CommentCRUD\" />
-    <Folder Include="Pages\Scaffolded\MessageCRUD\" />
-    <Folder Include="Pages\Scaffolded\UserCRUD\" />
-    <Folder Include="Pages\Scaffolded\ThreadCRUD\" />
-    <Folder Include="Pages\Scaffolded\SubCategoryCRUD\" />
+    <Folder Include="Pages\UserDataAdmin\" />
   </ItemGroup>
 
 </Project>

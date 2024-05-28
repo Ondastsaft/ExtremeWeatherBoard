@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ExtremeWeatherBoard.Models
 {
@@ -10,10 +11,13 @@ namespace ExtremeWeatherBoard.Models
         [Required]
         public DateTime CreatedAt { get; set; }
         [Required]
-        public string? UserId { get; set; }
-        public User? User { get; set; }
+        public int CreatorUserId { get; set; }
+        [ForeignKey("CreatorUserId")]
+        public UserData? CreatorUser { get; set; }
         public int SubCategoryId { get; set; }
+        [ForeignKey(nameof(SubCategoryId))]
         public SubCategory? SubCategory { get; set; }
+        [InverseProperty("CommentThread")]
         public ICollection<Comment>? Comments { get; set; }
     }
 }
