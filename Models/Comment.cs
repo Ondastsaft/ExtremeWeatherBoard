@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ExtremeWeatherBoard.Models
 {
@@ -11,10 +12,14 @@ namespace ExtremeWeatherBoard.Models
         public string? Text { get; set; }
         [Required]
         public DateTime PostedAt { get; set; }
+        public int CommentUserDataId { get; set; }
         [Required]
-        public string? UserId { get; set; }
-        public User? User { get; set; }
-        public int ThreadId { get; set; }
-        public Thread? Thread { get; set; }
+        [ForeignKey("CommentUserDataId")]
+        public UserData? CommentUserData { get; set; }
+        [Required]
+
+        public int CommentThreadId { get; set; }
+        [ForeignKey("CommentThreadId")]
+        public Thread? CommentThread { get; set; }
     }
 }

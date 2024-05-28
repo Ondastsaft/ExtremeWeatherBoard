@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ExtremeWeatherBoard.Models
 {
@@ -11,11 +12,11 @@ namespace ExtremeWeatherBoard.Models
         public string? Text { get; set; }
         [Required]
         public DateTime SentAt { get; set; }
-        [Required]
-        public string? SenderId { get; set; }
-        public User? Sender { get; set; }
-        [Required]
-        public string? ReceiverId { get; set; }
-        public User? Receiver { get; set; }
+        public int? SenderId { get; set; }
+        [ForeignKey("SenderId")]        
+        public virtual UserData? Sender { get; set; }
+        public int? ReceiverId { get; set; }
+        [ForeignKey("ReceiverId")]
+        public virtual UserData? Receiver { get; set; }
     }
 }
