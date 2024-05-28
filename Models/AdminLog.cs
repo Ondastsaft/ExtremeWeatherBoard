@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ExtremeWeatherBoard.Models
 {
@@ -12,7 +13,8 @@ namespace ExtremeWeatherBoard.Models
         [Required]
         public DateTime Timestamp { get; set; }
         [Required]
-        public int AdminUserDataId { get; set; }
-        public AdminUserData? AdminUserData { get; set; }
+        public int LogsAdminUserDataId { get; set; }
+        [ForeignKey("LogsAdminUserDataId")]
+        public virtual AdminUserData? LogsAdminUserData { get; set; }
     }
 }

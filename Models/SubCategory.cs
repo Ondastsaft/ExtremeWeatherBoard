@@ -1,4 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Diagnostics.CodeAnalysis;
 
 namespace ExtremeWeatherBoard.Models
 {
@@ -6,13 +8,19 @@ namespace ExtremeWeatherBoard.Models
     {
         public int Id { get; set; }
         [Required]  
-        public string? Title { get; set; }
-        public int CreatorId { get; set; }
-        public AdminUserData? Creator { get; set; }
+        public string? Title { get; set; }      
         [Required]
         public DateTime CreatedAt { get; set; }
-        public Category? Category { get; set; }
-        public int CategoryId { get; set; }
+        public int? ParentCategoryId { get; set; }
+        [ForeignKey("ParentCategoryId")]
+        public Category? ParentCategory { get; set; }
+
+        public int? CreatorId { get; set; }
+        [ForeignKey("CreatorId")]
+
+        public AdminUserData? Creator { get; set; }
+        public virtual ICollection<Thread>? Threads { get;}
+
 
     }
 }
