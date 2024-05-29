@@ -59,7 +59,5 @@ namespace ExtremeWeatherBoard.Data
         public DbSet<ExtremeWeatherBoard.Models.SubCategory> SubCategories { get; set; } = default!;
         public DbSet<ExtremeWeatherBoard.Models.Comment> Comments { get; set; } = default!;
         public DbSet<ExtremeWeatherBoard.Models.Thread> Threads { get; set; } = default!;
-
-
     }
 }
