@@ -4,6 +4,7 @@ using ExtremeWeatherBoard.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ExtremeWeatherBoard.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240529152012_NewNameForThread")]
+    partial class NewNameForThread
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -170,7 +173,7 @@ namespace ExtremeWeatherBoard.Data.Migrations
 
                     b.HasIndex("UserDataId");
 
-                    b.ToTable("DiscussionThreads");
+                    b.ToTable("Threads");
                 });
 
             modelBuilder.Entity("ExtremeWeatherBoard.Models.Message", b =>
@@ -205,8 +208,6 @@ namespace ExtremeWeatherBoard.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("AdminReceiverId");
 
                     b.HasIndex("AdminSenderId");
 
@@ -553,14 +554,14 @@ namespace ExtremeWeatherBoard.Data.Migrations
 
             modelBuilder.Entity("ExtremeWeatherBoard.Models.Message", b =>
                 {
-                    b.HasOne("ExtremeWeatherBoard.Models.AdminUserData", "AdminReceiver")
-                        .WithMany("ReceivedMessages")
-                        .HasForeignKey("AdminReceiverId");
-
                     b.HasOne("ExtremeWeatherBoard.Models.AdminUserData", "AdminSender")
                         .WithMany("SentMessages")
                         .HasForeignKey("AdminSenderId")
                         .OnDelete(DeleteBehavior.NoAction);
+
+                    b.HasOne("ExtremeWeatherBoard.Models.AdminUserData", "AdminReceiver")
+                        .WithMany("ReceivedMessages")
+                        .HasForeignKey("ReceiverId");
 
                     b.HasOne("ExtremeWeatherBoard.Models.UserData", "Receiver")
                         .WithMany("ReceivedMessages")

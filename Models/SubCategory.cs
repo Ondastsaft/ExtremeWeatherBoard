@@ -19,7 +19,7 @@ namespace ExtremeWeatherBoard.Models
         [ForeignKey("CreatorId")]
 
         public AdminUserData? Creator { get; set; }
-        public virtual ICollection<Thread>? Threads { get;}
+        public virtual ICollection<DiscussionThread>? Threads { get;}
 
 
     }

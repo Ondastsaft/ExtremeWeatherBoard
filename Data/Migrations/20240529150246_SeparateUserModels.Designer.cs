@@ -4,6 +4,7 @@ using ExtremeWeatherBoard.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ExtremeWeatherBoard.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240529150246_SeparateUserModels")]
+    partial class SeparateUserModels
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -109,8 +112,7 @@ namespace ExtremeWeatherBoard.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("CommentAdminUserDataId")
-                        .IsRequired()
+                    b.Property<int>("CommentAdminUserDataId")
                         .HasColumnType("int");
 
                     b.Property<int>("CommentThreadId")
@@ -136,41 +138,6 @@ namespace ExtremeWeatherBoard.Data.Migrations
                     b.HasIndex("CommentUserDataId");
 
                     b.ToTable("Comments");
-                });
-
-            modelBuilder.Entity("ExtremeWeatherBoard.Models.DiscussionThread", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("CreatorUserId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SubCategoryId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("UserDataId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CreatorUserId");
-
-                    b.HasIndex("SubCategoryId");
-
-                    b.HasIndex("UserDataId");
-
-                    b.ToTable("DiscussionThreads");
                 });
 
             modelBuilder.Entity("ExtremeWeatherBoard.Models.Message", b =>
@@ -205,8 +172,6 @@ namespace ExtremeWeatherBoard.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("AdminReceiverId");
 
                     b.HasIndex("AdminSenderId");
 
@@ -245,6 +210,41 @@ namespace ExtremeWeatherBoard.Data.Migrations
                     b.HasIndex("ParentCategoryId");
 
                     b.ToTable("SubCategories");
+                });
+
+            modelBuilder.Entity("ExtremeWeatherBoard.Models.Thread", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("CreatorUserId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SubCategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("UserDataId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CreatorUserId");
+
+                    b.HasIndex("SubCategoryId");
+
+                    b.HasIndex("UserDataId");
+
+                    b.ToTable("Threads");
                 });
 
             modelBuilder.Entity("ExtremeWeatherBoard.Models.UserData", b =>
@@ -509,7 +509,7 @@ namespace ExtremeWeatherBoard.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ExtremeWeatherBoard.Models.DiscussionThread", "CommentThread")
+                    b.HasOne("ExtremeWeatherBoard.Models.Thread", "CommentThread")
                         .WithMany("Comments")
                         .HasForeignKey("CommentThreadId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -528,39 +528,16 @@ namespace ExtremeWeatherBoard.Data.Migrations
                     b.Navigation("CommentUserData");
                 });
 
-            modelBuilder.Entity("ExtremeWeatherBoard.Models.DiscussionThread", b =>
-                {
-                    b.HasOne("ExtremeWeatherBoard.Models.AdminUserData", "CreatorUser")
-                        .WithMany("Threads")
-                        .HasForeignKey("CreatorUserId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.HasOne("ExtremeWeatherBoard.Models.SubCategory", "SubCategory")
-                        .WithMany("Threads")
-                        .HasForeignKey("SubCategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ExtremeWeatherBoard.Models.UserData", null)
-                        .WithMany("Threads")
-                        .HasForeignKey("UserDataId");
-
-                    b.Navigation("CreatorUser");
-
-                    b.Navigation("SubCategory");
-                });
-
             modelBuilder.Entity("ExtremeWeatherBoard.Models.Message", b =>
                 {
-                    b.HasOne("ExtremeWeatherBoard.Models.AdminUserData", "AdminReceiver")
-                        .WithMany("ReceivedMessages")
-                        .HasForeignKey("AdminReceiverId");
-
                     b.HasOne("ExtremeWeatherBoard.Models.AdminUserData", "AdminSender")
                         .WithMany("SentMessages")
                         .HasForeignKey("AdminSenderId")
                         .OnDelete(DeleteBehavior.NoAction);
+
+                    b.HasOne("ExtremeWeatherBoard.Models.AdminUserData", "AdminReceiver")
+                        .WithMany("ReceivedMessages")
+                        .HasForeignKey("ReceiverId");
 
                     b.HasOne("ExtremeWeatherBoard.Models.UserData", "Receiver")
                         .WithMany("ReceivedMessages")
@@ -595,6 +572,29 @@ namespace ExtremeWeatherBoard.Data.Migrations
                     b.Navigation("Creator");
 
                     b.Navigation("ParentCategory");
+                });
+
+            modelBuilder.Entity("ExtremeWeatherBoard.Models.Thread", b =>
+                {
+                    b.HasOne("ExtremeWeatherBoard.Models.AdminUserData", "CreatorUser")
+                        .WithMany("Threads")
+                        .HasForeignKey("CreatorUserId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("ExtremeWeatherBoard.Models.SubCategory", "SubCategory")
+                        .WithMany("Threads")
+                        .HasForeignKey("SubCategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ExtremeWeatherBoard.Models.UserData", null)
+                        .WithMany("Threads")
+                        .HasForeignKey("UserDataId");
+
+                    b.Navigation("CreatorUser");
+
+                    b.Navigation("SubCategory");
                 });
 
             modelBuilder.Entity("ExtremeWeatherBoard.Models.UserData", b =>
@@ -681,14 +681,14 @@ namespace ExtremeWeatherBoard.Data.Migrations
                     b.Navigation("SubCategories");
                 });
 
-            modelBuilder.Entity("ExtremeWeatherBoard.Models.DiscussionThread", b =>
-                {
-                    b.Navigation("Comments");
-                });
-
             modelBuilder.Entity("ExtremeWeatherBoard.Models.SubCategory", b =>
                 {
                     b.Navigation("Threads");
+                });
+
+            modelBuilder.Entity("ExtremeWeatherBoard.Models.Thread", b =>
+                {
+                    b.Navigation("Comments");
                 });
 
             modelBuilder.Entity("ExtremeWeatherBoard.Models.UserData", b =>

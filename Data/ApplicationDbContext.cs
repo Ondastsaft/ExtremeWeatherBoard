@@ -11,6 +11,7 @@ namespace ExtremeWeatherBoard.Data
         {
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
+
         {
             base.OnModelCreating(modelBuilder);
 
@@ -18,18 +19,35 @@ namespace ExtremeWeatherBoard.Data
                    .HasMany(u => u.ReceivedMessages)
                    .WithOne(m => m.Receiver)
                    .OnDelete(DeleteBehavior.ClientSetNull);
+            modelBuilder.Entity<AdminUserData>()
+                   .HasMany(a => a.ReceivedMessages)
+                   .WithOne(m => m.AdminReceiver)
+                   .OnDelete(DeleteBehavior.ClientSetNull);
             modelBuilder.Entity<UserData>()
                 .HasMany(u => u.SentMessages)
                 .WithOne(m => m.Sender)
+                .OnDelete(DeleteBehavior.NoAction);
+            modelBuilder.Entity<AdminUserData>()
+                .HasMany(a => a.SentMessages)
+                .WithOne(m => m.AdminSender)
                 .OnDelete(DeleteBehavior.NoAction);
             modelBuilder.Entity<Message>()
                 .HasOne(m => m.Sender)
                 .WithMany(u => u.SentMessages)
                 .OnDelete(DeleteBehavior.NoAction);
             modelBuilder.Entity<Message>()
+                .HasOne(m => m.AdminSender)
+                .WithMany(a => a.SentMessages)
+                .OnDelete(DeleteBehavior.NoAction);
+            modelBuilder.Entity<Message>()
                 .HasOne(m => m.Receiver)
                 .WithMany(u => u.ReceivedMessages)
                 .OnDelete(DeleteBehavior.ClientSetNull);
+            modelBuilder.Entity<Message>()
+                .HasOne(m => m.AdminReceiver)
+                .WithMany(a => a.ReceivedMessages)
+                .OnDelete(DeleteBehavior.ClientSetNull);
+
             modelBuilder.Entity<Category>()
                 .HasOne(c => c.Creator)
                 .WithMany(u => u.Categories)
@@ -46,9 +64,9 @@ namespace ExtremeWeatherBoard.Data
                    .HasMany(a => a.SubCategories)
                    .WithOne(s => s.Creator)
                    .OnDelete(DeleteBehavior.NoAction);
-            modelBuilder.Entity<UserData>()
+            modelBuilder.Entity<AdminUserData>()
                     .HasMany(a => a.Threads)
-                    .WithOne(s => s.CreatorUser)
+                    .WithOne(a => a.CreatorUser)
                     .OnDelete(DeleteBehavior.NoAction);
         }
         public DbSet<ExtremeWeatherBoard.Models.UserData> UserDatas { get; set; } = default!;
@@ -58,6 +76,6 @@ namespace ExtremeWeatherBoard.Data
         public DbSet<ExtremeWeatherBoard.Models.Category> Categories { get; set; } = default!;
         public DbSet<ExtremeWeatherBoard.Models.SubCategory> SubCategories { get; set; } = default!;
         public DbSet<ExtremeWeatherBoard.Models.Comment> Comments { get; set; } = default!;
-        public DbSet<ExtremeWeatherBoard.Models.Thread> Threads { get; set; } = default!;
+        public DbSet<ExtremeWeatherBoard.Models.DiscussionThread> DiscussionThreads { get; set; } = default!;
     }
 }

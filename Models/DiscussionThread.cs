@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ExtremeWeatherBoard.Models
 {
-    public class Thread
+    public class DiscussionThread
     {
         public int Id { get; set; }
         [Required]
@@ -13,7 +13,7 @@ namespace ExtremeWeatherBoard.Models
         [Required]
         public int CreatorUserId { get; set; }
         [ForeignKey("CreatorUserId")]
-        public UserData? CreatorUser { get; set; }
+        public AdminUserData? CreatorUser { get; set; }
         public int SubCategoryId { get; set; }
         [ForeignKey(nameof(SubCategoryId))]
         public SubCategory? SubCategory { get; set; }

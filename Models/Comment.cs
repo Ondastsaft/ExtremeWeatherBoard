@@ -10,14 +10,17 @@ namespace ExtremeWeatherBoard.Models
         public string? Text { get; set; }
         [Required]
         public DateTime PostedAt { get; set; }
-        public int CommentUserDataId { get; set; }
+        public int? CommentUserDataId { get; set; }
         [Required]
         [ForeignKey("CommentUserDataId")]
-        public UserData? CommentUserData { get; set; }
-        [Required]
+        public virtual UserData? CommentUserData { get; set; }
 
+        [Required]
+        public int? CommentAdminUserDataId { get; set; }
+        [ForeignKey("CommentAdminUserDataId")]
+        public virtual AdminUserData? CommentAdminUserData { get; set; }
         public int CommentThreadId { get; set; }
         [ForeignKey("CommentThreadId")]
-        public Thread? CommentThread { get; set; }
+        public DiscussionThread? CommentThread { get; set; }
     }
 }
