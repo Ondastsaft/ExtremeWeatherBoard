@@ -17,6 +17,9 @@
                 @Html.DisplayNameFor(model => model.DiscussionThread[0].Title)
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.DiscussionThread[0].Text)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.DiscussionThread[0].CreatedAt)
             </th>
             <th>
@@ -33,6 +36,9 @@
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Text)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.CreatedAt)
