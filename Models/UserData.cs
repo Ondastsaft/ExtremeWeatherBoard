@@ -6,6 +6,10 @@ namespace ExtremeWeatherBoard.Models
 {
     public class UserData
     {
+        [NotMapped]
+        public virtual MockIdentityUser? MockUser { get; set; }
+        [NotMapped]
+        public string? MockUserId { get; set; }
         public int Id { get; set; }
         public virtual IdentityUser? User { get; set; }
         [Required]

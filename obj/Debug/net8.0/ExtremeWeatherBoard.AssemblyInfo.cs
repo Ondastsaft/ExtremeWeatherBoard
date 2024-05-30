@@ -16,7 +16,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ExtremeWeatherBoard")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+1c6255ddf49f16a3a33fa04e174376cb1742ddcb")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d9ebe077f276c11e81a4c8ca635b759ac495b04b")]
 [assembly: System.Reflection.AssemblyProductAttribute("ExtremeWeatherBoard")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ExtremeWeatherBoard")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
