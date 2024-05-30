@@ -6,10 +6,6 @@ namespace ExtremeWeatherBoard.Models
 {
     public class UserData
     {
-        [NotMapped]
-        public virtual MockIdentityUser? MockUser { get; set; }
-        [NotMapped]
-        public string? MockUserId { get; set; }
         public int Id { get; set; }
         public virtual IdentityUser? User { get; set; }
         [Required]
@@ -22,7 +18,6 @@ namespace ExtremeWeatherBoard.Models
         public virtual ICollection<Message>? ReceivedMessages { get; set; }
         [InverseProperty("Sender")]
         public virtual ICollection<Message>? SentMessages { get; set; }
-
 
     }
 }

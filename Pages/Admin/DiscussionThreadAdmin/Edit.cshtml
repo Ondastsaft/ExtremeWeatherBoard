@@ -20,6 +20,11 @@
                 <span asp-validation-for="DiscussionThread.Title" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="DiscussionThread.Text" class="control-label"></label>
+                <input asp-for="DiscussionThread.Text" class="form-control" />
+                <span asp-validation-for="DiscussionThread.Text" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <label asp-for="DiscussionThread.CreatedAt" class="control-label"></label>
                 <input asp-for="DiscussionThread.CreatedAt" class="form-control" />
                 <span asp-validation-for="DiscussionThread.CreatedAt" class="text-danger"></span>

@@ -366,3 +366,5 @@ FodyWeavers.xsd
 *.dll
 *.exe
 *.pdb
+*.cache
+/obj

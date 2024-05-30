@@ -9,7 +9,7 @@ namespace ExtremeWeatherBoard.Models
         [Required]
         public string? Title { get; set; }
         [Required]
-        public string Text { get; set; }    
+        public string? Text { get; set; }    
         public DateTime CreatedAt { get; set; }
         [Required]
         public int CreatorUserId { get; set; }
