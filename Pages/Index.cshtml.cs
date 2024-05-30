@@ -5,13 +5,11 @@ namespace ExtremeWeatherBoard.Pages
 {
     public class IndexModel : PageModel
     {
-        private readonly ILogger<IndexModel> _logger;
-
-        public IndexModel(ILogger<IndexModel> logger)
+        public MockRepo MockRepo { get; set; }
+        public IndexModel()
         {
-            _logger = logger;
+            MockRepo = new MockRepo();
         }
-
         public void OnGet()
         {
 

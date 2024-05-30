@@ -8,6 +8,10 @@ namespace ExtremeWeatherBoard.Models
     {
         public int Id { get; set; }
         public string? ImageURL { get; set; }
+        [NotMapped]
+        public virtual MockIdentityUser? MockUser { get; set; }
+        [NotMapped]
+        public string? MockUserId { get; set; }
         public string? UserId { get; set; }
         [ForeignKey("UserId")]
         public virtual IdentityUser? User { get; set; }
