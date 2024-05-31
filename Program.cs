@@ -1,4 +1,6 @@
 using ExtremeWeatherBoard.Data;
+using ExtremeWeatherBoard.Interfaces;
+using ExtremeWeatherBoard.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,6 +21,9 @@ namespace ExtremeWeatherBoard
 
             builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+            builder.Services.AddScoped<UserManager<IdentityUser>>();
+            builder.Services.AddScoped<DataRepository>();
+            builder.Services.AddScoped<CategoryService>();
             builder.Services.AddRazorPages();
 
             var app = builder.Build();

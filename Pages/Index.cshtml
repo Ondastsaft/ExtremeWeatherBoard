@@ -2,16 +2,15 @@
 @model IndexModel
 @{
     ViewData["Title"] = "Home page";
+    ViewData["SideBarOptions"] = Model.SideBarOptions;
 }
 
-<div class="text-center">
-    <div class="text-center">
-        <a href="/Admin/AdminLogAdmin/Index">Admin Log</a>
-        <a href="/Admin/MessageAdmin/Index">Message</a>
-        <a href="/Admin/DiscussionThreadAdmin/Index">Discussion Thread</a>
-        <a href="/Admin/CategoryAdmin/Index">Category</a>
-        <a href="/Admin/CommentAdmin/Index">Comment</a>
-        <a href="/Admin/SubCategoryAdmin/Index">Sub Category</a>
-        <a href="/Admin/AdminUserDataAdmin/Index">Admin User Data</a>
-    </div>
-</div>
+
+
+@* <a href="/Admin/AdminLogAdmin/Index">Admin Log</a>
+<a href="/Admin/MessageAdmin/Index">Message</a>
+<a href="/Admin/DiscussionThreadAdmin/Index">Discussion Thread</a>
+<a href="/Admin/CategoryAdmin/Index">Category</a>
+<a href="/Admin/CommentAdmin/Index">Comment</a>
+<a href="/Admin/SubCategoryAdmin/Index">Sub Category</a>
+<a href="/Admin/AdminUserDataAdmin/Index">Admin User Data</a> *@

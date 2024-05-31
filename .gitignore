@@ -368,3 +368,4 @@ FodyWeavers.xsd
 *.pdb
 *.cache
 /obj
+/bin

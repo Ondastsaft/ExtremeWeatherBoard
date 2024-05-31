@@ -1,6 +1,11 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using ExtremeWeatherBoard.Data;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Security.Claims;
+
 
 namespace ExtremeWeatherBoard.Models
 {
@@ -18,6 +23,5 @@ namespace ExtremeWeatherBoard.Models
         public virtual ICollection<Message>? ReceivedMessages { get; set; }
         [InverseProperty("Sender")]
         public virtual ICollection<Message>? SentMessages { get; set; }
-
     }
 }
