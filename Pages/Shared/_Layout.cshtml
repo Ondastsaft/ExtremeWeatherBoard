@@ -32,9 +32,18 @@
         </nav>
     </header>
     <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
+        <div class="row">
+            <div class="col-md-3">
+@*                 @{
+                    var sideBarOptions = ViewData["SideBarOptions"] as IEnumerable<Models.Category>;
+                }
+                <partial name="_SideBarPartial" model="sideBarOptions" /> *@
+                @await Html.PartialAsync("_SideBarPartial", ViewData["SideBarOptions"])
+            </div>
+            <main role="main" class="col-md-9 pb-3">
+                @RenderBody()
+            </main>
+        </div>
     </div>
 
     <footer class="border-top footer text-muted">

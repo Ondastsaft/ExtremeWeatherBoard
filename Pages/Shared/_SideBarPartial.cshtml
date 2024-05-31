@@ -1,0 +1,15 @@
+﻿@{
+    @model IEnumerable<Models.Category>
+    var sidebarOptions = ViewData["SideBarOptions"] as List<ExtremeWeatherBoard.Models.Category>;
+
+    <table>
+        @foreach (var item in sidebarOptions)
+        {
+            <tr>
+                <td>
+                    <a asp-page="/Category/Index" asp-route-id="@item.Id">@item.Name</a>
+                </td>
+            </tr>
+        }
+    </table>
+}
