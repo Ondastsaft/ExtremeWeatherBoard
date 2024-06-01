@@ -24,6 +24,8 @@ namespace ExtremeWeatherBoard
             builder.Services.AddScoped<UserManager<IdentityUser>>();
             builder.Services.AddScoped<DataRepository>();
             builder.Services.AddScoped<CategoryService>();
+            builder.Services.AddScoped<SubCategoryService>();
+            builder.Services.AddScoped<DiscussionThreadService>();
             builder.Services.AddRazorPages();
 
             var app = builder.Build();

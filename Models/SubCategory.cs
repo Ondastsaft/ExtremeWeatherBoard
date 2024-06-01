@@ -1,9 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using ExtremeWeatherBoard.Interfaces;
+
 
 namespace ExtremeWeatherBoard.Models
 {
-    public class SubCategory
+    public class SubCategory: ISideBarOption
     {
         public int Id { get; set; }
         [Required]

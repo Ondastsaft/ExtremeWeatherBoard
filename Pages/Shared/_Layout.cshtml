@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/ExtremeWeatherBoard.styles.css" asp-append-version="true" />
 </head>
-<body>
+<body style ="display: flex; flex-direction: column; min-height: 100vh;">
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
@@ -31,17 +31,23 @@
             </div>
         </nav>
     </header>
-    <div class="container">
-        <div class="row">
-            <div class="col-md-3">
-@*                 @{
-                    var sideBarOptions = ViewData["SideBarOptions"] as IEnumerable<Models.Category>;
+    <div class="container flex-grow-1">
+        <div class="row h-100">
+            <div class="col-md-3 border-right h-100">
+                @if (Model.SideBarOptions != null)
+                {
+                    <partial name="_SideBarPartial" model="Model.SideBarOptions" />
                 }
-                <partial name="_SideBarPartial" model="sideBarOptions" /> *@
-                @await Html.PartialAsync("_SideBarPartial", ViewData["SideBarOptions"])
             </div>
-            <main role="main" class="col-md-9 pb-3">
-                @RenderBody()
+            <main role="main" class="col-md-9 h-100">
+                @if (Model.MainContent != null)
+                {
+                    <partial name="_MainContentPartial" model="Model.MainContent" />
+                }
+                else
+                {
+                    @RenderBody()
+                }
             </main>
         </div>
     </div>
