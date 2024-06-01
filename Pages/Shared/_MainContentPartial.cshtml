@@ -1,0 +1,28 @@
+﻿@{
+
+    var mainContent = Model.MainContent;
+
+        @if (mainContent != null)
+        {
+            var counter = mainContent.Count();
+                @for(int i = 0; i <mainContent.Count; i++)
+        {
+                        var item = mainContent[counter];
+                                <div class="row"></div>
+                                    <div class="col-3">
+                                            <a asp-page="/Comments" asp-route-id="@item.Id">
+                                      <div class="card">
+                                        <div class="card-header">
+                                        @item.Title
+                                        </div>
+                                        <div class="card-body">
+                                        @item.Text
+                                        </div>
+
+                                </div>
+                            </a>
+                        </div>
+            }
+        }
+
+}

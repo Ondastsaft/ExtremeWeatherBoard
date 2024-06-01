@@ -1,15 +1,24 @@
-﻿@{
-    @model IEnumerable<Models.Category>
-    var sidebarOptions = ViewData["SideBarOptions"] as List<ExtremeWeatherBoard.Models.Category>;
-
+﻿@{    
+    var sideBarOptions = Model.SideBarOptions;
     <table>
-        @foreach (var item in sidebarOptions)
+        @if (sideBarOptions != null)
+        @foreach (var item in sideBarOptions)
         {
+            {
             <tr>
                 <td>
-                    <a asp-page="/Category/Index" asp-route-id="@item.Id">@item.Name</a>
+                            @switch (item)
+                            {
+                                case Models.Category:
+                                    <a asp-page="/SubCategories" asp-route-id="@item.Id">@item.Title</a>
+                                    break;
+                                case Models.SubCategory:
+                                    <a asp-page="/DiscussionThread" asp-route-id="@item.Id">@item.Title</a>
+                                    break;
+                            }
                 </td>
             </tr>
+            }                        
         }
     </table>
 }

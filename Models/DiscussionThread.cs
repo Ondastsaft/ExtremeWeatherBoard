@@ -1,9 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using ExtremeWeatherBoard.Interfaces;
 
 namespace ExtremeWeatherBoard.Models
 {
-    public class DiscussionThread
+    public class DiscussionThread:IMainContent, ISideBarOption
     {
         public int Id { get; set; }
         [Required]
