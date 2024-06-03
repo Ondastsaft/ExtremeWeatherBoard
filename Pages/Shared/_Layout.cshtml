@@ -33,7 +33,7 @@
     </header>
     <div class="container flex-grow-1">
         <div class="row h-100">
-            <div class="col-md-3 border-right h-100">
+@*             <div class="col-md-3 border-right h-100">
                 @if (Model.SideBarOptions != null)
                 {
                     <partial name="_SideBarPartial" model="Model.SideBarOptions" />
@@ -42,12 +42,11 @@
             <main role="main" class="col-md-9 h-100">
                 @if (Model.MainContent != null)
                 {
-                    <partial name="_MainContentPartial" model="Model.MainContent" />
-                }
-                else
-                {
+                    <partial name="_MainContentPartial" model="Model.MainContent" />                   
+                } *@
+
                     @RenderBody()
-                }
+                
             </main>
         </div>
     </div>

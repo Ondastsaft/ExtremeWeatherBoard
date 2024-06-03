@@ -1,13 +1,16 @@
 ﻿using ExtremeWeatherBoard.Interfaces;
+using ExtremeWeatherBoard.Models;
+
 
 namespace ExtremeWeatherBoard.Pages.Shared.ViewModels
 {
     public class MainContentViewModel
     {
-        public List<IMainContent> MainContent { get; set; }
+        public List<IMainContent> MainContentList { get; set; }
+        public DiscussionThread? CommentsParentDiscussionThread { get; set; }
         public MainContentViewModel()
         {
-            MainContent = new List<IMainContent>();
+            MainContentList = new List<IMainContent>();
         }
     }
 }

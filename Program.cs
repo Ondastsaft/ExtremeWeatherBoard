@@ -11,6 +11,7 @@ namespace ExtremeWeatherBoard
     {
         public static void Main(string[] args)
         {
+
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
@@ -26,6 +27,9 @@ namespace ExtremeWeatherBoard
             builder.Services.AddScoped<CategoryService>();
             builder.Services.AddScoped<SubCategoryService>();
             builder.Services.AddScoped<DiscussionThreadService>();
+            builder.Services.AddScoped<CommentService>();
+            builder.Services.AddScoped<UserDataService>();
+            builder.Services.AddScoped<MockDataGenerator>();
             builder.Services.AddRazorPages();
 
             var app = builder.Build();

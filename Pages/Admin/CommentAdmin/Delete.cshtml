@@ -19,6 +19,12 @@
             @Html.DisplayFor(model => model.Comment.Text)
         </dd>
         <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Comment.Title)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Comment.Title)
+        </dd>
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Comment.PostedAt)
         </dt>
         <dd class="col-sm-10">
@@ -40,7 +46,7 @@
             @Html.DisplayNameFor(model => model.Comment.CommentThread)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Comment.CommentThread.Title)
+            @Html.DisplayFor(model => model.Comment.CommentThread.Text)
         </dd>
     </dl>
     

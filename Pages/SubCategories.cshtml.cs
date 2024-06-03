@@ -12,10 +12,11 @@ namespace ExtremeWeatherBoard.Pages
         {
             _subCategoryService = subCategoryService;
         }
-        public async Task OnGetAsync(int id)
+        public async Task OnGetAsync(int sidebarContentId)
         {
             this.SideBarOptions = new SideBarPartialViewModel();
-            SideBarOptions.SideBarOptions = (await _subCategoryService.GetSubCategoriesAsync(id))
+            SideBarOptions.NavigateTo = "/DiscussionThreads";
+            SideBarOptions.SideBarOptions = (await _subCategoryService.GetSubCategoriesAsync(sidebarContentId))
                 .Cast<ISideBarOption>()
                 .ToList()
                 ;

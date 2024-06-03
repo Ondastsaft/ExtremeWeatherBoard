@@ -21,9 +21,8 @@ namespace ExtremeWeatherBoard.Pages.Admin.CommentAdmin
 
         public IActionResult OnGet()
         {
-            //if statements to check type of user
         ViewData["CommentAdminUserDataId"] = new SelectList(_context.AdminUserDatas, "Id", "Id");
-        ViewData["CommentThreadId"] = new SelectList(_context.DiscussionThreads, "Id", "Title");
+        ViewData["CommentThreadId"] = new SelectList(_context.DiscussionThreads, "Id", "Text");
         ViewData["CommentUserDataId"] = new SelectList(_context.UserDatas, "Id", "UserId");
             return Page();
         }

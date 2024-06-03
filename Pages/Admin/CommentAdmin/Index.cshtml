@@ -17,6 +17,9 @@
                 @Html.DisplayNameFor(model => model.Comment[0].Text)
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.Comment[0].Title)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.Comment[0].PostedAt)
             </th>
             <th>
@@ -38,6 +41,9 @@
                 @Html.DisplayFor(modelItem => item.Text)
             </td>
             <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.PostedAt)
             </td>
             <td>
@@ -47,7 +53,7 @@
                 @Html.DisplayFor(modelItem => item.CommentAdminUserData.Id)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.CommentThread.Title)
+                @Html.DisplayFor(modelItem => item.CommentThread.Text)
             </td>
             <td>
                 <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |

@@ -1,4 +1,6 @@
-﻿namespace ExtremeWeatherBoard.Interfaces
+﻿using ExtremeWeatherBoard.Models;
+
+namespace ExtremeWeatherBoard.Interfaces
 {
     public interface IMainContent
     {
