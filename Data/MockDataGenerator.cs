@@ -66,7 +66,7 @@
                 && _datarepository.Categories.Count == 0)
             {
 
-                for (int i = 0; i < 4; i++)
+                for (int i = 1; i < 5; i++)
                 {
                     Category category = new Category()
                     {
@@ -97,7 +97,7 @@
                         SubCategory subCategory = new SubCategory()
                         {
                             ParentCategoryId = savedCategory.Id,
-                            Title = $"Title Category {i}",
+                            Title = $"Title SubCategory {i}",
                             CreatedAt = DateTime.Now,
                             SubCategoryAdminUserData = adminUser
                         };
@@ -116,30 +116,35 @@
             {
                 List<UserData> users = _datarepository.Users;
                 int count = users.Count();
+                int idCounter = 1;
                 int userCounter = 1;
                 foreach (var subCategory in _datarepository.SubCategories)
                 {
-                    var user = _datarepository.Users.Find(u => u.Id == userCounter);
-                    if (user is UserData)
+                    for (int i = 0; i < 9; i++)
                     {
-                        DiscussionThread subThread = new DiscussionThread()
+                        var user = _datarepository.Users.Find(u => u.Id == userCounter);
+                        if (user is UserData)
                         {
-                            DiscussionThreadUserData = user
-                            ,
-                            SubCategoryId = subCategory.Id
-                            ,
-                            Title = $"Subcategory of Category id {_datarepository.Categories[subCategory.ParentCategoryId]}"
-                            ,
-                            CreatedAt = DateTime.Now
-                            ,
-                            Text = LoremIpsum
-                        };
-                        await _datarepository.AddDiscussionThreadAsync(subThread);
-                        if (userCounter == count)
-                        {
-                            userCounter = 0;
+                            DiscussionThread subThread = new DiscussionThread()
+                            {
+                                DiscussionThreadUserData = user
+                                ,
+                                SubCategory = subCategory
+                                ,
+                                Title = $"DiscussionThread id {i} of subcategory {subCategory.Id}"
+                                ,
+                                CreatedAt = DateTime.Now
+                                ,
+                                Text = LoremIpsum
+                            };
+                            await _datarepository.AddDiscussionThreadAsync(subThread);
+                            if (userCounter == count)
+                            {
+                                userCounter = 0;
+                            }
+                            userCounter++;
+                            idCounter++;
                         }
-                        userCounter++;
                     }
                 }
             }
@@ -204,12 +209,12 @@
         }
         public async Task MockLoadsOfDataAsync()
         {
-            //await LoadIdentityUsers();
-            //await LoadUserDatas();
-            //await LoadCategories();
-            //await LoadSubCategories();
-            //await LoadDiscussionThreads();
-            //await LoadComments();
+            await LoadIdentityUsers();
+            await LoadUserDatas();
+            await LoadCategories();
+            await LoadSubCategories();
+            await LoadDiscussionThreads();
+            await LoadComments();
 
 
 
