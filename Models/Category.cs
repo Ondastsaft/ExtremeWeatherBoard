@@ -7,16 +7,14 @@ namespace ExtremeWeatherBoard.Models
     public class Category : ISideBarOption
     {
         public int Id { get; set; }
-        [Required] 
-        public string? Name { get; set; }
+        [Required]
+        public string Title { get; set; }
         [Required]
         public virtual DateTime CreatedDate { get; set; }
-        [Required]
-        public string? Title { get; set; }
         [InverseProperty("ParentCategory")]
         public virtual ICollection<SubCategory>? SubCategories { get; set; }
-        public int CreatorId { get; set; }
-        [ForeignKey("CreatorId")]
-        public virtual AdminUserData? Creator { get; set; }
+        public int CreatorAdminUserDataId { get; set; }
+        [ForeignKey("CreatorAdminUserDataId")]
+        public virtual AdminUserData? CreatorAdminUser { get; set; }
     }
 }

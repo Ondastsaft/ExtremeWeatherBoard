@@ -11,17 +11,17 @@ namespace ExtremeWeatherBoard.Models
         public string? UserId { get; set; }
         [ForeignKey("UserId")]
         public virtual IdentityUser? User { get; set; }
-        [Required]
-        public virtual ICollection<DiscussionThread>? Threads { get; set; }
+        [InverseProperty("DiscussionThreadAdminUserData")]
+        public virtual ICollection<DiscussionThread>? DiscussionThreads { get; set; }
         [InverseProperty("CommentAdminUserData")]
         public virtual ICollection<Comment>? Comments { get; set; }
         [InverseProperty("AdminReceiver")]
         public virtual ICollection<Message>? ReceivedMessages { get; set; }
         [InverseProperty("AdminSender")]
         public virtual ICollection<Message>? SentMessages { get; set; }
-        [InverseProperty("Creator")]
+        [InverseProperty("CreatorAdminUser")]
         public virtual ICollection<Category>? Categories { get; set; }
-        [InverseProperty("Creator")]
+        [InverseProperty("SubCategoryAdminUserData")]
         public virtual ICollection<SubCategory>? SubCategories { get; set; }
         [InverseProperty("LogsAdminUserData")]
         public virtual ICollection<AdminLog>? AdminLogs { get; set; }

@@ -4,7 +4,7 @@ using ExtremeWeatherBoard.Interfaces;
 
 namespace ExtremeWeatherBoard.Models
 {
-    public class DiscussionThread:IMainContent, ISideBarOption
+    public class DiscussionThread:IMainContent
     {
         public int Id { get; set; }
         [Required]
@@ -12,12 +12,14 @@ namespace ExtremeWeatherBoard.Models
         [Required]
         public string? Text { get; set; }    
         public DateTime CreatedAt { get; set; }
-        [Required]
-        public int CreatorUserId { get; set; }
-        [ForeignKey("CreatorUserId")]
-        public AdminUserData? CreatorUser { get; set; }
+        public int? DiscussionThreadAdminUserDataId { get; set; }
+        [ForeignKey("DiscussionThreadAdminUserDataId")]
+        public AdminUserData? DiscussionThreadAdminUserData { get; set; }
+        public int? DiscussionThreadUserDataId { get; set; }
+        [ForeignKey("DiscussionThreadUserDataId")]
+        public virtual UserData? DiscussionThreadUserData { get; set; }
         public int SubCategoryId { get; set; }
-        [ForeignKey(nameof(SubCategoryId))]
+        [ForeignKey("SubCategoryId")]
         public SubCategory? SubCategory { get; set; }
         [InverseProperty("CommentThread")]
         public ICollection<Comment>? Comments { get; set; }

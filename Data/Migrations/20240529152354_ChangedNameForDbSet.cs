@@ -16,22 +16,22 @@ namespace ExtremeWeatherBoard.Data.Migrations
 
             migrationBuilder.DropForeignKey(
                 name: "FK_Threads_AdminUserDatas_CreatorUserId",
-                table: "Threads");
+                table: "DiscussionThreads");
 
             migrationBuilder.DropForeignKey(
                 name: "FK_Threads_SubCategories_SubCategoryId",
-                table: "Threads");
+                table: "DiscussionThreads");
 
             migrationBuilder.DropForeignKey(
                 name: "FK_Threads_UserDatas_UserDataId",
-                table: "Threads");
+                table: "DiscussionThreads");
 
             migrationBuilder.DropPrimaryKey(
                 name: "PK_Threads",
-                table: "Threads");
+                table: "DiscussionThreads");
 
             migrationBuilder.RenameTable(
-                name: "Threads",
+                name: "DiscussionThreads",
                 newName: "DiscussionThreads");
 
             migrationBuilder.RenameIndex(
@@ -65,7 +65,7 @@ namespace ExtremeWeatherBoard.Data.Migrations
             migrationBuilder.AddForeignKey(
                 name: "FK_DiscussionThreads_AdminUserDatas_CreatorUserId",
                 table: "DiscussionThreads",
-                column: "CreatorUserId",
+                column: "DiscussionThreadAdminUserDataId",
                 principalTable: "AdminUserDatas",
                 principalColumn: "Id");
 
@@ -110,46 +110,46 @@ namespace ExtremeWeatherBoard.Data.Migrations
 
             migrationBuilder.RenameTable(
                 name: "DiscussionThreads",
-                newName: "Threads");
+                newName: "DiscussionThreads");
 
             migrationBuilder.RenameIndex(
                 name: "IX_DiscussionThreads_UserDataId",
-                table: "Threads",
+                table: "DiscussionThreads",
                 newName: "IX_Threads_UserDataId");
 
             migrationBuilder.RenameIndex(
                 name: "IX_DiscussionThreads_SubCategoryId",
-                table: "Threads",
+                table: "DiscussionThreads",
                 newName: "IX_Threads_SubCategoryId");
 
             migrationBuilder.RenameIndex(
                 name: "IX_DiscussionThreads_CreatorUserId",
-                table: "Threads",
+                table: "DiscussionThreads",
                 newName: "IX_Threads_CreatorUserId");
 
             migrationBuilder.AddPrimaryKey(
                 name: "PK_Threads",
-                table: "Threads",
+                table: "DiscussionThreads",
                 column: "Id");
 
             migrationBuilder.AddForeignKey(
                 name: "FK_Comments_Threads_CommentThreadId",
                 table: "Comments",
                 column: "CommentThreadId",
-                principalTable: "Threads",
+                principalTable: "DiscussionThreads",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Cascade);
 
             migrationBuilder.AddForeignKey(
                 name: "FK_Threads_AdminUserDatas_CreatorUserId",
-                table: "Threads",
-                column: "CreatorUserId",
+                table: "DiscussionThreads",
+                column: "DiscussionThreadAdminUserDataId",
                 principalTable: "AdminUserDatas",
                 principalColumn: "Id");
 
             migrationBuilder.AddForeignKey(
                 name: "FK_Threads_SubCategories_SubCategoryId",
-                table: "Threads",
+                table: "DiscussionThreads",
                 column: "SubCategoryId",
                 principalTable: "SubCategories",
                 principalColumn: "Id",
@@ -157,7 +157,7 @@ namespace ExtremeWeatherBoard.Data.Migrations
 
             migrationBuilder.AddForeignKey(
                 name: "FK_Threads_UserDatas_UserDataId",
-                table: "Threads",
+                table: "DiscussionThreads",
                 column: "UserDataId",
                 principalTable: "UserDatas",
                 principalColumn: "Id");

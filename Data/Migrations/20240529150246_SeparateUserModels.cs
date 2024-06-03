@@ -24,7 +24,7 @@ namespace ExtremeWeatherBoard.Data.Migrations
 
             migrationBuilder.DropForeignKey(
                 name: "FK_Threads_UserDatas_CreatorUserId",
-                table: "Threads");
+                table: "DiscussionThreads");
 
             migrationBuilder.DropColumn(
                 name: "Discriminator",
@@ -32,7 +32,7 @@ namespace ExtremeWeatherBoard.Data.Migrations
 
             migrationBuilder.AddColumn<int>(
                 name: "UserDataId",
-                table: "Threads",
+                table: "DiscussionThreads",
                 type: "int",
                 nullable: true);
 
@@ -76,7 +76,7 @@ namespace ExtremeWeatherBoard.Data.Migrations
 
             migrationBuilder.CreateIndex(
                 name: "IX_Threads_UserDataId",
-                table: "Threads",
+                table: "DiscussionThreads",
                 column: "UserDataId");
 
             migrationBuilder.CreateIndex(
@@ -105,7 +105,7 @@ namespace ExtremeWeatherBoard.Data.Migrations
             migrationBuilder.AddForeignKey(
                 name: "FK_Categories_AdminUserDatas_CreatorId",
                 table: "Categories",
-                column: "CreatorId",
+                column: "DiscussionThreadAdminUserDataId",
                 principalTable: "AdminUserDatas",
                 principalColumn: "Id");
 
@@ -134,20 +134,20 @@ namespace ExtremeWeatherBoard.Data.Migrations
             migrationBuilder.AddForeignKey(
                 name: "FK_SubCategories_AdminUserDatas_CreatorId",
                 table: "SubCategories",
-                column: "CreatorId",
+                column: "DiscussionThreadAdminUserDataId",
                 principalTable: "AdminUserDatas",
                 principalColumn: "Id");
 
             migrationBuilder.AddForeignKey(
                 name: "FK_Threads_AdminUserDatas_CreatorUserId",
-                table: "Threads",
-                column: "CreatorUserId",
+                table: "DiscussionThreads",
+                column: "DiscussionThreadAdminUserDataId",
                 principalTable: "AdminUserDatas",
                 principalColumn: "Id");
 
             migrationBuilder.AddForeignKey(
                 name: "FK_Threads_UserDatas_UserDataId",
-                table: "Threads",
+                table: "DiscussionThreads",
                 column: "UserDataId",
                 principalTable: "UserDatas",
                 principalColumn: "Id");
@@ -182,18 +182,18 @@ namespace ExtremeWeatherBoard.Data.Migrations
 
             migrationBuilder.DropForeignKey(
                 name: "FK_Threads_AdminUserDatas_CreatorUserId",
-                table: "Threads");
+                table: "DiscussionThreads");
 
             migrationBuilder.DropForeignKey(
                 name: "FK_Threads_UserDatas_UserDataId",
-                table: "Threads");
+                table: "DiscussionThreads");
 
             migrationBuilder.DropTable(
                 name: "AdminUserDatas");
 
             migrationBuilder.DropIndex(
                 name: "IX_Threads_UserDataId",
-                table: "Threads");
+                table: "DiscussionThreads");
 
             migrationBuilder.DropIndex(
                 name: "IX_Messages_AdminSenderId",
@@ -205,7 +205,7 @@ namespace ExtremeWeatherBoard.Data.Migrations
 
             migrationBuilder.DropColumn(
                 name: "UserDataId",
-                table: "Threads");
+                table: "DiscussionThreads");
 
             migrationBuilder.DropColumn(
                 name: "AdminReceiverId",
@@ -238,21 +238,21 @@ namespace ExtremeWeatherBoard.Data.Migrations
             migrationBuilder.AddForeignKey(
                 name: "FK_Categories_UserDatas_CreatorId",
                 table: "Categories",
-                column: "CreatorId",
+                column: "DiscussionThreadAdminUserDataId",
                 principalTable: "UserDatas",
                 principalColumn: "Id");
 
             migrationBuilder.AddForeignKey(
                 name: "FK_SubCategories_UserDatas_CreatorId",
                 table: "SubCategories",
-                column: "CreatorId",
+                column: "DiscussionThreadAdminUserDataId",
                 principalTable: "UserDatas",
                 principalColumn: "Id");
 
             migrationBuilder.AddForeignKey(
                 name: "FK_Threads_UserDatas_CreatorUserId",
-                table: "Threads",
-                column: "CreatorUserId",
+                table: "DiscussionThreads",
+                column: "DiscussionThreadAdminUserDataId",
                 principalTable: "UserDatas",
                 principalColumn: "Id");
         }

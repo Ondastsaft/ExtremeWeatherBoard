@@ -16,10 +16,10 @@ namespace ExtremeWeatherBoard.Models
         [ForeignKey("ParentCategoryId")]
         public virtual Category? ParentCategory { get; set; }
 
-        public int CreatorId { get; set; }
-        [ForeignKey("CreatorId")]
+        public int SubCategoryAdminUserDataId { get; set; }
+        [ForeignKey("SubCategoryAdminUserDataId")]
 
-        public AdminUserData? Creator { get; set; }
+        public AdminUserData? SubCategoryAdminUserData { get; set; }
         public virtual ICollection<DiscussionThread>? Threads { get; set; }
 
 

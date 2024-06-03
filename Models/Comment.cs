@@ -9,8 +9,9 @@ namespace ExtremeWeatherBoard.Models
     {
         public int Id { get; set; }
         [Required]
-        public string? Text { get; set; }
-        public string? Title { get; set; }
+        public string Text { get; set; }
+        [Required]
+        public string Title { get; set; }
         [Required]
         public DateTime PostedAt { get; set; }
         public int? CommentUserDataId { get; set; }
