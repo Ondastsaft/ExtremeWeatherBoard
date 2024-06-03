@@ -148,7 +148,7 @@
         {
             await _datarepository.PopulateAdminUserDatasAsync();
             var adminUser = _datarepository.AdminUsers.FirstOrDefault();
-
+            await _datarepository.PopulateUserDatasAsync();
             await _datarepository.PopulateSubCategoriesAsync();
             await _datarepository.PopulateDiscussionThreadsAsync();
             await _datarepository.PopulateCommentsAsync();
@@ -204,11 +204,12 @@
         }
         public async Task MockLoadsOfDataAsync()
         {
-            await LoadIdentityUsers();
-            await LoadUserDatas();
-            await LoadCategories();
-            await LoadSubCategories();
-            await LoadComments();
+            //await LoadIdentityUsers();
+            //await LoadUserDatas();
+            //await LoadCategories();
+            //await LoadSubCategories();
+            //await LoadDiscussionThreads();
+            //await LoadComments();
 
 
 

@@ -10,7 +10,7 @@ namespace ExtremeWeatherBoard.Services
         {
             _dataRepository = dataRepository;
         }
-        public async Task<IEnumerable<DiscussionThread>> GetThreadsAsync(int subCategoryId)
+        public async Task<List<DiscussionThread>> GetThreadsAsync(int subCategoryId)
         {
             await _dataRepository.PopulateDiscussionThreadsAsync();
             if (_dataRepository.DiscussionThreads is List<DiscussionThread>)

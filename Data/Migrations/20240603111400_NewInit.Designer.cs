@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ExtremeWeatherBoard.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240603092243_NormalisedEntities")]
-    partial class NormalisedEntities
+    [Migration("20240603111400_NewInit")]
+    partial class NewInit
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -89,16 +89,13 @@ namespace ExtremeWeatherBoard.Data.Migrations
                     b.Property<int>("CreatorAdminUserDataId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("DiscussionThreadAdminUserDataId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("DiscussionThreadAdminUserDataId");
+                    b.HasIndex("CreatorAdminUserDataId");
 
                     b.ToTable("Categories");
                 });
@@ -503,7 +500,8 @@ namespace ExtremeWeatherBoard.Data.Migrations
                 {
                     b.HasOne("ExtremeWeatherBoard.Models.AdminUserData", "CreatorAdminUser")
                         .WithMany("Categories")
-                        .HasForeignKey("DiscussionThreadAdminUserDataId");
+                        .HasForeignKey("CreatorAdminUserDataId")
+                        .IsRequired();
 
                     b.Navigation("CreatorAdminUser");
                 });
@@ -540,11 +538,11 @@ namespace ExtremeWeatherBoard.Data.Migrations
                         .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("ExtremeWeatherBoard.Models.UserData", "DiscussionThreadUserData")
-                        .WithMany("DiscussionThreads")
+                        .WithMany("Threads")
                         .HasForeignKey("DiscussionThreadUserDataId");
 
                     b.HasOne("ExtremeWeatherBoard.Models.SubCategory", "SubCategory")
-                        .WithMany("DiscussionThreads")
+                        .WithMany("Threads")
                         .HasForeignKey("SubCategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -674,13 +672,13 @@ namespace ExtremeWeatherBoard.Data.Migrations
 
                     b.Navigation("Comments");
 
+                    b.Navigation("DiscussionThreads");
+
                     b.Navigation("ReceivedMessages");
 
                     b.Navigation("SentMessages");
 
                     b.Navigation("SubCategories");
-
-                    b.Navigation("DiscussionThreads");
                 });
 
             modelBuilder.Entity("ExtremeWeatherBoard.Models.Category", b =>
@@ -695,7 +693,7 @@ namespace ExtremeWeatherBoard.Data.Migrations
 
             modelBuilder.Entity("ExtremeWeatherBoard.Models.SubCategory", b =>
                 {
-                    b.Navigation("DiscussionThreads");
+                    b.Navigation("Threads");
                 });
 
             modelBuilder.Entity("ExtremeWeatherBoard.Models.UserData", b =>
@@ -706,7 +704,7 @@ namespace ExtremeWeatherBoard.Data.Migrations
 
                     b.Navigation("SentMessages");
 
-                    b.Navigation("DiscussionThreads");
+                    b.Navigation("Threads");
                 });
 #pragma warning restore 612, 618
         }

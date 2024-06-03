@@ -8,7 +8,6 @@ namespace ExtremeWeatherBoard.Pages.Shared.ViewModels
         public string NavigateTo { get; set; }
         public SideBarPartialViewModel()
         {
-            SideBarOptions = new List<ISideBarOption>();
             NavigateTo = "";
         }
     }

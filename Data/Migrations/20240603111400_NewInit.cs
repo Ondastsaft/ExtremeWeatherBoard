@@ -6,11 +6,30 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ExtremeWeatherBoard.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class NewProject : Migration
+    public partial class NewInit : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "AdminUserDatas",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ImageURL = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AdminUserDatas", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AdminUserDatas_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
+                });
+
             migrationBuilder.CreateTable(
                 name: "UserDatas",
                 columns: table => new
@@ -18,8 +37,7 @@ namespace ExtremeWeatherBoard.Data.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    ImageURL = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Discriminator = table.Column<string>(type: "nvarchar(13)", maxLength: 13, nullable: false)
+                    ImageURL = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -47,9 +65,9 @@ namespace ExtremeWeatherBoard.Data.Migrations
                 {
                     table.PrimaryKey("PK_AdminLogs", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_AdminLogs_UserDatas_LogsAdminUserDataId",
+                        name: "FK_AdminLogs_AdminUserDatas_LogsAdminUserDataId",
                         column: x => x.LogsAdminUserDataId,
-                        principalTable: "UserDatas",
+                        principalTable: "AdminUserDatas",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -60,18 +78,17 @@ namespace ExtremeWeatherBoard.Data.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CreatorId = table.Column<int>(type: "int", nullable: false)
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatorAdminUserDataId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Categories", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Categories_UserDatas_CreatorId",
-                        column: x => x.CreatorId,
-                        principalTable: "UserDatas",
+                        name: "FK_Categories_AdminUserDatas_CreatorAdminUserDataId",
+                        column: x => x.CreatorAdminUserDataId,
+                        principalTable: "AdminUserDatas",
                         principalColumn: "Id");
                 });
 
@@ -85,11 +102,23 @@ namespace ExtremeWeatherBoard.Data.Migrations
                     Text = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     SentAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     SenderId = table.Column<int>(type: "int", nullable: true),
-                    ReceiverId = table.Column<int>(type: "int", nullable: true)
+                    ReceiverId = table.Column<int>(type: "int", nullable: true),
+                    AdminSenderId = table.Column<int>(type: "int", nullable: true),
+                    AdminReceiverId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Messages", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Messages_AdminUserDatas_AdminReceiverId",
+                        column: x => x.AdminReceiverId,
+                        principalTable: "AdminUserDatas",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Messages_AdminUserDatas_AdminSenderId",
+                        column: x => x.AdminSenderId,
+                        principalTable: "AdminUserDatas",
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Messages_UserDatas_ReceiverId",
                         column: x => x.ReceiverId,
@@ -110,21 +139,21 @@ namespace ExtremeWeatherBoard.Data.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ParentCategoryId = table.Column<int>(type: "int", nullable: true),
-                    CreatorId = table.Column<int>(type: "int", nullable: true)
+                    ParentCategoryId = table.Column<int>(type: "int", nullable: false),
+                    SubCategoryAdminUserDataId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_SubCategories", x => x.Id);
                     table.ForeignKey(
+                        name: "FK_SubCategories_AdminUserDatas_SubCategoryAdminUserDataId",
+                        column: x => x.SubCategoryAdminUserDataId,
+                        principalTable: "AdminUserDatas",
+                        principalColumn: "Id");
+                    table.ForeignKey(
                         name: "FK_SubCategories_Categories_ParentCategoryId",
                         column: x => x.ParentCategoryId,
                         principalTable: "Categories",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_SubCategories_UserDatas_CreatorId",
-                        column: x => x.CreatorId,
-                        principalTable: "UserDatas",
                         principalColumn: "Id");
                 });
 
@@ -135,22 +164,29 @@ namespace ExtremeWeatherBoard.Data.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Text = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CreatorUserId = table.Column<int>(type: "int", nullable: false),
+                    DiscussionThreadAdminUserDataId = table.Column<int>(type: "int", nullable: true),
+                    DiscussionThreadUserDataId = table.Column<int>(type: "int", nullable: true),
                     SubCategoryId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Threads", x => x.Id);
+                    table.PrimaryKey("PK_DiscussionThreads", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Threads_SubCategories_SubCategoryId",
+                        name: "FK_DiscussionThreads_AdminUserDatas_DiscussionThreadAdminUserDataId",
+                        column: x => x.DiscussionThreadAdminUserDataId,
+                        principalTable: "AdminUserDatas",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_DiscussionThreads_SubCategories_SubCategoryId",
                         column: x => x.SubCategoryId,
                         principalTable: "SubCategories",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Threads_UserDatas_CreatorUserId",
-                        column: x => x.CreatorUserId,
+                        name: "FK_DiscussionThreads_UserDatas_DiscussionThreadUserDataId",
+                        column: x => x.DiscussionThreadUserDataId,
                         principalTable: "UserDatas",
                         principalColumn: "Id");
                 });
@@ -161,27 +197,31 @@ namespace ExtremeWeatherBoard.Data.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Text = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PostedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CommentUserDataId = table.Column<int>(type: "int", nullable: false),
+                    CommentUserDataId = table.Column<int>(type: "int", nullable: true),
+                    CommentAdminUserDataId = table.Column<int>(type: "int", nullable: true),
                     CommentThreadId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Comments", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Comments_Threads_CommentThreadId",
+                        name: "FK_Comments_AdminUserDatas_CommentAdminUserDataId",
+                        column: x => x.CommentAdminUserDataId,
+                        principalTable: "AdminUserDatas",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Comments_DiscussionThreads_CommentThreadId",
                         column: x => x.CommentThreadId,
                         principalTable: "DiscussionThreads",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Comments_UserDatas_CommentUserDataId",
                         column: x => x.CommentUserDataId,
                         principalTable: "UserDatas",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(
@@ -190,9 +230,19 @@ namespace ExtremeWeatherBoard.Data.Migrations
                 column: "LogsAdminUserDataId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Categories_CreatorId",
+                name: "IX_AdminUserDatas_UserId",
+                table: "AdminUserDatas",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Categories_CreatorAdminUserDataId",
                 table: "Categories",
-                column: "DiscussionThreadAdminUserDataId");
+                column: "CreatorAdminUserDataId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Comments_CommentAdminUserDataId",
+                table: "Comments",
+                column: "CommentAdminUserDataId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Comments_CommentThreadId",
@@ -205,6 +255,31 @@ namespace ExtremeWeatherBoard.Data.Migrations
                 column: "CommentUserDataId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_DiscussionThreads_DiscussionThreadAdminUserDataId",
+                table: "DiscussionThreads",
+                column: "DiscussionThreadAdminUserDataId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_DiscussionThreads_DiscussionThreadUserDataId",
+                table: "DiscussionThreads",
+                column: "DiscussionThreadUserDataId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_DiscussionThreads_SubCategoryId",
+                table: "DiscussionThreads",
+                column: "SubCategoryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Messages_AdminReceiverId",
+                table: "Messages",
+                column: "AdminReceiverId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Messages_AdminSenderId",
+                table: "Messages",
+                column: "AdminSenderId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Messages_ReceiverId",
                 table: "Messages",
                 column: "ReceiverId");
@@ -215,24 +290,14 @@ namespace ExtremeWeatherBoard.Data.Migrations
                 column: "SenderId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_SubCategories_CreatorId",
-                table: "SubCategories",
-                column: "DiscussionThreadAdminUserDataId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_SubCategories_ParentCategoryId",
                 table: "SubCategories",
                 column: "ParentCategoryId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Threads_CreatorUserId",
-                table: "DiscussionThreads",
-                column: "DiscussionThreadAdminUserDataId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Threads_SubCategoryId",
-                table: "DiscussionThreads",
-                column: "SubCategoryId");
+                name: "IX_SubCategories_SubCategoryAdminUserDataId",
+                table: "SubCategories",
+                column: "SubCategoryAdminUserDataId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_UserDatas_UserId",
@@ -259,10 +324,13 @@ namespace ExtremeWeatherBoard.Data.Migrations
                 name: "SubCategories");
 
             migrationBuilder.DropTable(
+                name: "UserDatas");
+
+            migrationBuilder.DropTable(
                 name: "Categories");
 
             migrationBuilder.DropTable(
-                name: "UserDatas");
+                name: "AdminUserDatas");
         }
     }
 }
