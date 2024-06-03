@@ -14,12 +14,13 @@ namespace ExtremeWeatherBoard.Pages
         }
         public async Task OnGetAsync(int sidebarContentId)
         {
-            this.SideBarOptions = new SideBarPartialViewModel();
-            SideBarOptions.NavigateTo = "/DiscussionThreads";
+            SideBarOptions = new SideBarPartialViewModel();
+            SideBarOptions.NavigateTo = "/SubCategories";
             SideBarOptions.SideBarOptions = (await _subCategoryService.GetSubCategoriesAsync(sidebarContentId))
                 .Cast<ISideBarOption>()
                 .ToList()
                 ;
+            int i = 0;
         }
     }
 }

@@ -28,14 +28,14 @@ namespace ExtremeWeatherBoard.Pages
         public async Task OnGetAsync()
         {
 
-            await _dataGenerator.MockLoadsOfDataAsync();
+            //await _dataGenerator.MockLoadsOfDataAsync();
 
             await _userDataService.CheckCurrentUserAsync(User);
-            //SideBarOptions = new SideBarPartialViewModel();
-            //SideBarOptions.NavigateTo = "/SubCategories";
-            //SideBarOptions.SideBarOptions = (await _categoryService.GetCategoriesAsync())
-            //.Cast<ISideBarOption>()
-            //.ToList();
+            SideBarOptions = new SideBarPartialViewModel();
+            SideBarOptions.NavigateTo = "/Categories";
+            SideBarOptions.SideBarOptions = (await _categoryService.GetCategoriesAsync())
+            .Cast<ISideBarOption>()
+            .ToList();
         }
 
     }

@@ -20,7 +20,7 @@ namespace ExtremeWeatherBoard.Pages
         public async Task OnGetAsync(int sidebarContentId, int mainContentId)
         {
             SideBarOptions = new SideBarPartialViewModel();
-            SideBarOptions.NavigateTo = "/Comments";
+            SideBarOptions.NavigateTo = "/DiscussionThreads";
             SideBarOptions.SideBarOptions = (await _subCategoryService.GetSubCategoriesAsync(sidebarContentId))
                 .Cast<ISideBarOption>()
                 .ToList();
@@ -28,7 +28,7 @@ namespace ExtremeWeatherBoard.Pages
             MainContent.MainContentList = (await _discussionThreadService.GetThreadsAsync(mainContentId))
                 .Cast<IMainContent>().
                 ToList();
-
+            int i = 0;
 
         }
     }

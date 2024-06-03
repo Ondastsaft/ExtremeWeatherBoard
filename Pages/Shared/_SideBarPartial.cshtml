@@ -14,16 +14,16 @@
                             @switch (navigateTo)
                             {
                                 case "/Categories":
-                                    <a asp-page=@navigateTo asp-route-sidebarContentId="@item.Id">@item.Title</a>
+                                    <a asp-page="/SubCategories" asp-route-sidebarContentId="@item.Id">@item.Title</a>
                                     break;
                                 case "/SubCategories":
-                                    <a asp-page=@navigateTo asp-route-sidebarContentId="@item.Id" asp-route-mainContentId="@item.Id">@item.Title</a>
+                                    <a asp-page="/DiscussionThreads" asp-route-sidebarContentId="@item.Id" asp-route-mainContentId="@item.Id">@item.Title</a>
                                     break;
                                 case "/DiscussionThreads":
-                                    <a asp-page=@navigateTo asp-route-sidebarContentId="@item.Id" asp-route-mainContentId="@item.Id">@item.Title</a>
+                                    <a asp-page="/Comments" asp-route-sidebarContentId="@item.Id" asp-route-mainContentId="@item.Id">@item.Title</a>
                                     break;
                                 case "/Comments":
-                                    <a asp-page=@navigateTo asp-route-sidebarContentId="@item.Id" asp-route-mainContentId="@item.Id">@item.Title</a>
+                                    <a asp-page="/Comments" asp-route-sidebarContentId="@item.Id" asp-route-mainContentId="@item.Id">@item.Title</a>
                                     break;
                             }
                 </td>
