@@ -1,20 +1,21 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using ExtremeWeatherBoard.Interfaces;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Runtime.InteropServices;
 
 namespace ExtremeWeatherBoard.Models
 {
-    public class Comment
+    public class Comment : IMainContent
     {
         public int Id { get; set; }
         [Required]
         public string? Text { get; set; }
+        public string? Title { get; set; }
         [Required]
         public DateTime PostedAt { get; set; }
         public int? CommentUserDataId { get; set; }
-        [Required]
         [ForeignKey("CommentUserDataId")]
         public virtual UserData? CommentUserData { get; set; }
-        [Required]
         public int? CommentAdminUserDataId { get; set; }
         [ForeignKey("CommentAdminUserDataId")]
         public virtual AdminUserData? CommentAdminUserData { get; set; }

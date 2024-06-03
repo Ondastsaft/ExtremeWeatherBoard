@@ -8,28 +8,29 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace ExtremeWeatherBoard.Pages
 {
-    public class DiscussionThreadsModel : BasePageModel
+    public class CommentsModel : BasePageModel
     {
         private readonly SubCategoryService _subCategoryService;
+        private readonly CommentService _commentService;
         private readonly DiscussionThreadService _discussionThreadService;
-        public DiscussionThreadsModel(SubCategoryService subCategoryService, DiscussionThreadService discussionThreadService)
+        public CommentsModel(SubCategoryService subCategoryService, CommentService commentService, DiscussionThreadService discussionThreadService)
         {
             _subCategoryService = subCategoryService;
+            _commentService = commentService;
             _discussionThreadService = discussionThreadService;
         }
         public async Task OnGetAsync(int sidebarContentId, int mainContentId)
         {
             SideBarOptions = new SideBarPartialViewModel();
-            SideBarOptions.NavigateTo = "/Comments";
+            SideBarOptions.NavigateTo = "/DiscussionThreads";
             SideBarOptions.SideBarOptions = (await _subCategoryService.GetSubCategoriesAsync(sidebarContentId))
-                .Cast<ISideBarOption>()
+            .Cast<ISideBarOption>()
                 .ToList();
             MainContent = new MainContentViewModel();
-            MainContent.MainContentList = (await _discussionThreadService.GetThreadsAsync(mainContentId))
+            MainContent.MainContentList = (await _commentService.GetCommentsAsync(mainContentId))
                 .Cast<IMainContent>().
                 ToList();
-
-
+            MainContent.CommentsParentDiscussionThread = await _discussionThreadService.GetThreadAsync(mainContentId);
         }
     }
 }

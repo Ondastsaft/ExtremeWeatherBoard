@@ -68,7 +68,16 @@ namespace ExtremeWeatherBoard.Data
                     .HasMany(a => a.Threads)
                     .WithOne(a => a.CreatorUser)
                     .OnDelete(DeleteBehavior.NoAction);
+            modelBuilder.Entity<DiscussionThread>()
+                    .HasMany(d => d.Comments)
+                    .WithOne(c => c.CommentThread)
+                    .OnDelete(DeleteBehavior.NoAction);
+            modelBuilder.Entity<Comment>()
+                    .HasOne(c => c.CommentThread)
+                    .WithMany(d => d.Comments)
+                    .OnDelete(DeleteBehavior.NoAction);
         }
+
         public DbSet<ExtremeWeatherBoard.Models.UserData> UserDatas { get; set; } = default!;
         public DbSet<ExtremeWeatherBoard.Models.AdminUserData> AdminUserDatas { get; set; } = default!;
         public DbSet<ExtremeWeatherBoard.Models.AdminLog> AdminLogs { get; set; } = default!;

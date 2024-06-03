@@ -1,5 +1,8 @@
-﻿@{    
+﻿@{
     var sideBarOptions = Model.SideBarOptions;
+    
+    string navigateTo = Model.NavigateTo;
+
     <table>
         @if (sideBarOptions != null)
         @foreach (var item in sideBarOptions)
@@ -7,13 +10,20 @@
             {
             <tr>
                 <td>
-                            @switch (item)
+
+                            @switch (navigateTo)
                             {
-                                case Models.Category:
-                                    <a asp-page="/SubCategories" asp-route-id="@item.Id">@item.Title</a>
+                                case "/Categories":
+                                    <a asp-page=@navigateTo asp-route-sidebarContentId="@item.Id">@item.Title</a>
                                     break;
-                                case Models.SubCategory:
-                                    <a asp-page="/DiscussionThread" asp-route-id="@item.Id">@item.Title</a>
+                                case "/SubCategories":
+                                    <a asp-page=@navigateTo asp-route-sidebarContentId="@item.Id" asp-route-mainContentId="@item.Id">@item.Title</a>
+                                    break;
+                                case "/DiscussionThreads":
+                                    <a asp-page=@navigateTo asp-route-sidebarContentId="@item.Id" asp-route-mainContentId="@item.Id">@item.Title</a>
+                                    break;
+                                case "/Comments":
+                                    <a asp-page=@navigateTo asp-route-sidebarContentId="@item.Id" asp-route-mainContentId="@item.Id">@item.Title</a>
                                     break;
                             }
                 </td>

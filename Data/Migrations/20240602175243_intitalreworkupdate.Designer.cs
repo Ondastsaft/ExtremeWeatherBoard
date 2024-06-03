@@ -4,6 +4,7 @@ using ExtremeWeatherBoard.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ExtremeWeatherBoard.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240602175243_intitalreworkupdate")]
+    partial class intitalreworkupdate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -110,12 +113,14 @@ namespace ExtremeWeatherBoard.Data.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int?>("CommentAdminUserDataId")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<int>("CommentThreadId")
                         .HasColumnType("int");
 
                     b.Property<int?>("CommentUserDataId")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<DateTime>("PostedAt")
@@ -123,9 +128,6 @@ namespace ExtremeWeatherBoard.Data.Migrations
 
                     b.Property<string>("Text")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -510,17 +512,21 @@ namespace ExtremeWeatherBoard.Data.Migrations
                 {
                     b.HasOne("ExtremeWeatherBoard.Models.AdminUserData", "CommentAdminUserData")
                         .WithMany("Comments")
-                        .HasForeignKey("CommentAdminUserDataId");
+                        .HasForeignKey("CommentAdminUserDataId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("ExtremeWeatherBoard.Models.DiscussionThread", "CommentThread")
                         .WithMany("Comments")
                         .HasForeignKey("CommentThreadId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("ExtremeWeatherBoard.Models.UserData", "CommentUserData")
                         .WithMany("Comments")
-                        .HasForeignKey("CommentUserDataId");
+                        .HasForeignKey("CommentUserDataId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("CommentAdminUserData");
 

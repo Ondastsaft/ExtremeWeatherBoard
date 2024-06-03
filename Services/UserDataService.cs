@@ -10,17 +10,14 @@ namespace ExtremeWeatherBoard.Services
 {
     public class UserDataService
     {
-
-        //private readonly IDataRepository _dataRepository;   
-        //private UserData? _currentUserData;
-        //internal bool _isLoggedIn { get; set; }
-        //internal bool _isAdmin { get; set; }
-        //public UserDataService(ApplicationDbContext context, UserManager<IdentityUser> userManager,IDataRepository dataRepository)
-        //{
-        //    _context = context;
-        //    _userManager = userManager;
-        //    _dataRepository = dataRepository;
-        //}
+        private readonly DataRepository _dataRepository;
+        private readonly UserManager<IdentityUser> _userManager;
+        private UserData? _currentUserData;
+        public UserDataService(UserManager<IdentityUser> userManager, DataRepository dataRepository)
+        {
+            _dataRepository = dataRepository;
+            _userManager = userManager;
+        }
         //public async Task<bool> CheckUserState(ClaimsPrincipal userPrincipal)
         //{
         //    bool confirmed = await CheckCurrentUserAsync(userPrincipal);
@@ -29,62 +26,82 @@ namespace ExtremeWeatherBoard.Services
         //    if (_isAdmin) { return false; }
         //    return confirmed;
         //}
-        //public async Task<bool> CheckCurrentUserAsync(ClaimsPrincipal userPrincipal)
-        //{
-        //    if (_currentUserData == null && userPrincipal.Identity.IsAuthenticated)
-        //    {
-        //        var userId = _userManager.GetUserId(userPrincipal);
-        //        _currentUserData = await _context.UserDatas.SingleOrDefaultAsync(u => u.UserId == userId);
-        //        return true;
-        //    }
-        //    return false;
-        //}
-        //public async Task<bool> CheckUserDataAsync(ClaimsPrincipal userPrincipal)
-        //{
-        //    if (userPrincipal.Identity.IsAuthenticated)
-        //    {
-        //        var userId = userPrincipal.FindFirstValue(ClaimTypes.NameIdentifier);
+        public async Task<bool> CheckCurrentUserAsync(ClaimsPrincipal userPrincipal)
+        {
+            if (userPrincipal.Identity.IsAuthenticated)
+            {
 
-        //        if (await _context.UserDatas.AnyAsync(u => u.UserId == userId))
+                var userId = _userManager.GetUserId(userPrincipal);
+                //UserData userData = new UserData() { UserId = userId };
+                //await _dataRepository.AddUserDataAsync(userData);
+                //return false;
+                await _dataRepository.PopulateUserDatasAsync();
+                if (_dataRepository.Users.Any(u => u.UserId == userId))
+                {
+                    return true;
+                }
+                //await _dataRepository.PopulateAdminUserDatasAsync();
+                //if (_dataRepository.AdminUsers.Any(a => a.UserId == userId))
+                //{
+                //    AdminUserData adminUserData = new AdminUserData() { UserId = userId };
+                //    _dataRepository.AddAdminUserDataAsync(adminUserData);
+                //    return false;
+                //}
+                else
+                {
+                    UserData newUserData = new UserData() { UserId = userId };
+                    await _dataRepository.AddUserDataAsync(newUserData);
+                    return true;
+                }
+            }
+            else { return false; }
+        }
+        //        public async Task<bool> CheckUserDataAsync()
         //        {
-        //            return true;
+        //            if (userPrincipal.Identity.IsAuthenticated)
+        //            {
+        //                var userId = userPrincipal.FindFirstValue(ClaimTypes.NameIdentifier);
+
+        //                if (await _context.UserDatas.AnyAsync(u => u.UserId == userId))
+        //                {
+        //                    return true;
+        //                }
+        //                if (await _context.AdminUserDatas.AnyAsync(a => a.UserId == userId))
+        //                {
+        //                    return true;
+        //                    _isAdmin = true;
+        //                }
+        //                else
+        //                {
+        //                    var userData = new UserData() { UserId = userId };
+        //                    await _context.UserDatas.AddAsync(userData);
+        //                    await _context.SaveChangesAsync();
+        //                    return true;
+        //                }
+        //            }
+        //            return false;
         //        }
-        //        if (await _context.AdminUserDatas.AnyAsync(a => a.UserId == userId))
+        //        public async Task<UserData> GetUserDataForCurrentUserAsync(ClaimsPrincipal userPrincipal)
         //        {
-        //            return true;
-        //            _isAdmin = true;
+        //            var usersPopulated = await PopulateUsers();
+        //            if (usersPopulated)
+        //            {
+        //                var userId = _userManager.GetUserId(userPrincipal);
+        //                var userData = users.Find(x => x.UserId == userId);
+        //                if (userData.GetType() == typeof(UserData))
+        //                {
+        //                    return userData;
+        //                }
+
+        //            }
         //        }
-        //        else
+        //        public async Task<UserData> AddUserData(string userId)
         //        {
         //            var userData = new UserData() { UserId = userId };
-        //            await _context.UserDatas.AddAsync(userData);
+        //            _context.UserDatas.Add(userData);
         //            await _context.SaveChangesAsync();
-        //            return true;
-        //        }
-        //    }
-        //    return false;
-        //}
-        //public async Task<UserData> GetUserDataForCurrentUserAsync(ClaimsPrincipal userPrincipal)
-        //{
-        //    var usersPopulated = await PopulateUsers();
-        //    if (usersPopulated)
-        //    {
-        //        var userId = _userManager.GetUserId(userPrincipal);
-        //        var userData = users.Find(x => x.UserId == userId);
-        //        if (userData.GetType() == typeof(UserData))
-        //        {
         //            return userData;
         //        }
-
-        //    }
-        //}
-        //public async Task<UserData> AddUserData(string userId)
-        //{
-        //    var userData = new UserData() { UserId = userId };
-        //    _context.UserDatas.Add(userData);
-        //    await _context.SaveChangesAsync();
-        //    return userData;
-        //}
 
     }
 }
