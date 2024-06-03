@@ -28,7 +28,7 @@ namespace ExtremeWeatherBoard.Pages
         public async Task OnGetAsync()
         {
 
-            //await _dataGenerator.MockLoadsOfDataAsync();
+            await _dataGenerator.MockLoadsOfDataAsync();
 
             await _userDataService.CheckCurrentUserAsync(User);
             SideBarOptions = new SideBarPartialViewModel();
