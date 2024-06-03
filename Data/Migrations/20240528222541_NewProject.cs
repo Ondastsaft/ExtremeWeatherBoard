@@ -129,7 +129,7 @@ namespace ExtremeWeatherBoard.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Threads",
+                name: "DiscussionThreads",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -173,7 +173,7 @@ namespace ExtremeWeatherBoard.Data.Migrations
                     table.ForeignKey(
                         name: "FK_Comments_Threads_CommentThreadId",
                         column: x => x.CommentThreadId,
-                        principalTable: "Threads",
+                        principalTable: "DiscussionThreads",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -192,7 +192,7 @@ namespace ExtremeWeatherBoard.Data.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Categories_CreatorId",
                 table: "Categories",
-                column: "CreatorId");
+                column: "DiscussionThreadAdminUserDataId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Comments_CommentThreadId",
@@ -217,7 +217,7 @@ namespace ExtremeWeatherBoard.Data.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_SubCategories_CreatorId",
                 table: "SubCategories",
-                column: "CreatorId");
+                column: "DiscussionThreadAdminUserDataId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_SubCategories_ParentCategoryId",
@@ -226,12 +226,12 @@ namespace ExtremeWeatherBoard.Data.Migrations
 
             migrationBuilder.CreateIndex(
                 name: "IX_Threads_CreatorUserId",
-                table: "Threads",
-                column: "CreatorUserId");
+                table: "DiscussionThreads",
+                column: "DiscussionThreadAdminUserDataId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Threads_SubCategoryId",
-                table: "Threads",
+                table: "DiscussionThreads",
                 column: "SubCategoryId");
 
             migrationBuilder.CreateIndex(
@@ -253,7 +253,7 @@ namespace ExtremeWeatherBoard.Data.Migrations
                 name: "Messages");
 
             migrationBuilder.DropTable(
-                name: "Threads");
+                name: "DiscussionThreads");
 
             migrationBuilder.DropTable(
                 name: "SubCategories");

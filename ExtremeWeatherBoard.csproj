@@ -23,4 +23,15 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.2" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Pages\Admin\AdminLogAdmin\" />
+    <Folder Include="Pages\Admin\AdminUserDataAdmin\" />
+    <Folder Include="Pages\Admin\CategoryAdmin\" />
+    <Folder Include="Pages\Admin\CommentAdmin\" />
+    <Folder Include="Pages\Admin\DiscussionThreadAdmin\" />
+    <Folder Include="Pages\Admin\MessageAdmin\" />
+    <Folder Include="Pages\Admin\SubCategoryAdmin\" />
+    <Folder Include="Pages\Admin\UserDataAdmin\" />
+  </ItemGroup>
+
 </Project>

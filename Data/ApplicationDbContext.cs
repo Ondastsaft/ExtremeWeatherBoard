@@ -49,32 +49,42 @@ namespace ExtremeWeatherBoard.Data
                 .OnDelete(DeleteBehavior.ClientSetNull);
 
             modelBuilder.Entity<Category>()
-                .HasOne(c => c.Creator)
-                .WithMany(u => u.Categories)
+                .HasOne(c => c.CreatorAdminUser)
+                .WithMany(au => au.Categories)
                 .OnDelete(DeleteBehavior.ClientSetNull);
+
+
             modelBuilder.Entity<SubCategory>()
-                .HasOne(s => s.Creator)
-                .WithMany(u => u.SubCategories)
+                .HasOne(s => s.SubCategoryAdminUserData)
+                .WithMany(au => au.SubCategories)
                 .OnDelete(DeleteBehavior.ClientSetNull);
             modelBuilder.Entity<SubCategory>()
                 .HasOne(s => s.ParentCategory)
-                .WithMany(u => u.SubCategories)
+                .WithMany(c => c.SubCategories)
                 .OnDelete(DeleteBehavior.NoAction);
             modelBuilder.Entity<AdminUserData>()
                    .HasMany(a => a.SubCategories)
-                   .WithOne(s => s.Creator)
+                   .WithOne(s => s.SubCategoryAdminUserData)
                    .OnDelete(DeleteBehavior.NoAction);
             modelBuilder.Entity<AdminUserData>()
-                    .HasMany(a => a.Threads)
-                    .WithOne(a => a.CreatorUser)
+                    .HasMany(a => a.DiscussionThreads)
+                    .WithOne(a => a.DiscussionThreadAdminUserData)
                     .OnDelete(DeleteBehavior.NoAction);
             modelBuilder.Entity<DiscussionThread>()
                     .HasMany(d => d.Comments)
                     .WithOne(c => c.CommentThread)
                     .OnDelete(DeleteBehavior.NoAction);
+            modelBuilder.Entity<AdminUserData>()
+                    .HasMany(a => a.Comments)
+                    .WithOne(c => c.CommentAdminUserData)
+                    .OnDelete(DeleteBehavior.NoAction);
             modelBuilder.Entity<Comment>()
                     .HasOne(c => c.CommentThread)
-                    .WithMany(d => d.Comments)
+                    .WithMany(dt => dt.Comments)
+                    .OnDelete(DeleteBehavior.NoAction);
+            modelBuilder.Entity<Comment>()
+                    .HasOne(c => c.CommentAdminUserData)
+                    .WithMany(u => u.Comments)
                     .OnDelete(DeleteBehavior.NoAction);
         }
 

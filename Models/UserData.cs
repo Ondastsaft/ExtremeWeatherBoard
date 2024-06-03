@@ -16,6 +16,7 @@ namespace ExtremeWeatherBoard.Models
         [Required]
         public string? UserId { get; set; }
         public string? ImageURL { get; set; }
+        [InverseProperty("DiscussionThreadUserData")]
         public virtual ICollection<DiscussionThread>? Threads { get; set; }
         [InverseProperty("CommentUserData")]
         public virtual ICollection<Comment>? Comments { get; set; }

@@ -42,7 +42,7 @@ namespace ExtremeWeatherBoard.Services
                 //new DiscussionThread() { 
                 //Id = 0, Title = "0", Text = "0", 
                 //Comments = new List<Comment>(), 
-                //CreatorUserId = 0, 
+                //DiscussionThreadAdminUserDataId = 0, 
                 //CreatedAt = new DateTime(), 
                 //SubCategoryId = 0}   ;
         }
