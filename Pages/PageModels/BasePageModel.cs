@@ -7,5 +7,7 @@ namespace ExtremeWeatherBoard.Pages.PageModels
     {
         public SideBarPartialViewModel? SideBarOptions { get; set; }
         public MainContentViewModel? MainContent { get; set; }
+
+
     }
 }
