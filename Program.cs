@@ -3,6 +3,7 @@ using ExtremeWeatherBoard.Interfaces;
 using ExtremeWeatherBoard.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System.Configuration;
 
 
 namespace ExtremeWeatherBoard
@@ -13,7 +14,6 @@ namespace ExtremeWeatherBoard
         {
 
             var builder = WebApplication.CreateBuilder(args);
-
             // Add services to the container.
             var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
@@ -29,7 +29,7 @@ namespace ExtremeWeatherBoard
             builder.Services.AddScoped<DiscussionThreadService>();
             builder.Services.AddScoped<CommentService>();
             builder.Services.AddScoped<UserDataService>();
-            builder.Services.AddScoped<MockDataGenerator>();
+            //builder.Services.AddScoped<MockDataGenerator>();
             builder.Services.AddRazorPages();
 
             var app = builder.Build();
