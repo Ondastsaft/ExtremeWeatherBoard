@@ -1,3 +1,4 @@
+using ExtremeWeatherBoard.DAL;
 using ExtremeWeatherBoard.Data;
 using ExtremeWeatherBoard.Interfaces;
 using ExtremeWeatherBoard.Services;
@@ -29,6 +30,7 @@ namespace ExtremeWeatherBoard
             builder.Services.AddScoped<DiscussionThreadService>();
             builder.Services.AddScoped<CommentService>();
             builder.Services.AddScoped<UserDataService>();
+            builder.Services.AddScoped<CategoryAPIService>();
             //builder.Services.AddScoped<MockDataGenerator>();
             builder.Services.AddRazorPages();
 
