@@ -8,7 +8,7 @@ namespace ExtremeWeatherBoard.Models
     {
         public int Id { get; set; }
         [Required]
-        public string Title { get; set; }
+        public string? Title { get; set; }
         [Required]
         public virtual DateTime CreatedDate { get; set; }
         [InverseProperty("ParentCategory")]
