@@ -1,56 +1,80 @@
-﻿//using ExtremeWeatherBoard.Models;
-//using Microsoft.AspNetCore.Mvc;
-//using System.Linq.Expressions;
-//using System.Text.Json;
+﻿using ExtremeWeatherBoard.Data;
+using ExtremeWeatherBoard.Interfaces;
+using ExtremeWeatherBoard.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
-//namespace ExtremeWeatherBoard.DAL
-//{
-//    public class UserDataService
-//    {
+namespace ExtremeWeatherBoard.DAL
+{
+    public class UserDataService
+    {
+        private readonly ApplicationDbContext _context;
+        private readonly UserManager<IdentityUser> _userManager;
 
-//        private static Uri BaseAdress = new Uri("https://localhost:44311/api/");
+        public UserDataService(ApplicationDbContext context, UserManager<IdentityUser> userManager)
+        {
+            _context = context;
+            _userManager = userManager;
+        }
 
-//        public async Task<UserData> GetUserData(int id)
-//        {
-//            UserData userData = new UserData();
-//            using (var client = new HttpClient())
-//            {
-//                client.BaseAddress = BaseAdress;
-//                HttpResponseMessage response = await client.GetAsync($"UserDataController/GetUserData/{id}");
-//                if (response.IsSuccessStatusCode)
-//                {
-//                    string responsestring = await response.Content.ReadAsStringAsync();
-//                    try
-//                    {
-//                        userData = JsonSerializer.Deserialize<UserData>(responsestring);
-//                        return userData;
-//                    }
-//                    catch (Exception ex) { return null; };                    
-//                }
-//            }
-//            return null;
-//        }
-//        public async Task<UserData> GetAssociatedUserData(string id)
-//        {
-//            UserData userData = new UserData();
-//            using (var client = new HttpClient())
-//            {
-//                client.BaseAddress = BaseAdress;
-//                HttpResponseMessage response = await client.GetAsync($"UserDataController/GetAssociatedUserData/{id}");
-//                if (response.IsSuccessStatusCode)
-//                {
-//                    string responsestring = await response.Content.ReadAsStringAsync();
-//                    try
-//                    {
-//                        userData = JsonSerializer.Deserialize<UserData>(responsestring);
-//                        return userData;
-//                    }
-//                    catch (Exception ex) { return null; };
-//                }
-//            }
-//            return null;
-//        }
+        public async Task<UserData> GetCurrentUserDataAsync(ClaimsPrincipal userPrincipal)
+        {
+            if (userPrincipal.Identity != null)
+            {
+                if (userPrincipal.Identity.IsAuthenticated)
+                {
+                    var userId = _userManager.GetUserId(userPrincipal);
+                    if (userId != null)
+                    {
+                        var currentUserData = await _context.UserDatas.FirstOrDefaultAsync(ud => ud.UserId == userId);
+                        if (currentUserData != null)
+                        {
+                            return currentUserData;
+                        }
+                    }
+                }
+            }
+                return GuestUserService.GuestUserData;
+        }
+        public async Task<IUser?>? GetUserDataAsync(int id)
+        {
+            var foundUserData = await _context.UserDatas.FirstOrDefaultAsync(ud => ud.Id == id);
+            if (foundUserData == null)
+            {
+                return await _context.AdminUserDatas.FirstOrDefaultAsync(aud => aud.Id == id);
+            }
+            return foundUserData;
+        }
+        public async Task<bool> CheckUserDataAsync(ClaimsPrincipal userPrincipal)
+        {
+            if (userPrincipal.Identity.IsAuthenticated)
+            {
+                var userId = userPrincipal.FindFirstValue(ClaimTypes.NameIdentifier);
 
-
-//    }
-//}
+                if (await _context.UserDatas.AnyAsync(u => u.UserId == userId))
+                {
+                    return true;
+                }
+                if (await _context.AdminUserDatas.AnyAsync(a => a.UserId == userId))
+                {
+                    return true;
+                }
+                else
+                {
+                    var userData = new UserData() { UserId = userId };
+                    await _context.UserDatas.AddAsync(userData);
+                    await _context.SaveChangesAsync();
+                    return true;
+                }
+            }
+            return false;
+        }
+        public async Task<bool> CheckIfAdminAsync(ClaimsPrincipal userPrincipal)
+        {
+            var userData = await _context.UserDatas.FirstOrDefaultAsync(ud => ud.UserId == userPrincipal.Identity.Name);
+            return false;
+        }
+    }
+}

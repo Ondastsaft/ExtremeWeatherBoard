@@ -1,10 +1,11 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using ExtremeWeatherBoard.Interfaces;
+using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ExtremeWeatherBoard.Models
 {
-    public class AdminUserData
+    public class AdminUserData : IUser
     {
         public int Id { get; set; }
         public string? ImageURL { get; set; }

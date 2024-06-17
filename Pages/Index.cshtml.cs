@@ -18,13 +18,13 @@ namespace ExtremeWeatherBoard.Pages
     public class IndexModel : BasePageModel
     {
         private readonly CategoryAPIService _categoryApiService;
-        private readonly UserDataService _userDataService;
+        private readonly Services.UserDataService _userDataService;
         private readonly UserManager<IdentityUser> _userManager;
         //private readonly MockDataGenerator _dataGenerator;
         private static Uri BaseAdress = new Uri("https://localhost:44311/api/");
 
-        public IndexModel(  CategoryAPIService categoryApiService, 
-                            UserDataService userDataService, 
+        public IndexModel(  CategoryAPIService categoryApiService,
+                            Services.UserDataService userDataService, 
                             UserManager<IdentityUser> usermanager
                             //MockDataGenerator dataGenerator
                             )
@@ -38,16 +38,14 @@ namespace ExtremeWeatherBoard.Pages
         }
         public async Task OnGetAsync()
         {
-
             //await _dataGenerator.MockLoadsOfDataAsync()
-
-            await _userDataService.CheckCurrentUserAsync(User);
-            SideBarOptions = new SideBarPartialViewModel();
-            SideBarOptions.NavigateTo = "/Categories";
-            var categories = await _categoryApiService.GetObjects();
-            SideBarOptions.SideBarOptions = (await _categoryApiService.GetObjects())
-            .Cast<ISideBarOption>()
-            .ToList();
+            //await _userDataService.CheckCurrentUserAsync(User);
+            //SideBarOptions = new SideBarPartialViewModel();
+            //SideBarOptions.NavigateTo = "/Categories";
+            //var categories = await _categoryApiService.GetObjects();
+            //SideBarOptions.SideBarOptions = (await _categoryApiService.GetObjects())
+            //.Cast<ISideBarOption>()
+            //.ToList();
             var somtehing = 1;
         }
 

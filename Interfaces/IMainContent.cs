@@ -1,6 +1,4 @@
-﻿using ExtremeWeatherBoard.Models;
-
-namespace ExtremeWeatherBoard.Interfaces
+﻿namespace ExtremeWeatherBoard.Interfaces
 {
     public interface IMainContent
     {

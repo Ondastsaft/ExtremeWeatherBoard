@@ -535,11 +535,11 @@ namespace ExtremeWeatherBoard.Data.Migrations
                         .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("ExtremeWeatherBoard.Models.UserData", "DiscussionThreadUserData")
-                        .WithMany("Threads")
+                        .WithMany("DiscussionThreads")
                         .HasForeignKey("DiscussionThreadUserDataId");
 
                     b.HasOne("ExtremeWeatherBoard.Models.SubCategory", "SubCategory")
-                        .WithMany("Threads")
+                        .WithMany("DiscussionThreads")
                         .HasForeignKey("SubCategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -690,7 +690,7 @@ namespace ExtremeWeatherBoard.Data.Migrations
 
             modelBuilder.Entity("ExtremeWeatherBoard.Models.SubCategory", b =>
                 {
-                    b.Navigation("Threads");
+                    b.Navigation("DiscussionThreads");
                 });
 
             modelBuilder.Entity("ExtremeWeatherBoard.Models.UserData", b =>
@@ -701,7 +701,7 @@ namespace ExtremeWeatherBoard.Data.Migrations
 
                     b.Navigation("SentMessages");
 
-                    b.Navigation("Threads");
+                    b.Navigation("DiscussionThreads");
                 });
 #pragma warning restore 612, 618
         }

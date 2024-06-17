@@ -56,31 +56,7 @@ namespace ExtremeWeatherBoard.Services
             }
             else { return false; }
         }
-        //        public async Task<bool> CheckUserDataAsync()
-        //        {
-        //            if (userPrincipal.Identity.IsAuthenticated)
-        //            {
-        //                var userId = userPrincipal.FindFirstValue(ClaimTypes.NameIdentifier);
 
-        //                if (await _context.UserDatas.AnyAsync(u => u.UserId == userId))
-        //                {
-        //                    return true;
-        //                }
-        //                if (await _context.AdminUserDatas.AnyAsync(a => a.UserId == userId))
-        //                {
-        //                    return true;
-        //                    _isAdmin = true;
-        //                }
-        //                else
-        //                {
-        //                    var userData = new UserData() { UserId = userId };
-        //                    await _context.UserDatas.AddAsync(userData);
-        //                    await _context.SaveChangesAsync();
-        //                    return true;
-        //                }
-        //            }
-        //            return false;
-        //        }
         //        public async Task<UserData> GetUserDataForCurrentUserAsync(ClaimsPrincipal userPrincipal)
         //        {
         //            var usersPopulated = await PopulateUsers();
