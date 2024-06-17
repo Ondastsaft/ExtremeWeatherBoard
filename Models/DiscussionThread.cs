@@ -12,9 +12,6 @@ namespace ExtremeWeatherBoard.Models
         [Required]
         public string? Text { get; set; }    
         public DateTime CreatedAt { get; set; }
-        public int? DiscussionThreadAdminUserDataId { get; set; }
-        [ForeignKey("DiscussionThreadAdminUserDataId")]
-        public AdminUserData? DiscussionThreadAdminUserData { get; set; }
         public int? DiscussionThreadUserDataId { get; set; }
         [ForeignKey("DiscussionThreadUserDataId")]
         public virtual UserData? DiscussionThreadUserData { get; set; }

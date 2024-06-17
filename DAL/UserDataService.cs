@@ -41,10 +41,6 @@ namespace ExtremeWeatherBoard.DAL
         public async Task<IUser?>? GetUserDataAsync(int id)
         {
             var foundUserData = await _context.UserDatas.FirstOrDefaultAsync(ud => ud.Id == id);
-            if (foundUserData == null)
-            {
-                return await _context.AdminUserDatas.FirstOrDefaultAsync(aud => aud.Id == id);
-            }
             return foundUserData;
         }
         public async Task<bool> CheckUserDataAsync(ClaimsPrincipal userPrincipal)

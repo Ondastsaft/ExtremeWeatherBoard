@@ -17,9 +17,6 @@ namespace ExtremeWeatherBoard.Models
         public int? CommentUserDataId { get; set; }
         [ForeignKey("CommentUserDataId")]
         public virtual UserData? CommentUserData { get; set; }
-        public int? CommentAdminUserDataId { get; set; }
-        [ForeignKey("CommentAdminUserDataId")]
-        public virtual AdminUserData? CommentAdminUserData { get; set; }
         public int CommentThreadId { get; set; }
         [ForeignKey("CommentThreadId")]
         public DiscussionThread? CommentThread { get; set; }
