@@ -1,4 +1,5 @@
 ﻿using ExtremeWeatherBoard.Data;
+using ExtremeWeatherBoard.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -9,7 +10,7 @@ using System.Security.Claims;
 
 namespace ExtremeWeatherBoard.Models
 {
-    public class UserData
+    public class UserData : IUser
     {
         public int Id { get; set; }
         public virtual IdentityUser? User { get; set; }
@@ -17,7 +18,7 @@ namespace ExtremeWeatherBoard.Models
         public string? UserId { get; set; }
         public string? ImageURL { get; set; }
         [InverseProperty("DiscussionThreadUserData")]
-        public virtual ICollection<DiscussionThread>? Threads { get; set; }
+        public virtual ICollection<DiscussionThread>? DiscussionThreads { get; set; }
         [InverseProperty("CommentUserData")]
         public virtual ICollection<Comment>? Comments { get; set; }
         [InverseProperty("Receiver")]
