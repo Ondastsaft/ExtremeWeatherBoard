@@ -11,7 +11,7 @@ namespace ExtremeWeatherBoard.DAL
         {
             BaseAdress = new Uri("https://localhost:44353/api/Category/");
         }
-        public async Task<List<Category>?> GetObjects()
+        public async Task<List<Category>?>? GetObjects()
         {
             using (HttpClient client = new HttpClient())
             {
