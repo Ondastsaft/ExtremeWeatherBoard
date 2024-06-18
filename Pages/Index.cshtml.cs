@@ -18,13 +18,13 @@ namespace ExtremeWeatherBoard.Pages
     public class IndexModel : BasePageModel
     {
         private readonly CategoryAPIService _categoryApiService;
-        private readonly Services.UserDataService _userDataService;
+        private readonly UserDataService _userDataService;
         private readonly UserManager<IdentityUser> _userManager;
         //private readonly MockDataGenerator _dataGenerator;
         private static Uri BaseAdress = new Uri("https://localhost:44311/api/");
 
         public IndexModel(  CategoryAPIService categoryApiService,
-                            Services.UserDataService userDataService, 
+                            UserDataService userDataService, 
                             UserManager<IdentityUser> usermanager
                             //MockDataGenerator dataGenerator
                             )

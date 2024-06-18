@@ -89,6 +89,15 @@ namespace ExtremeWeatherBoard.DAL
             }
 
         }
+        public async Task ReportDiscussionThread(int discussionThreadId)
+        {
+            var discussionThread = _context.DiscussionThreads.FirstOrDefault(dt => dt.Id == discussionThreadId);
+            if(discussionThread != null)
+            {
+                discussionThread.IsReported = true;
+                await _context.SaveChangesAsync();
+            }
+        }
 
     }
 }

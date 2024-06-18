@@ -10,9 +10,10 @@ using System.Security.Claims;
 
 namespace ExtremeWeatherBoard.Models
 {
-    public class UserData : IUser
+    public class UserData
     {
         public int Id { get; set; }
+        public string? Name { get; set; }
         public virtual IdentityUser? User { get; set; }
         [Required]
         public string? UserId { get; set; }

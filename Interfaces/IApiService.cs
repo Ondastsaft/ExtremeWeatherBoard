@@ -4,6 +4,6 @@ namespace ExtremeWeatherBoard.Interfaces
 {
     public interface IApiService
     {
-        Task<List<Category>>? GetObjects();
+        Task<List<Category>?>? GetObjects();
     }
 }

@@ -13,6 +13,7 @@ namespace ExtremeWeatherBoard.Models
         [Required]
         public string Title { get; set; }
         [Required]
+        public bool IsReported { get; set; }
         public DateTime PostedAt { get; set; }
         public int? CommentUserDataId { get; set; }
         [ForeignKey("CommentUserDataId")]
