@@ -107,6 +107,5 @@ namespace ExtremeWeatherBoard.DAL
                     }                            
             return messages;
         }
-
     }
 }
