@@ -11,15 +11,13 @@ namespace ExtremeWeatherBoard.Models
         [Required]
         public string? Title { get; set; }
         [Required]
-        public DateTime CreatedAt { get; set; }
+        public DateTime TimeStamp { get; set; }
         public int ParentCategoryId { get; set; }
         [ForeignKey("ParentCategoryId")]
         public virtual Category? ParentCategory { get; set; }
-
-        public int SubCategoryAdminUserDataId { get; set; }
-        [ForeignKey("SubCategoryAdminUserDataId")]
-
-        public AdminUserData? SubCategoryAdminUserData { get; set; }
+        public int CreatorAdminUserDataId { get; set; }
+        [ForeignKey("CreatorAdminUserDataId")]
+        public AdminUserData? CreatorAdminUserData { get; set; }
         public virtual ICollection<DiscussionThread>? Threads { get; set; }
 
 

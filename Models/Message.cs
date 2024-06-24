@@ -12,7 +12,7 @@ namespace ExtremeWeatherBoard.Models
         public string? Text { get; set; }
         [Required]
         public bool? Read { get; set; }
-        public DateTime SentAt { get; set; }
+        public DateTime TimeStamp { get; set; }
         public int? SenderId { get; set; }
         [ForeignKey("SenderId")]
         public virtual UserData? Sender { get; set; }

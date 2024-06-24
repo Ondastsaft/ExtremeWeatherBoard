@@ -65,7 +65,7 @@ namespace ExtremeWeatherBoard.DAL
             }
             return messages;
         }
-        public async Task SendMessageAsync(ClaimsPrincipal userPrincipal, int receiverUserDataId, string title, string text)
+        public async Task PostMessageAsync(ClaimsPrincipal userPrincipal, int receiverUserDataId, string title, string text)
         {
             var senderUserData = await _userDataService.GetCurrentUserDataAsync(userPrincipal);
             if (senderUserData != null && senderUserData.Id !=0) 
@@ -77,7 +77,7 @@ namespace ExtremeWeatherBoard.DAL
                     Sender = senderUserData,
                     Title = title,
                     Text = text,
-                    SentAt = DateTime.UtcNow
+                    TimeStamp = DateTime.UtcNow
                 };
                     _context.Messages.Add(sentMessage);
                     _context.SaveChanges();

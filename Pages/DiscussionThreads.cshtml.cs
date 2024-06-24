@@ -26,7 +26,7 @@ namespace ExtremeWeatherBoard.Pages
                 .Cast<ISideBarOption>()
                 .ToList();
             MainContent = new MainContentViewModel();
-            MainContent.MainContentList = (await _discussionThreadService.GetThreadsAsync(mainContentId))
+            MainContent.MainContentList = (await _discussionThreadService.GetDiscussionThreadsAsync(mainContentId))
                 .Cast<IMainContent>().
                 ToList();
             int i = 0;

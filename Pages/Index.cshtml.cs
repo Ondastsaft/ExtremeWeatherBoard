@@ -17,13 +17,13 @@ namespace ExtremeWeatherBoard.Pages
 
     public class IndexModel : BasePageModel
     {
-        private readonly CategoryAPIService _categoryApiService;
+        private readonly CategoryApiService _categoryApiService;
         private readonly UserDataService _userDataService;
         private readonly UserManager<IdentityUser> _userManager;
         //private readonly MockDataGenerator _dataGenerator;
         private static Uri BaseAdress = new Uri("https://localhost:44311/api/");
 
-        public IndexModel(  CategoryAPIService categoryApiService,
+        public IndexModel(  CategoryApiService categoryApiService,
                             UserDataService userDataService, 
                             UserManager<IdentityUser> usermanager
                             //MockDataGenerator dataGenerator
@@ -42,8 +42,8 @@ namespace ExtremeWeatherBoard.Pages
             await _userDataService.CheckCurrentUserAsync(User);
             SideBarOptions = new SideBarPartialViewModel();
             SideBarOptions.NavigateTo = "/Categories";
-            var categories = await _categoryApiService.GetObjectsAsync();
-            SideBarOptions.SideBarOptions = (await _categoryApiService.GetObjectsAsync())
+            var categories = await _categoryApiService.GetCategoriesAsync();
+            SideBarOptions.SideBarOptions = (await _categoryApiService.GetCategoriesAsync())
             .Cast<ISideBarOption>()
             .ToList();
         }

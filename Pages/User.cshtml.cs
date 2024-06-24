@@ -33,7 +33,7 @@ namespace ExtremeWeatherBoard.Pages
                     ModelState.AddModelError("UploadedImage", "Only image files are allowed.");
                     return Page();
                 }
-                await _userDataService.UploadUserImage(User, UploadedImage);
+                await _userDataService.PostUserImage(User, UploadedImage);
             }
             return Page();
         }

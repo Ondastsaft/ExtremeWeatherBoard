@@ -30,7 +30,7 @@ namespace ExtremeWeatherBoard.Pages
                 SideBarOptions = new SideBarPartialViewModel() { NavigateTo = "/DiscussionThreads", SideBarOptions = subCategories.Cast<ISideBarOption>().ToList() };
             }
 
-            var discussionThreads = await _discussionThreadService.GetThreadsAsync(mainContentId);
+            var discussionThreads = await _discussionThreadService.GetDiscussionThreadsAsync(mainContentId);
             var discussionParentThread = discussionThreads.Where(dt => dt.Id == mainContentId).FirstOrDefault();
             var comments = await _commentService.GetCommentsAsync(mainContentId);
             if (discussionParentThread is DiscussionThread && comments is IEnumerable<Comment>)

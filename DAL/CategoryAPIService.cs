@@ -4,14 +4,14 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 namespace ExtremeWeatherBoard.DAL
 {
-    public class CategoryAPIService : IApiService
+    public class CategoryApiService
     {
         protected Uri BaseAdress { get; }                
-        public CategoryAPIService()
+        public CategoryApiService()
         {
             BaseAdress = new Uri("https://localhost:44353/api/Category/");
         }
-        public async Task<List<Category>>? GetObjectsAsync()
+        public async Task<List<Category>?> GetCategoriesAsync()
         {
             using (HttpClient client = new HttpClient())
             {
@@ -35,7 +35,7 @@ namespace ExtremeWeatherBoard.DAL
         }
         public async Task<string> PostCategoryAsync(string title, AdminUserData poster)
         {           
-            Category newCategory = new Category() {Title = title, CreatorAdminUser = poster, CreatedDate = DateTime.UtcNow};
+            Category newCategory = new Category() {Title = title, CreatorAdminUser = poster, TimeStamp = DateTime.UtcNow};
             string categoryJson = JsonConvert.SerializeObject(newCategory);
             using (HttpClient client = new HttpClient())
             {
@@ -49,5 +49,6 @@ namespace ExtremeWeatherBoard.DAL
                 else return response.StatusCode.ToString();
             }
         }
+
     }
 }
