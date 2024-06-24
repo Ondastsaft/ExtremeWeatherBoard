@@ -36,7 +36,7 @@ namespace ExtremeWeatherBoard.Data
                 .WithMany(au => au.Categories)
                 .OnDelete(DeleteBehavior.ClientSetNull);
             modelBuilder.Entity<SubCategory>()
-                .HasOne(s => s.SubCategoryAdminUserData)
+                .HasOne(s => s.CreatorAdminUserData)
                 .WithMany(au => au.SubCategories)
                 .OnDelete(DeleteBehavior.ClientSetNull);
             modelBuilder.Entity<SubCategory>()
@@ -45,14 +45,14 @@ namespace ExtremeWeatherBoard.Data
                 .OnDelete(DeleteBehavior.NoAction);
             modelBuilder.Entity<AdminUserData>()
                    .HasMany(a => a.SubCategories)
-                   .WithOne(s => s.SubCategoryAdminUserData)
+                   .WithOne(s => s.CreatorAdminUserData)
                    .OnDelete(DeleteBehavior.NoAction);
             modelBuilder.Entity<DiscussionThread>()
                     .HasMany(d => d.Comments)
-                    .WithOne(c => c.CommentThread)
+                    .WithOne(c => c.ParentDiscussionThread)
                     .OnDelete(DeleteBehavior.NoAction);
             modelBuilder.Entity<Comment>()
-                    .HasOne(c => c.CommentThread)
+                    .HasOne(c => c.ParentDiscussionThread)
                     .WithMany(dt => dt.Comments)
                     .OnDelete(DeleteBehavior.NoAction);
         }

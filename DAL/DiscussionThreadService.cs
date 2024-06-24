@@ -15,7 +15,7 @@ namespace ExtremeWeatherBoard.DAL
             _context = context;
             _userDataService = userDataService;
         }
-        public async Task<List<DiscussionThread>> GetThreadsAsync(int subCategoryId)
+        public async Task<List<DiscussionThread>> GetDiscussionThreadsAsync(int subCategoryId)
         {
             var threads = await _context.DiscussionThreads
                                            .Where(dt => dt.SubCategoryId == subCategoryId)
@@ -42,12 +42,11 @@ namespace ExtremeWeatherBoard.DAL
                         ,
                         Title = title
                         ,
-                        CreatedAt = DateTime.UtcNow
+                        TimeStamp = DateTime.UtcNow
                     };
                     await _context.DiscussionThreads.AddAsync(discussionThread);
                 }
             }
-
         }
         public async Task UpdateDiscussionThreadAsync(ClaimsPrincipal userPrincipal, int discussionThreadId, string text)
         {
@@ -74,18 +73,18 @@ namespace ExtremeWeatherBoard.DAL
             if (userPrincipal.Identity != null)
             {
                 var discussionThreadUser = _userDataService.GetCurrentUserDataAsync(userPrincipal);
-                var targetDiscussionThread = await _context.DiscussionThreads.FindAsync(discussionThreadId);
-                if (targetDiscussionThread != null || isAdmin)
-                {
-                    if (targetDiscussionThread.DiscussionThreadUserData != null || isAdmin)
-                    {
-                        if (targetDiscussionThread.DiscussionThreadUserData.Id == discussionThreadUser.Id || isAdmin)
+                var targetDiscussionThread = await _context.DiscussionThreads.FirstOrDefaultAsync(d => d.Id == discussionThreadId);
+
+                        if (targetDiscussionThread?.DiscussionThreadUserData?.Id == discussionThreadUser.Id)
                         {
                             _context.DiscussionThreads.Remove(targetDiscussionThread);
                             await _context.SaveChangesAsync();
                         }
-                    }
-                }
+                        if(isAdmin && targetDiscussionThread != null)
+                        {
+                            _context.DiscussionThreads.Remove(targetDiscussionThread);
+                            await _context.SaveChangesAsync();
+                        }
             }
 
         }

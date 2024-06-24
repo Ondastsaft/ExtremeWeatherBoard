@@ -11,7 +11,7 @@ namespace ExtremeWeatherBoard.Models
         public string? Title { get; set; }
         [Required]
         public string? Text { get; set; }    
-        public DateTime CreatedAt { get; set; }
+        public DateTime TimeStamp { get; set; }
         public bool IsReported { get; set; }
         public int? DiscussionThreadUserDataId { get; set; }
         [ForeignKey("DiscussionThreadUserDataId")]
@@ -19,7 +19,7 @@ namespace ExtremeWeatherBoard.Models
         public int SubCategoryId { get; set; }
         [ForeignKey("SubCategoryId")]
         public SubCategory? SubCategory { get; set; }
-        [InverseProperty("CommentThread")]
+        [InverseProperty("ParentDiscussionThread")]
         public ICollection<Comment>? Comments { get; set; }
     }
 }

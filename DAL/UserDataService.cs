@@ -70,10 +70,17 @@ namespace ExtremeWeatherBoard.DAL
         }
         public async Task<bool> CheckIfAdminAsync(ClaimsPrincipal userPrincipal)
         {
-            var userData = await _context.UserDatas.FirstOrDefaultAsync(ud => ud.UserId == userPrincipal.Identity.Name);
+            if (userPrincipal.Identity?.Name != null)
+            {
+                var adminUserData = await _context.AdminUserDatas.FirstOrDefaultAsync(ud => ud.UserId == userPrincipal.Identity.Name);
+                if (adminUserData != null)
+                {
+                    return true;
+                }
+            }
             return false;
         }
-        public async Task<UserData> AddUserData(string userId)
+        public async Task<UserData> PostUserDataAsync(string userId)
         {
             var userData = new UserData() { UserId = userId };
             _context.UserDatas.Add(userData);
@@ -82,7 +89,7 @@ namespace ExtremeWeatherBoard.DAL
         }
         public async Task<bool> CheckCurrentUserAsync(ClaimsPrincipal userPrincipal)
         {
-            if (userPrincipal.Identity.IsAuthenticated)
+            if (userPrincipal.Identity != null && userPrincipal.Identity.IsAuthenticated)
             {
                 var userId = _userManager.GetUserId(userPrincipal);
                 if (_context.UserDatas.Any(ud => ud.UserId == userId))
@@ -99,7 +106,7 @@ namespace ExtremeWeatherBoard.DAL
             }
             return false;
         }
-        public async Task UploadUserImage(ClaimsPrincipal userPrincipal,IFormFile file)
+        public async Task PostUserImage(ClaimsPrincipal userPrincipal,IFormFile file)
         {
             var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Images", file.FileName);
             using (var stream = new FileStream(filePath, FileMode.Create))

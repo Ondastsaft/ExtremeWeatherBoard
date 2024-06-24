@@ -12,7 +12,7 @@ namespace ExtremeWeatherBoard.Models
         [ForeignKey("UserId")]
         public virtual IdentityUser? User { get; set; }
         public virtual ICollection<Category>? Categories { get; set; }
-        [InverseProperty("SubCategoryAdminUserData")]
+        [InverseProperty("CreatorAdminUserData")]
         public virtual ICollection<SubCategory>? SubCategories { get; set; }
         [InverseProperty("LogsAdminUserData")]
         public virtual ICollection<AdminLog>? AdminLogs { get; set; }

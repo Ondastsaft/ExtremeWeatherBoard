@@ -247,7 +247,7 @@ namespace ExtremeWeatherBoard.Data.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Comments_CommentThreadId",
                 table: "Comments",
-                column: "CommentThreadId");
+                column: "ParentDiscussionThreadId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Comments_CommentUserDataId",
@@ -297,7 +297,7 @@ namespace ExtremeWeatherBoard.Data.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_SubCategories_SubCategoryAdminUserDataId",
                 table: "SubCategories",
-                column: "SubCategoryAdminUserDataId");
+                column: "CreatorAdminUserDataId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_UserDatas_UserId",

@@ -1,6 +1,5 @@
 ﻿using ExtremeWeatherBoard.Data;
 using ExtremeWeatherBoard.Models;
-using ExtremeWeatherBoard.Services;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 
@@ -17,7 +16,7 @@ namespace ExtremeWeatherBoard.DAL
         }
         public async Task<List<Comment>> GetCommentsAsync(int discussionThreadId)
         {
-            List<Comment> comments = await _context.Comments.Where(c => c.CommentThreadId == discussionThreadId).ToListAsync();
+            List<Comment> comments = await _context.Comments.Where(c => c.ParentDiscussionThreadId == discussionThreadId).ToListAsync();
             return comments;
         }
         public async Task PostCommentAsync(int discussionThreadId, string text, ClaimsPrincipal userPrincipal)
@@ -29,9 +28,9 @@ namespace ExtremeWeatherBoard.DAL
                 Comment postedComment = new Comment()
                 {
                     CommentUserData = userData,
-                    CommentThread = discussionThread,
+                    ParentDiscussionThread = discussionThread,
                     Text = text,
-                    PostedAt = DateTime.UtcNow
+                    TimeStamp = DateTime.UtcNow
                 };
                 await _context.Comments.AddAsync(postedComment);
             }
