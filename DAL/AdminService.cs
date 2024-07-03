@@ -36,7 +36,7 @@ namespace ExtremeWeatherBoard.DAL
         }
         public async Task PostCategoryAsync(string title, ClaimsPrincipal userPrincipal)
         {
-            if ( userPrincipal.Identity?.Name != null)
+            if (userPrincipal.Identity?.Name != null)
             {
                 var adminUserData = await _context.AdminUserDatas.FirstOrDefaultAsync(ud => ud.UserId == userPrincipal.Identity.Name);
                 if (adminUserData != null)
@@ -47,22 +47,22 @@ namespace ExtremeWeatherBoard.DAL
         }
         public async Task DeleteCategoryAsync(int categoryId, ClaimsPrincipal userPrincipal)
         {
-                    if (userPrincipal.Identity?.Name != null)
+            if (userPrincipal.Identity?.Name != null)
+            {
+                var adminUserData = await _context.AdminUserDatas.FirstOrDefaultAsync(ud => ud.UserId == userPrincipal.Identity.Name);
+                if (adminUserData != null)
+                {
+                    var category = await _context.Categories.FirstOrDefaultAsync(c => c.Id == categoryId);
+                    if (category != null)
                     {
-                        var adminUserData = await _context.AdminUserDatas.FirstOrDefaultAsync(ud => ud.UserId == userPrincipal.Identity.Name);
-                        if (adminUserData != null)
-                        {
-                            var category = await _context.Categories.FirstOrDefaultAsync(c => c.Id == categoryId);
-                            if (category != null)
-                            {
-                                _context.Categories.Remove(category);
-                                await _context.SaveChangesAsync();
-                            }
-                        }
-                    }              
-            
+                        _context.Categories.Remove(category);
+                        await _context.SaveChangesAsync();
+                    }
+                }
+            }
+
         }
-        public async Task PostSubCategoryAsync(string title, int parentCategoryId,  ClaimsPrincipal userPrincipal)
+        public async Task PostSubCategoryAsync(string title, int parentCategoryId, ClaimsPrincipal userPrincipal)
         {
             if (userPrincipal.Identity?.Name != null)
             {
@@ -72,11 +72,11 @@ namespace ExtremeWeatherBoard.DAL
                     var parentcategory = await _context.Categories.FirstOrDefaultAsync(c => c.Id == parentCategoryId);
                     if (parentcategory != null)
                     {
-                        var subcategory = new SubCategory() 
-                        { 
-                            Title = title, 
-                            ParentCategory = parentcategory, 
-                            CreatorAdminUserData = adminUserData, 
+                        var subcategory = new SubCategory()
+                        {
+                            Title = title,
+                            ParentCategory = parentcategory,
+                            CreatorAdminUserData = adminUserData,
                             TimeStamp = DateTime.UtcNow
                         };
                         _context.SubCategories.Add(subcategory);

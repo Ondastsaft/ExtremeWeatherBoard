@@ -4,20 +4,23 @@ using ExtremeWeatherBoard.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace ExtremeWeatherBoard.Data.Migrations
+namespace ExtremeWeatherBoard.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240625160609_init")]
+    partial class Init
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.4")
+                .HasAnnotation("ProductVersion", "8.0.6")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -34,6 +37,12 @@ namespace ExtremeWeatherBoard.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("CategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("CommentId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Details")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -41,12 +50,21 @@ namespace ExtremeWeatherBoard.Data.Migrations
                     b.Property<int>("LogsAdminUserDataId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("SubCategoryId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("Timestamp")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CategoryId");
+
+                    b.HasIndex("CommentId");
+
                     b.HasIndex("LogsAdminUserDataId");
+
+                    b.HasIndex("SubCategoryId");
 
                     b.ToTable("AdminLogs");
                 });
@@ -58,9 +76,6 @@ namespace ExtremeWeatherBoard.Data.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("ImageURL")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
@@ -80,11 +95,11 @@ namespace ExtremeWeatherBoard.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("TimeStamp")
-                        .HasColumnType("datetime2");
-
                     b.Property<int>("CreatorAdminUserDataId")
                         .HasColumnType("int");
+
+                    b.Property<DateTime>("TimeStamp")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -105,21 +120,21 @@ namespace ExtremeWeatherBoard.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("CommentAdminUserDataId")
+                    b.Property<int?>("CommentUserDataId")
                         .HasColumnType("int");
+
+                    b.Property<bool>("IsReported")
+                        .HasColumnType("bit");
 
                     b.Property<int>("ParentDiscussionThreadId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("CommentUserDataId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("TimeStamp")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("Text")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("TimeStamp")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -127,11 +142,9 @@ namespace ExtremeWeatherBoard.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CommentAdminUserDataId");
+                    b.HasIndex("CommentUserDataId");
 
                     b.HasIndex("ParentDiscussionThreadId");
-
-                    b.HasIndex("CommentUserDataId");
 
                     b.ToTable("Comments");
                 });
@@ -144,14 +157,11 @@ namespace ExtremeWeatherBoard.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("TimeStamp")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("DiscussionThreadAdminUserDataId")
-                        .HasColumnType("int");
-
                     b.Property<int?>("DiscussionThreadUserDataId")
                         .HasColumnType("int");
+
+                    b.Property<bool>("IsReported")
+                        .HasColumnType("bit");
 
                     b.Property<int>("SubCategoryId")
                         .HasColumnType("int");
@@ -160,13 +170,14 @@ namespace ExtremeWeatherBoard.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime>("TimeStamp")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("DiscussionThreadAdminUserDataId");
 
                     b.HasIndex("DiscussionThreadUserDataId");
 
@@ -183,11 +194,9 @@ namespace ExtremeWeatherBoard.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("AdminReceiverId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("AdminSenderId")
-                        .HasColumnType("int");
+                    b.Property<bool?>("Read")
+                        .IsRequired()
+                        .HasColumnType("bit");
 
                     b.Property<int?>("ReceiverId")
                         .HasColumnType("int");
@@ -195,22 +204,18 @@ namespace ExtremeWeatherBoard.Data.Migrations
                     b.Property<int?>("SenderId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("TimeStamp")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("Text")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("TimeStamp")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("AdminReceiverId");
-
-                    b.HasIndex("AdminSenderId");
 
                     b.HasIndex("ReceiverId");
 
@@ -227,14 +232,14 @@ namespace ExtremeWeatherBoard.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("TimeStamp")
-                        .HasColumnType("datetime2");
+                    b.Property<int>("CreatorAdminUserDataId")
+                        .HasColumnType("int");
 
                     b.Property<int>("ParentCategoryId")
                         .HasColumnType("int");
 
-                    b.Property<int>("CreatorAdminUserDataId")
-                        .HasColumnType("int");
+                    b.Property<DateTime>("TimeStamp")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -242,9 +247,9 @@ namespace ExtremeWeatherBoard.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ParentCategoryId");
-
                     b.HasIndex("CreatorAdminUserDataId");
+
+                    b.HasIndex("ParentCategoryId");
 
                     b.ToTable("SubCategories");
                 });
@@ -258,6 +263,9 @@ namespace ExtremeWeatherBoard.Data.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("ImageURL")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserId")
@@ -475,13 +483,31 @@ namespace ExtremeWeatherBoard.Data.Migrations
 
             modelBuilder.Entity("ExtremeWeatherBoard.Models.AdminLog", b =>
                 {
+                    b.HasOne("ExtremeWeatherBoard.Models.Category", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryId");
+
+                    b.HasOne("ExtremeWeatherBoard.Models.Comment", "Comment")
+                        .WithMany()
+                        .HasForeignKey("CommentId");
+
                     b.HasOne("ExtremeWeatherBoard.Models.AdminUserData", "LogsAdminUserData")
                         .WithMany("AdminLogs")
                         .HasForeignKey("LogsAdminUserDataId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("ExtremeWeatherBoard.Models.SubCategory", "SubCategory")
+                        .WithMany()
+                        .HasForeignKey("SubCategoryId");
+
+                    b.Navigation("Category");
+
+                    b.Navigation("Comment");
+
                     b.Navigation("LogsAdminUserData");
+
+                    b.Navigation("SubCategory");
                 });
 
             modelBuilder.Entity("ExtremeWeatherBoard.Models.AdminUserData", b =>
@@ -495,20 +521,19 @@ namespace ExtremeWeatherBoard.Data.Migrations
 
             modelBuilder.Entity("ExtremeWeatherBoard.Models.Category", b =>
                 {
-                    b.HasOne("ExtremeWeatherBoard.Models.AdminUserData", "CreatorAdminUser")
+                    b.HasOne("ExtremeWeatherBoard.Models.AdminUserData", "CreatorAdminUserData")
                         .WithMany("Categories")
                         .HasForeignKey("CreatorAdminUserDataId")
                         .IsRequired();
 
-                    b.Navigation("CreatorAdminUser");
+                    b.Navigation("CreatorAdminUserData");
                 });
 
             modelBuilder.Entity("ExtremeWeatherBoard.Models.Comment", b =>
                 {
-                    b.HasOne("ExtremeWeatherBoard.Models.AdminUserData", "CommentAdminUserData")
+                    b.HasOne("ExtremeWeatherBoard.Models.UserData", "CommentUserData")
                         .WithMany("Comments")
-                        .HasForeignKey("CommentAdminUserDataId")
-                        .OnDelete(DeleteBehavior.NoAction);
+                        .HasForeignKey("CommentUserDataId");
 
                     b.HasOne("ExtremeWeatherBoard.Models.DiscussionThread", "ParentDiscussionThread")
                         .WithMany("Comments")
@@ -516,35 +541,22 @@ namespace ExtremeWeatherBoard.Data.Migrations
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.HasOne("ExtremeWeatherBoard.Models.UserData", "CommentUserData")
-                        .WithMany("Comments")
-                        .HasForeignKey("CommentUserDataId");
-
-                    b.Navigation("CommentAdminUserData");
+                    b.Navigation("CommentUserData");
 
                     b.Navigation("ParentDiscussionThread");
-
-                    b.Navigation("CommentUserData");
                 });
 
             modelBuilder.Entity("ExtremeWeatherBoard.Models.DiscussionThread", b =>
                 {
-                    b.HasOne("ExtremeWeatherBoard.Models.AdminUserData", "DiscussionThreadAdminUserData")
-                        .WithMany("DiscussionThreads")
-                        .HasForeignKey("DiscussionThreadAdminUserDataId")
-                        .OnDelete(DeleteBehavior.NoAction);
-
                     b.HasOne("ExtremeWeatherBoard.Models.UserData", "DiscussionThreadUserData")
                         .WithMany("DiscussionThreads")
                         .HasForeignKey("DiscussionThreadUserDataId");
 
                     b.HasOne("ExtremeWeatherBoard.Models.SubCategory", "SubCategory")
-                        .WithMany("DiscussionThreads")
+                        .WithMany("Threads")
                         .HasForeignKey("SubCategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("DiscussionThreadAdminUserData");
 
                     b.Navigation("DiscussionThreadUserData");
 
@@ -553,15 +565,6 @@ namespace ExtremeWeatherBoard.Data.Migrations
 
             modelBuilder.Entity("ExtremeWeatherBoard.Models.Message", b =>
                 {
-                    b.HasOne("ExtremeWeatherBoard.Models.AdminUserData", "AdminReceiver")
-                        .WithMany("ReceivedMessages")
-                        .HasForeignKey("AdminReceiverId");
-
-                    b.HasOne("ExtremeWeatherBoard.Models.AdminUserData", "AdminSender")
-                        .WithMany("SentMessages")
-                        .HasForeignKey("AdminSenderId")
-                        .OnDelete(DeleteBehavior.NoAction);
-
                     b.HasOne("ExtremeWeatherBoard.Models.UserData", "Receiver")
                         .WithMany("ReceivedMessages")
                         .HasForeignKey("ReceiverId");
@@ -571,10 +574,6 @@ namespace ExtremeWeatherBoard.Data.Migrations
                         .HasForeignKey("SenderId")
                         .OnDelete(DeleteBehavior.NoAction);
 
-                    b.Navigation("AdminReceiver");
-
-                    b.Navigation("AdminSender");
-
                     b.Navigation("Receiver");
 
                     b.Navigation("Sender");
@@ -582,21 +581,21 @@ namespace ExtremeWeatherBoard.Data.Migrations
 
             modelBuilder.Entity("ExtremeWeatherBoard.Models.SubCategory", b =>
                 {
-                    b.HasOne("ExtremeWeatherBoard.Models.Category", "ParentCategory")
-                        .WithMany("SubCategories")
-                        .HasForeignKey("ParentCategoryId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
                     b.HasOne("ExtremeWeatherBoard.Models.AdminUserData", "CreatorAdminUserData")
                         .WithMany("SubCategories")
                         .HasForeignKey("CreatorAdminUserDataId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.Navigation("ParentCategory");
+                    b.HasOne("ExtremeWeatherBoard.Models.Category", "ParentCategory")
+                        .WithMany("SubCategories")
+                        .HasForeignKey("ParentCategoryId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
 
                     b.Navigation("CreatorAdminUserData");
+
+                    b.Navigation("ParentCategory");
                 });
 
             modelBuilder.Entity("ExtremeWeatherBoard.Models.UserData", b =>
@@ -667,14 +666,6 @@ namespace ExtremeWeatherBoard.Data.Migrations
 
                     b.Navigation("Categories");
 
-                    b.Navigation("Comments");
-
-                    b.Navigation("DiscussionThreads");
-
-                    b.Navigation("ReceivedMessages");
-
-                    b.Navigation("SentMessages");
-
                     b.Navigation("SubCategories");
                 });
 
@@ -690,18 +681,18 @@ namespace ExtremeWeatherBoard.Data.Migrations
 
             modelBuilder.Entity("ExtremeWeatherBoard.Models.SubCategory", b =>
                 {
-                    b.Navigation("DiscussionThreads");
+                    b.Navigation("Threads");
                 });
 
             modelBuilder.Entity("ExtremeWeatherBoard.Models.UserData", b =>
                 {
                     b.Navigation("Comments");
 
+                    b.Navigation("DiscussionThreads");
+
                     b.Navigation("ReceivedMessages");
 
                     b.Navigation("SentMessages");
-
-                    b.Navigation("DiscussionThreads");
                 });
 #pragma warning restore 612, 618
         }

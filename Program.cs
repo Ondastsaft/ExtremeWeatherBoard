@@ -24,12 +24,14 @@ namespace ExtremeWeatherBoard
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             builder.Services.AddScoped<UserManager<IdentityUser>>();
             builder.Services.AddScoped<SubCategoryService>();
+            builder.Services.AddScoped<AdminLogService>();
             builder.Services.AddScoped<AdminService>();
             builder.Services.AddScoped<DiscussionThreadService>();
             builder.Services.AddScoped<CommentService>();
             builder.Services.AddScoped<UserDataService>();
             builder.Services.AddScoped<CategoryApiService>();
-            //builder.Services.AddScoped<MockDataGenerator>();
+            builder.Services.AddScoped<MockDataGenerator>();
+            builder.Services.AddScoped<MessageService>();
             builder.Services.AddRazorPages();
 
             var app = builder.Build();

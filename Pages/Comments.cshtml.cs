@@ -3,7 +3,6 @@ using ExtremeWeatherBoard.Interfaces;
 using ExtremeWeatherBoard.Models;
 using ExtremeWeatherBoard.Pages.PageModels;
 using ExtremeWeatherBoard.Pages.Shared.ViewModels;
-using ExtremeWeatherBoard.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -24,27 +23,19 @@ namespace ExtremeWeatherBoard.Pages
         public async Task OnGetAsync(int sidebarContentId, int mainContentId)
         {
 
-            var subCategories = await _subCategoryService.GetSubCategoriesAsync(sidebarContentId);
-            if (subCategories is IEnumerable<SubCategory>)
+            var subCategories = await _subCategoryService.GetSubCategoriesFromParentIdAsync(sidebarContentId);
+            if (subCategories !=null)
             {
                 SideBarOptions = new SideBarPartialViewModel() { NavigateTo = "/DiscussionThreads", SideBarOptions = subCategories.Cast<ISideBarOption>().ToList() };
             }
-
-            var discussionThreads = await _discussionThreadService.GetDiscussionThreadsAsync(mainContentId);
-            var discussionParentThread = discussionThreads.Where(dt => dt.Id == mainContentId).FirstOrDefault();
             var comments = await _commentService.GetCommentsAsync(mainContentId);
-            if (discussionParentThread is DiscussionThread && comments is IEnumerable<Comment>)
+            if (comments != null)
             {
                 MainContent = new MainContentViewModel()
                 {
-                    MainContentList = comments.Cast<IMainContent>().ToList(),
-                    CommentsParentDiscussionThread = discussionParentThread
+                    MainContentList = comments.ToList(),
                 };
             }
-            //MainContent.MainContentList = (await _commentService.GetCommentsAsync(mainContentId))
-            //    .Cast<IMainContent>().
-            //    ToList();
-            //MainContent.CommentsParentDiscussionThread = await _discussionThreadService.GetThreadAsync(mainContentId);
         }
     }
 }

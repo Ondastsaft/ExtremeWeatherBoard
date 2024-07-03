@@ -28,6 +28,18 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-page="/Index">Categories</a>
                         </li>
+                        @if(User.Identity != null)
+                        {
+                            @if(User.Identity.IsAuthenticated)
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-page="/User">User</a>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-page="/Messages">Messages</a>
+                                </li>
+                                </li>
+                            }
+                        }
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-page="/User">User</a>
                         </li>
@@ -37,23 +49,17 @@
             </div>
         </nav>
     </header>
-    <div class="container flex-grow-1">
-        <div class="row h-100">
-            <div class="col-md-3 border-right h-100">
-                @if (Model.SideBarOptions != null)
-                {
-                    <partial name="_SideBarPartial" model="Model.SideBarOptions" />
-                }
-            </div>
-            <main role="main" class="col-md-9 h-100">
-                @if (Model.MainContent != null)
-                {
-                    <partial name="_MainContentPartial" model="Model.MainContent" />                   
-                }
-
+    <div style="display: flex; flex-grow: 1;">
+        <div class="container flex-grow-1" style="display: flex; flex-direction: row; min-height: 0;">
+            <div class="row flex-grow-1 w-100">
+                <div class="col-md-3" style="background-color: darkslategray; display: flex; flex-direction: column;">
+                    @await RenderSectionAsync("Sidebar", required: false)
+                </div>
+                <main role="main" class="col-md-9">
+                    @await RenderSectionAsync("MainContent", required: false)
                     @RenderBody()
-                
-            </main>
+                </main>
+            </div>
         </div>
     </div>
 

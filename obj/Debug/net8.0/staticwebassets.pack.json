@@ -5,6 +5,14 @@
       "PackagePath": "staticwebassets\\ExtremeWeatherBoard.bundle.scp.css"
     },
     {
+      "Id": "C:\\Repos\\ExtremeWeatherBoard\\ExtremeWeatherBoard\\wwwroot\\Images\\IMG_6265.PNG",
+      "PackagePath": "staticwebassets\\Images\\IMG_6265.PNG"
+    },
+    {
+      "Id": "C:\\Repos\\ExtremeWeatherBoard\\ExtremeWeatherBoard\\wwwroot\\Images\\defaultuser.jpg",
+      "PackagePath": "staticwebassets\\Images\\defaultuser.jpg"
+    },
+    {
       "Id": "C:\\Repos\\ExtremeWeatherBoard\\ExtremeWeatherBoard\\wwwroot\\css\\site.css",
       "PackagePath": "staticwebassets\\css\\site.css"
     },

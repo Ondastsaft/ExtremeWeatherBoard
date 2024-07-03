@@ -12,17 +12,14 @@ namespace ExtremeWeatherBoard.DAL
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager<IdentityUser> _userManager;
-
         public UserDataService(ApplicationDbContext context, UserManager<IdentityUser> userManager)
         {
             _context = context;
             _userManager = userManager;
         }
         public async Task<UserData> GetCurrentUserDataAsync(ClaimsPrincipal userPrincipal)
-        {
-            if (userPrincipal.Identity != null)
-            {
-                if (userPrincipal.Identity.IsAuthenticated)
+        {         
+                if (userPrincipal.Identity?.IsAuthenticated != null)
                 {
                     var userId = _userManager.GetUserId(userPrincipal);
                     if (userId != null)
@@ -33,8 +30,7 @@ namespace ExtremeWeatherBoard.DAL
                             return currentUserData;
                         }
                     }
-                }
-            }
+                }            
                 return GuestUserService.GuestUserData;
         }
         public async Task<UserData> GetUserDataAsync(int id)
@@ -82,7 +78,7 @@ namespace ExtremeWeatherBoard.DAL
         }
         public async Task<UserData> PostUserDataAsync(string userId)
         {
-            var userData = new UserData() { UserId = userId };
+            var userData = new UserData() { UserId = userId, Name = "Kurt Bengtsson", ImageURL = "/images/defaultuser.jpg" };
             _context.UserDatas.Add(userData);
             await _context.SaveChangesAsync();
             return userData;
@@ -106,12 +102,27 @@ namespace ExtremeWeatherBoard.DAL
             }
             return false;
         }
+        public async Task UpdateUserDataAsync(UserData userData)
+        {
+            _context.UserDatas.Update(userData);
+            await _context.SaveChangesAsync();
+        }
         public async Task PostUserImage(ClaimsPrincipal userPrincipal,IFormFile file)
         {
             var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Images", file.FileName);
             using (var stream = new FileStream(filePath, FileMode.Create))
             {
                 await file.CopyToAsync(stream);
+            }
+            var userid = _userManager.GetUserId(userPrincipal);
+            if (userid != null)
+            {
+                var userData = await _context.UserDatas.FirstOrDefaultAsync(ud => ud.UserId == userid);
+                if (userData != null)
+                {
+                    userData.ImageURL = $"/Images/{file.FileName}";
+                    await UpdateUserDataAsync(userData);
+                }
             }
         }
     }

@@ -15,6 +15,6 @@ namespace ExtremeWeatherBoard.Models
         public virtual ICollection<SubCategory>? SubCategories { get; set; }
         public int CreatorAdminUserDataId { get; set; }
         [ForeignKey("CreatorAdminUserDataId")]
-        public virtual AdminUserData? CreatorAdminUser { get; set; }
+        public virtual AdminUserData? CreatorAdminUserData { get; set; }
     }
 }
