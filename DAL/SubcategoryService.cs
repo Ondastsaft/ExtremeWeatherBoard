@@ -1,5 +1,4 @@
 ﻿using ExtremeWeatherBoard.Data;
-using ExtremeWeatherBoard.Data.Migrations;
 using ExtremeWeatherBoard.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,7 +11,13 @@ namespace ExtremeWeatherBoard.DAL
         {
             _context = context;
         }
-        public async Task<List<SubCategory>>? GetSubCategoriesFromParentIdAsync(int parentCategoryId)
+        public async Task<List<SubCategory>> GetSubCategoriesAsync()
+        {
+            var subCategories = await _context.SubCategories.ToListAsync();
+            return subCategories;
+        }
+
+        public async Task<List<SubCategory>> GetSubCategoriesFromParentIdAsync(int parentCategoryId)
         {
             var subCategories = await _context.SubCategories.Where(sc => sc.ParentCategoryId == parentCategoryId).ToListAsync();
             return subCategories;

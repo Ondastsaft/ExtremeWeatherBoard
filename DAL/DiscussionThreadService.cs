@@ -97,6 +97,16 @@ namespace ExtremeWeatherBoard.DAL
                 await _context.SaveChangesAsync();
             }
         }
+        public async Task<List<DiscussionThread>?> GetDiscussionThreadsRelatedTouserAsync(ClaimsPrincipal userPrincipal)
+        {
+            var user = await _userDataService.GetCurrentUserDataAsync(userPrincipal);
+            if (user != null)
+            {
+                var threads = await _context.DiscussionThreads.Where(dt => dt.DiscussionThreadUserDataId == user.Id).ToListAsync();
+                return threads;
+            }
+            return null;
+        }
 
     }
 }

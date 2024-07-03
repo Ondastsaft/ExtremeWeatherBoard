@@ -1,5 +1,5 @@
-using ExtremeWeatherBoard.Services;
 using ExtremeWeatherBoard.Interfaces;
+using ExtremeWeatherBoard.DAL;
 using ExtremeWeatherBoard.Pages.Shared.ViewModels;
 using ExtremeWeatherBoard.Pages.PageModels;
 
@@ -16,11 +16,11 @@ namespace ExtremeWeatherBoard.Pages
         {
             SideBarOptions = new SideBarPartialViewModel();
             SideBarOptions.NavigateTo = "/SubCategories";
-            SideBarOptions.SideBarOptions = (await _subCategoryService.GetSubCategoriesAsync(sidebarContentId))
-                .Cast<ISideBarOption>()
-                .ToList()
-                ;
-            int i = 0;
+            var sidebarOptions = await _subCategoryService.GetSubCategoriesFromParentIdAsync(sidebarContentId);
+            if (sidebarOptions != null)
+            {
+                SideBarOptions.SideBarOptions = sidebarOptions.Cast<ISideBarOption>().ToList();
+            }
         }
     }
 }

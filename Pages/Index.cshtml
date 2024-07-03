@@ -3,7 +3,18 @@
 @{
     ViewData["Title"] = "Home page";
 }
-
+@section Sidebar{
+        @if (Model.SideBarOptions != null)
+        {
+            <partial name="_SideBarPartial" model="Model.SideBarOptions" />
+        }        
+}
+@section MainContent{
+    <div class="container-fluid h-100">
+        <div class="row h-100" style="background-color: bisque">
+        </div>
+    </div>
+}
 
 
 @* <a href="/Admin/AdminLogAdmin/Index">Admin Log</a>

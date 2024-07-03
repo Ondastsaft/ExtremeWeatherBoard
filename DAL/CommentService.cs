@@ -14,6 +14,17 @@ namespace ExtremeWeatherBoard.DAL
             _context = context;
             _userDataService = userDataService;
         }
+        public async Task<List<Comment>?> GetCommentsRelatedToUserAsync(ClaimsPrincipal userPrincipal)
+        {
+            var userData = await _userDataService.GetCurrentUserDataAsync(userPrincipal);
+            if (userData != null)
+            {
+                List<Comment> comments = await _context.Comments.Where(c => c.CommentUserData == userData).ToListAsync();
+                return comments;
+            }
+            return null;
+        }
+
         public async Task<List<Comment>> GetCommentsAsync(int discussionThreadId)
         {
             List<Comment> comments = await _context.Comments.Where(c => c.ParentDiscussionThreadId == discussionThreadId).ToListAsync();

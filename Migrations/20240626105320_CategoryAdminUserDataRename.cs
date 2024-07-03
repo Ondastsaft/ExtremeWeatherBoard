@@ -2,10 +2,10 @@
 
 #nullable disable
 
-namespace ExtremeWeatherBoard.Data.Migrations
+namespace ExtremeWeatherBoard.Migrations
 {
     /// <inheritdoc />
-    public partial class UserInit : Migration
+    public partial class CategoryAdminUserDataRename : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

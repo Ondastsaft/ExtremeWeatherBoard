@@ -3,7 +3,6 @@ using ExtremeWeatherBoard.Interfaces;
 using ExtremeWeatherBoard.Models;
 using ExtremeWeatherBoard.Pages.PageModels;
 using ExtremeWeatherBoard.Pages.Shared.ViewModels;
-using ExtremeWeatherBoard.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -22,15 +21,15 @@ namespace ExtremeWeatherBoard.Pages
         {
             SideBarOptions = new SideBarPartialViewModel();
             SideBarOptions.NavigateTo = "/DiscussionThreads";
-            SideBarOptions.SideBarOptions = (await _subCategoryService.GetSubCategoriesAsync(sidebarContentId))
-                .Cast<ISideBarOption>()
-                .ToList();
+            var sidebarOptions = await _subCategoryService.GetSubCategoriesFromParentIdAsync(sidebarContentId);
+            if (sidebarOptions != null)
+            {
+                SideBarOptions.SideBarOptions = sidebarOptions.Cast<ISideBarOption>().ToList();
+            }
             MainContent = new MainContentViewModel();
             MainContent.MainContentList = (await _discussionThreadService.GetDiscussionThreadsAsync(mainContentId))
                 .Cast<IMainContent>().
                 ToList();
-            int i = 0;
-
         }
     }
 }

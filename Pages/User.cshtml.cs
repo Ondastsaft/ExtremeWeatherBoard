@@ -1,6 +1,8 @@
 using ExtremeWeatherBoard.DAL;
+using ExtremeWeatherBoard.Interfaces;
+using ExtremeWeatherBoard.Models;
 using ExtremeWeatherBoard.Pages.PageModels;
-using ExtremeWeatherBoard.Services;
+using ExtremeWeatherBoard.Pages.Shared.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -15,27 +17,100 @@ namespace ExtremeWeatherBoard.Pages
         private readonly SubCategoryService _subCategoryService;
         private readonly DiscussionThreadService _discussionThreadService;
         private readonly CommentService _commentService;
-        private readonly CategoryService _categoryService;
-        public void OnGet()
+        private readonly CategoryApiService _categoryApiService;
+        private readonly MessageService _messageService;
+        public UserData? CurrentUserData { get; set; }
+        public List<DiscussionThread>? DiscussionThreads { get; set; }
+        public List<Comment>? Comments { get; set; }
+        public List<Message>? Messages { get; set; }
+        public UserModel(
+            UserDataService userDataService
+            , UserManager<IdentityUser> userManager
+            , SubCategoryService subCategoryService
+            , DiscussionThreadService discussionThreadService
+            , CommentService commentService
+            , CategoryApiService categoryService
+            , MessageService messageService
+            )
         {
+            _userDataService = userDataService;
+            _userManager = userManager;
+            _subCategoryService = subCategoryService;
+            _discussionThreadService = discussionThreadService;
+            _commentService = commentService;
+            _categoryApiService = categoryService;
+            _messageService = messageService;
+        }
+        public async Task OnGetAsync()
+        {
+            SideBarOptions = new SideBarPartialViewModel();
+            SideBarOptions.NavigateTo = "/Categories";
+            var categories = await _categoryApiService.GetCategoriesAsync();
+            if (categories != null)
+            {
+                SideBarOptions.SideBarOptions = categories.Cast<ISideBarOption>().ToList();
+            }
+            await LoadDataFromUser();
+        }
+        public async Task LoadDataFromUser()
+        {
+            if (User.Identity?.IsAuthenticated == true)
+            {
+                CurrentUserData = await _userDataService.GetCurrentUserDataAsync(User);
+            }
+            if (CurrentUserData != null)
+            {
+                var usersThreads = await _discussionThreadService.GetDiscussionThreadsRelatedTouserAsync(User);
+                if (usersThreads != null)
+                {
+                    DiscussionThreads = usersThreads;
+                }
+                var usersComments = await _commentService.GetCommentsRelatedToUserAsync(User);
+                if (usersComments != null)
+                {
+                    Comments = usersComments;
+                }
+                var usersMessages = await _messageService.GetMessagesRelatedToUserAsync(User);
+                if (usersMessages != null)
+                {
+                    Messages = usersMessages;
+                }
+            }
         }
         public async Task<IActionResult> OnPostAsync(IFormFile UploadedImage)
         {
-            if (UploadedImage != null)
+            if (User.Identity?.IsAuthenticated == true)
             {
-                if (UploadedImage.Length > 5 * 1024 * 1024)
+                if (UploadedImage != null)
                 {
-                    ModelState.AddModelError("UploadedImage", "The file size exceeds 5 MB.");
-                    return Page();
-                }
-                if (!UploadedImage.ContentType.StartsWith("image/"))
-                {
-                    ModelState.AddModelError("UploadedImage", "Only image files are allowed.");
-                    return Page();
-                }
-                await _userDataService.PostUserImage(User, UploadedImage);
+                    if (CheckImageType(UploadedImage))
+                    {
+                        await _userDataService.PostUserImage(User, UploadedImage);
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("UploadedImage", "The file size exceeds 5 MB or is not an image");
+                        return Page();
+                    }
+                } 
             }
             return Page();
+        }
+        public bool CheckImageType(IFormFile image)
+        {
+            if (image != null)
+            {              
+                if (image.Length > 5 * 1024 * 1024)
+                {
+                    ModelState.AddModelError("UploadedImage", "The file size exceeds 5 MB.");
+                    return false;
+                }
+                if (image.ContentType.StartsWith("image/"))
+                {
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }

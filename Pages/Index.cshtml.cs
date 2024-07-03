@@ -1,7 +1,6 @@
 using ExtremeWeatherBoard.Interfaces;
 using ExtremeWeatherBoard.Data;
 using ExtremeWeatherBoard.Pages.Shared.ViewModels;
-using ExtremeWeatherBoard.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Text.Json;
@@ -20,21 +19,20 @@ namespace ExtremeWeatherBoard.Pages
         private readonly CategoryApiService _categoryApiService;
         private readonly UserDataService _userDataService;
         private readonly UserManager<IdentityUser> _userManager;
-        //private readonly MockDataGenerator _dataGenerator;
+        private readonly MockDataGenerator _dataGenerator;
         private static Uri BaseAdress = new Uri("https://localhost:44311/api/");
 
-        public IndexModel(  CategoryApiService categoryApiService,
-                            UserDataService userDataService, 
-                            UserManager<IdentityUser> usermanager
-                            //MockDataGenerator dataGenerator
-                            )
-
+        public IndexModel(  
+            CategoryApiService categoryApiService
+            ,UserDataService userDataService 
+            ,UserManager<IdentityUser> usermanager
+            , MockDataGenerator dataGenerator
+            )
         {
             _categoryApiService = categoryApiService;
             _userDataService = userDataService;
             _userManager = usermanager;
-            //_dataGenerator = dataGenerator;
-
+            _dataGenerator = dataGenerator;
         }
         public async Task OnGetAsync()
         {
@@ -43,9 +41,10 @@ namespace ExtremeWeatherBoard.Pages
             SideBarOptions = new SideBarPartialViewModel();
             SideBarOptions.NavigateTo = "/Categories";
             var categories = await _categoryApiService.GetCategoriesAsync();
-            SideBarOptions.SideBarOptions = (await _categoryApiService.GetCategoriesAsync())
-            .Cast<ISideBarOption>()
-            .ToList();
+            if (categories != null)
+            {
+                SideBarOptions.SideBarOptions = categories.Cast<ISideBarOption>().ToList();
+            }
         }
 
     }
