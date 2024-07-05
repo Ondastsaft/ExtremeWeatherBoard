@@ -17,6 +17,19 @@ namespace ExtremeWeatherBoard.DAL
             _userDataService = userDataService;
             _userManager = userManager;
         }
+        public async Task<Message?> GetMessageAsync(int messageId, ClaimsPrincipal userPrincipal)
+        {
+            var message = await _context.Messages.FirstOrDefaultAsync(m => m.Id == messageId);
+            var userData = await _userDataService.GetCurrentUserDataAsync(userPrincipal);
+            if (message != null && userData != null)
+            {
+                if (message.SenderId == userData.Id || message.ReceiverId == userData.Id)
+                {
+                    return message;
+                }
+            }
+            return null;
+        }
         public async Task<List<Message>> GetFirstMessageForEachtThreadAsync(ClaimsPrincipal userPrincipal)
         {
             List<Message> messageThreads = new List<Message>();
@@ -87,7 +100,7 @@ namespace ExtremeWeatherBoard.DAL
             var userData = await _userDataService.GetCurrentUserDataAsync(userPrincipal);
 
             List<Message> messages = new List<Message>();
-                    var sentMessages = await _context.Messages.Where(m => m.SenderId == userData.Id).ToListAsync();
+                    var sentMessages = await _context.Messages.Include(m => m.Sender).Include(m => m.Receiver).Where(m => m.SenderId == userData.Id).ToListAsync();
                     foreach (var sentMessage in sentMessages)
                     {
                         messages.Add(sentMessage);
@@ -99,5 +112,7 @@ namespace ExtremeWeatherBoard.DAL
                     }                            
             return messages;
         }
+     
+        
     }
 }

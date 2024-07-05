@@ -34,9 +34,10 @@
                             {
                                 <li class="nav-item">
                                     <a class="nav-link text-dark" asp-area="" asp-page="/User">User</a>
+                                </li>
+
                                 <li class="nav-item">
                                     <a class="nav-link text-dark" asp-area="" asp-page="/Messages">Messages</a>
-                                </li>
                                 </li>
                             }
                         }
@@ -52,7 +53,7 @@
     <div style="display: flex; flex-grow: 1;">
         <div class="container flex-grow-1" style="display: flex; flex-direction: row; min-height: 0;">
             <div class="row flex-grow-1 w-100">
-                <div class="col-md-3" style="background-color: darkslategray; display: flex; flex-direction: column;">
+                <div class="col-md-2  border-end border-2" style="display: flex; flex-direction: column;">
                     @await RenderSectionAsync("Sidebar", required: false)
                 </div>
                 <main role="main" class="col-md-9">

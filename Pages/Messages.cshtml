@@ -1,4 +1,15 @@
 ﻿@page
 @model ExtremeWeatherBoard.Pages.MessagesModel
 @{
+    @section MainContent
+    {
+    @if (Model.MessageThread != null)
+    {
+            <partial name="PagePartials/Messages/_messageThreadPartial" model="Model" />
+    }
+    else if (Model.Messages != null)
+    {
+            <partial name="PagePartials/Messages/_allUsersMessagesPartial" model="Model" />
+    }
+    }
 }

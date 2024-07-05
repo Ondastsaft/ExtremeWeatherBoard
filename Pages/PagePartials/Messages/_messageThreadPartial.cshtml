@@ -1,0 +1,66 @@
+﻿@{
+    string messageTitle = "";
+    @if
+    (
+     Model.MessageThread != null &&
+     Model.MessageThread.Count > 0 &&
+     Model.MessageThread[0].Title != null
+    )
+    {
+        Models.UserData user = new Models.UserData();
+        Models.UserData recipient = new Models.UserData();
+        messageTitle = Model.MessageThread[0].Title;
+        @if (Model.MessageThread[0].SenderId == Model.UserDataId)
+        {
+            user = Model.MessageThread[0].Sender;
+            recipient = Model.MessageThread[0].Receiver;
+        }
+        else
+        {
+            user = Model.MessageThread[0].Receciver;
+            recipient = Model.MessageThread[0].Sender;
+        }
+        <div class="row">
+            <div class="col-6">
+                <span class="page-header">@messageTitle</span>
+            </div>
+            <div class="col-6 text-right">
+                <a href="/messages?receiverId=@recipient.Id?messageThreadId=@Model.MessageThread[0].Id" class="btn btn-primary">Reply</a>
+            </div>
+        </div>
+        <p class="page-header"></p>
+        <div class="container-scrollable-maincontent">
+            @foreach (Models.Message message in Model.MessageThread)
+            {
+                if (message.SenderId == Model.UserDataId)
+                {
+                    <div class="row justify-content-start">
+                        <div class="col-8 chat-message chat-message-left">
+                        <div class="chat-message-header-left">
+                                @user.Name
+                                <span style="font-size:0.8em;justify-content:flex-end; margin-right:3em;">@message.TimeStamp.ToLocalTime().ToString()</span>
+                            </div>
+                            <div>
+                                @message.Text
+                            </div>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <div class="row justify-content-end">
+                        <div class="col-8 chat-message chat-message-right">
+                            <div class="chat-message-header-right">
+                                @recipient.Name
+                                <span style="font-size:0.8em; justify-content:start; margin-left:3em;">@message.TimeStamp.ToLocalTime().ToString()</span>
+                            </div>
+                            <div>
+                                @message.Text
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+    }
+}

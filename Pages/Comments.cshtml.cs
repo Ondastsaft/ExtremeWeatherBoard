@@ -28,12 +28,14 @@ namespace ExtremeWeatherBoard.Pages
             {
                 SideBarOptions = new SideBarPartialViewModel() { NavigateTo = "/DiscussionThreads", SideBarOptions = subCategories.Cast<ISideBarOption>().ToList() };
             }
-            var comments = await _commentService.GetCommentsAsync(mainContentId);
+            var comments = await _commentService.GetCommentsAsync(mainContentId);           
             if (comments != null)
             {
+                var parentDiscussionThread = await _discussionThreadService.GetDiscussionThreadAsync(mainContentId);
                 MainContent = new MainContentViewModel()
                 {
-                    MainContentList = comments.ToList(),
+                    MainContentList = comments,
+                    CommentsParentDiscussionThread = parentDiscussionThread
                 };
             }
         }

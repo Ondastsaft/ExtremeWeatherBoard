@@ -10,12 +10,12 @@
     }
     @section MainContent
     {
-        <div class="row h-25" style="background-color: bisque">
-            <div class="col-md-9 content-area" style="background-color:aqua; display: flex; flex-direction: column; justify-content: space-between;">
+        <div class="row h-25">
+            <div class="col-md-9 content-area" style=" display: flex; flex-direction: column; justify-content: space-between;">
                 <div>
                     @if (Model.CurrentUserData != null)
                     {
-                        <h1>Welcome @Model.CurrentUserData.Name</h1>
+                        <p class="page-header">Welcome @Model.CurrentUserData.Name</p>
                     }
                     @if (Model.CurrentUserData == null)
                     {
@@ -30,7 +30,7 @@
                 </div>
             </div>
 
-            <div class="col-md-3 h-100" style="background-color:beige; display:flex; flex-direction:row; align-items:center; justify-content:center; margin:auto">
+            <div class="col-md-3 h-100" style="display:flex; flex-direction:row; align-items:center; justify-content:center; margin:auto">
                 @if (Model.CurrentUserData != null)
                 {
                     <img src="@Model.CurrentUserData.ImageURL" alt="User Image" width="200" height="200" />
@@ -43,15 +43,15 @@
         </div>
 
 
-        <div class="row h-75" style="background-color:blanchedalmond;">
+        <div class="row h-75" >
             <div class="col-4">
-                <p class="border-3"><h3 a asp-page="/Messages">Messages</h3></p>
+                <p><h3 a asp-page="/Messages">Messages</h3></p>
                 @if (Model.Messages?.Count > 0)
                 {
                     @for (int i = 0; i < 4; i++)
                     {
                         var message = Model.Messages[i];
-                        <div class="card" style="margin-bottom:10px; height=" >
+                        <div class="card" style="margin-bottom:10px;" >
                             <div class="card-header card-header-restricted" rows="2">
                                 <a class="card-title" 
                                 a asp-page="/messages" 
@@ -79,7 +79,7 @@
                                 <div class="card-header card-header-restricted" rows="1" >
                                     <p>
                                         <a class="card-title"
-                                           asp-page="/discussionthreads"
+                                           asp-page="/comments"
                                            asp-route-mainContentId="@thread.Id"
                                            asp-route-sideBarContentId="@thread.SubCategoryId">
                                             @thread.Title
@@ -101,13 +101,13 @@
                 {
                     @for (int i = 0; i < 4; i++)
                     {
-                        var comment = Model.Comments[i];
+                        Models.Comment comment = Model.Comments[i];
                         <div class="card" style="margin-bottom:10px;">
                             <div class="card-header card-header-restricted" rows="2">
                                 <p>
                                     <a class="card-title"
-                                       asp-page="/discussionthreads"
-                                       asp-route-mainContentId="@comment.Id"
+                                       asp-page="/"
+                                       asp-route-mainContentId="@comment."
                                        asp-route-sideBarContentId="@comment.ParentDiscussionThread?.SubCategoryId">
                                         @comment.Title
                                     </a>

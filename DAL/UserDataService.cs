@@ -21,8 +21,8 @@ namespace ExtremeWeatherBoard.DAL
         {         
                 if (userPrincipal.Identity?.IsAuthenticated != null)
                 {
-                    var userId = _userManager.GetUserId(userPrincipal);
-                    if (userId != null)
+                var userId = _userManager.GetUserId(userPrincipal);
+                if (userId != null)
                     {
                         var currentUserData = await _context.UserDatas.FirstOrDefaultAsync(ud => ud.UserId == userId);
                         if (currentUserData != null)
