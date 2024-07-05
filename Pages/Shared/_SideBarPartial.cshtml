@@ -3,7 +3,7 @@
     
     string navigateTo = Model.NavigateTo;
     <div>
-        <table>
+        <table class="table table-hover">
             @if (sideBarOptions != null)
             @foreach (var item in sideBarOptions)
             {           
@@ -12,16 +12,16 @@
                                 @switch (navigateTo)
                                 {
                                     case "/Categories":
-                                        <a asp-page="/SubCategories" asp-route-sidebarContentId="@item.Id">@item.Title</a>
+                                        <a asp-page="/SubCategories" asp-route-sidebarContentId="@item.Id" class="btn">@item.Title</a>
                                         break;
                                     case "/SubCategories":
-                                        <a asp-page="/DiscussionThreads" asp-route-sidebarContentId="@item.Id" asp-route-mainContentId="@item.Id">@item.Title</a>
+                                    <a asp-page="/DiscussionThreads" asp-route-sidebarContentId="@item.Id" asp-route-mainContentId="@item.Id" class="btn">@item.Title</a>
                                         break;
                                     case "/DiscussionThreads":
-                                        <a asp-page="/Comments" asp-route-sidebarContentId="@item.Id" asp-route-mainContentId="@item.Id">@item.Title</a>
+                                    <a asp-page="/Comments" asp-route-sidebarContentId="@item.Id" asp-route-mainContentId="@item.Id" class="btn">@item.Title</a>
                                         break;
                                     case "/Comments":
-                                        <a asp-page="/Comments" asp-route-sidebarContentId="@item.Id" asp-route-mainContentId="@item.Id">@item.Title</a>
+                                    <a asp-page="/Comments" asp-route-sidebarContentId="@item.Id" asp-route-mainContentId="@item.Id" class="btn">@item.Title</a>
                                         break;
                                 }
                     </td>

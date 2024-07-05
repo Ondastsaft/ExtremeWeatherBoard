@@ -1,7 +1,7 @@
 ﻿
 @{
     var mainContent = Model.MainContentList;
-    if (mainContent[0] is Models.DiscussionThread)
+    @if (mainContent[0] is Models.DiscussionThread)
     {
         <style>
              .card-body {
@@ -44,7 +44,7 @@
         
         
     }
-    if (mainContent[0] is Models.Comment)
+    @if (mainContent[0] is Models.Comment)
     {
         var discussionThread = Model.CommentsParentDiscussionThread;
             <div class="row-cols-auto">
@@ -58,7 +58,7 @@
                     </div>
             </div>
 
-            foreach (var item in mainContent)
+            @foreach (var item in mainContent)
             {
                     <div class="row">
                             <div class="col-3">

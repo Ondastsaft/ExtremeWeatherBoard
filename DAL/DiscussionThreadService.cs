@@ -22,6 +22,12 @@ namespace ExtremeWeatherBoard.DAL
                                            .ToListAsync();
             return threads;
         }
+        public async Task<DiscussionThread?> GetDiscussionThreadAsync(int discussionThreadId)
+        {
+            var discussionThread = await _context.DiscussionThreads
+                                                .FirstOrDefaultAsync(dt => dt.Id == discussionThreadId);
+            return discussionThread;
+        }
         public async Task PostDiscussionThreadAsync(ClaimsPrincipal userPrincipal, int subCategoryId, string title, string text)
         {
             var user = await _userDataService.GetCurrentUserDataAsync(userPrincipal);

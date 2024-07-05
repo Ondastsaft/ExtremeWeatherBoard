@@ -3,17 +3,17 @@
 @{
     ViewData["Title"] = "Home page";
 }
-@section Sidebar{
-        @if (Model.SideBarOptions != null)
-        {
-            <partial name="_SideBarPartial" model="Model.SideBarOptions" />
-        }        
+@section Sidebar {
+    @if (Model.SideBarOptions != null)
+    {
+        <partial name="_SideBarPartial" model="Model.SideBarOptions" />
+    }
 }
-@section MainContent{
-    <div class="container-fluid h-100">
-        <div class="row h-100" style="background-color: bisque">
-        </div>
-    </div>
+@section MainContent {
+    @if (Model.MainContent != null)
+    {
+        <partial name="_MainContentPartial" model="Model.MainContent" />
+    }
 }
 
 

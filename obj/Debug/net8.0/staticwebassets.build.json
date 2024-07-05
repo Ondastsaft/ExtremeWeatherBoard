@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "ivhVbAlk+uZCWbd+Tby+ERGnAuXODqt5v4OPcEhsoYA=",
+  "Hash": "UDDYDqreqYAV+0Z7XZSEsZHgWYJY5Q5pMpLtcfqszlo=",
   "Source": "ExtremeWeatherBoard",
   "BasePath": "_content/ExtremeWeatherBoard",
   "Mode": "Default",
@@ -91,6 +91,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\favicon.ico"
+    },
+    {
+      "Identity": "C:\\Repos\\ExtremeWeatherBoard\\ExtremeWeatherBoard\\wwwroot\\Images\\2022-09-05 13_15_51-Presentation.pptx - Microsoft PowerPoint Online — Mozilla Firefox.png",
+      "SourceId": "ExtremeWeatherBoard",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Repos\\ExtremeWeatherBoard\\ExtremeWeatherBoard\\wwwroot\\",
+      "BasePath": "_content/ExtremeWeatherBoard",
+      "RelativePath": "Images/2022-09-05 13_15_51-Presentation.pptx - Microsoft PowerPoint Online — Mozilla Firefox.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Images\\2022-09-05 13_15_51-Presentation.pptx - Microsoft PowerPoint Online — Mozilla Firefox.png"
     },
     {
       "Identity": "C:\\Repos\\ExtremeWeatherBoard\\ExtremeWeatherBoard\\wwwroot\\Images\\defaultuser.jpg",

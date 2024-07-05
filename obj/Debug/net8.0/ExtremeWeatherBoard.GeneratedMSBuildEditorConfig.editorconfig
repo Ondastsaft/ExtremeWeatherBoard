@@ -50,6 +50,14 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTWVzc2FnZXMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Repos/ExtremeWeatherBoard/ExtremeWeatherBoard/Pages/PagePartials/Messages/_allUsersMessagesPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUGFnZVBhcnRpYWxzXE1lc3NhZ2VzXF9hbGxVc2Vyc01lc3NhZ2VzUGFydGlhbC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Repos/ExtremeWeatherBoard/ExtremeWeatherBoard/Pages/PagePartials/Messages/_messageThreadPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUGFnZVBhcnRpYWxzXE1lc3NhZ2VzXF9tZXNzYWdlVGhyZWFkUGFydGlhbC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Repos/ExtremeWeatherBoard/ExtremeWeatherBoard/Pages/Privacy.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUHJpdmFjeS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
