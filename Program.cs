@@ -1,3 +1,4 @@
+using Azure.Identity;
 using ExtremeWeatherBoard.DAL;
 using ExtremeWeatherBoard.Data;
 using ExtremeWeatherBoard.Interfaces;
@@ -14,7 +15,9 @@ namespace ExtremeWeatherBoard
         {
 
             var builder = WebApplication.CreateBuilder(args);
-            // Add services to the container.
+            //var keyVaultEndpoint = new Uri($"https://{builder.Configuration["SecretKeyDungeon"]}.vault.azure.net/");
+            //builder.Configuration.AddAzureKeyVault(keyVaultEndpoint, new DefaultAzureCredential());
+            //var connectionString = builder.Configuration["squirrelstring"];
             var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(connectionString));

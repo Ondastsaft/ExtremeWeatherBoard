@@ -44,22 +44,23 @@ namespace ExtremeWeatherBoard.DAL
         //}
 
         public async Task<string> PostCategoryAsync(string title, AdminUserData poster)
-        {
-            var newCategory = new Category() { Title = title, CreatorAdminUserData = poster, TimeStamp = DateTime.UtcNow };
-            _context.Categories.Add(newCategory);
-            await _context.SaveChangesAsync();
-            return "true";
-        }
-        //public async Task<string> PostCategoryAsync(string title, AdminUserData poster)
-        //{           
-        //    Category newCategory = new Category() {Title = title, CreatorAdminUserData = poster,  TimeStamp = DateTime.UtcNow};
+            {
+                var newCategory = new Category() { Title = title, CreatorAdminUserData = poster, TimeStamp = DateTime.UtcNow };
+                _context.Categories.Add(newCategory);
+                await _context.SaveChangesAsync();
+                return "true";
+            }
+
+        //    public async Task<string> PostCategoryAsync(string title, AdminUserData poster)
+        //{
+        //    Category newCategory = new Category() { Title = title, CreatorAdminUserData = poster, TimeStamp = DateTime.UtcNow };
         //    string categoryJson = JsonConvert.SerializeObject(newCategory);
         //    using (HttpClient client = new HttpClient())
         //    {
         //        client.BaseAddress = BaseAdress;
         //        using var content = new StringContent(categoryJson, System.Text.Encoding.UTF8, "application/json");
         //        HttpResponseMessage response = await client.PostAsync("AddCategory", content);
-        //        if (response.IsSuccessStatusCode) 
+        //        if (response.IsSuccessStatusCode)
         //        {
         //            return "true";
         //        }
