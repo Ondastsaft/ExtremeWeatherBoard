@@ -106,8 +106,8 @@
                             <div class="card-header card-header-restricted" rows="2">
                                 <p>
                                     <a class="card-title"
-                                       asp-page="/"
-                                       asp-route-mainContentId="@comment."
+                                       asp-page="/comments"
+                                       asp-route-mainContentId="@comment.ParentDiscussionThread?.Id"
                                        asp-route-sideBarContentId="@comment.ParentDiscussionThread?.SubCategoryId">
                                         @comment.Title
                                     </a>
