@@ -47,7 +47,7 @@
     @if (mainContent[0] is Models.Comment)
     {
         var discussionThread = Model.CommentsParentDiscussionThread;
-            <div class="row-cols-auto">
+            <div class="row-cols-auto" style="margin:1em; margin-bottom:3em;">
                     <div class="card">
                     <div class="card-header">
                     "User name with link" <br> @discussionThread.Title;
@@ -60,10 +60,10 @@
 
             @foreach (var item in mainContent)
             {
-                    <div class="row">
+                    <div class="row" style="margin:1em;">
                             <div class="col-3">
                             </div>
-                            <div class="col-6">
+                            <div class="col-9">
                                     <div classs="card">
                                             <div class="card-header">
                                             "UserName"
