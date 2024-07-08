@@ -44,235 +44,319 @@
                 "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. " +
                 "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
         }
-        private async Task FillMessages()
-        {
-            var text = LoadRandomTexts();
-            var messages = await _context.Messages.Include(m => m.Receiver).Include(m => m.Sender).ToListAsync();
-            if (messages != null && messages.Count > 0)
-            {
-                foreach (var message in messages)
-                {
-                    Random random = new Random();
-                    int loop = random.Next(3, 15);
-                    for (int i = 0; i < loop; i++)
-                    {
-                        Message newMessage = new Message()
-                        {
-                            Receiver = message.Receiver,
-                            Sender = message.Sender,
-                            Text = text[random.Next(0, text.Count)],
-                            TimeStamp = DateTime.Now.AddSeconds(i),
-                            Title = message.Title,
-                            Read = false
-                        };
-                        if (random.Next(0, 10) > 5)
-                        {
-                            newMessage.Receiver = message.Sender;
-                            newMessage.Sender = message.Receiver;
-                        }
-                        await _context.Messages.AddAsync(newMessage);
-                        await _context.SaveChangesAsync();
-                    }
-                }
-            }
-        }
-        private async Task LoadIdentityUsers()
-        {
-            for (int i = 11; i <= 20; i++)
-            {
-                if (await _userManager.FindByNameAsync($"test{i}") == null)
-                {
-                    var user = new IdentityUser
-                    {
-                        UserName = $"test{i}",
-                        Email = $"test{i}@example.com",
-                        EmailConfirmed = true,
-                        SecurityStamp = Guid.NewGuid().ToString() // Set the SecurityStamp here
-                    };
-                    string password = $"Password{i}{i}{i}!";
-                    await _userManager.CreateAsync(user, password);
-                }
-            }
-        }
-        private async Task LoadUserDatas()
-        {
-            var identityUsers = await _userManager.Users.ToListAsync();
-            if (identityUsers != null && identityUsers.Count > 0)
-            {
-                var adminUser = identityUsers[0];
-                await _adminService.PostAdminUserDataAsync(adminUser.Id);
+        //private async Task FillMessages()
+        //{
+        //    var text = LoadRandomTexts();
+        //    var messages = await _context.Messages.Include(m => m.Receiver).Include(m => m.Sender).ToListAsync();
+        //    if (messages != null && messages.Count > 0)
+        //    {
+        //        foreach (var message in messages)
+        //        {
+        //            Random random = new Random();
+        //            int loop = random.Next(3, 15);
+        //            for (int i = 0; i < loop; i++)
+        //            {
+        //                Message newMessage = new Message()
+        //                {
+        //                    Receiver = message.Receiver,
+        //                    Sender = message.Sender,
+        //                    Text = text[random.Next(0, text.Count)],
+        //                    TimeStamp = DateTime.Now.AddSeconds(i),
+        //                    Title = message.Title,
+        //                    Read = false
+        //                };
+        //                if (random.Next(0, 10) > 5)
+        //                {
+        //                    newMessage.Receiver = message.Sender;
+        //                    newMessage.Sender = message.Receiver;
+        //                }
+        //                await _context.Messages.AddAsync(newMessage);
+        //                await _context.SaveChangesAsync();
+        //            }
+        //        }
+        //    }
+        //}
+        ////private async Task LoadIdentityUsers()
+        ////{
+        ////    for (int i = 11; i <= 20; i++)
+        ////    {
+        ////        if (await _userManager.FindByNameAsync($"test{i}") == null)
+        ////        {
+        ////            var user = new IdentityUser
+        ////            {
+        ////                UserName = $"test{i}",
+        ////                Email = $"test{i}@example.com",
+        ////                EmailConfirmed = true,
+        ////                SecurityStamp = Guid.NewGuid().ToString() // Set the SecurityStamp here
+        ////            };
+        ////            string password = $"Password{i}{i}{i}!";
+        ////            await _userManager.CreateAsync(user, password);
+        ////        }
+        ////    }
+        ////}
+        //private async Task LoadUserDatas()
+        //{
+        //    List<string> mockNames = new List<string>() { 
+        //        "Kurt Bengtsson", 
+        //        "Sven Svensson", 
+        //        "Kenneth Jansson", 
+        //        "Björn Larsson", 
+        //        "Mehdi Abojaffar", 
+        //        "Lena Asp", 
+        //        "Frida Karlsson" };
+        //    var identityUsers = await _userManager.Users.ToListAsync();
+        //    int namecounter = 0;
+        //    if (identityUsers != null && identityUsers.Count > 0)
+        //    {
+        //        var adminUser = 
+        //            identityUsers.FirstOrDefault(iu => iu.Email == "admin@admin.se");
+        //        if (adminUser is IdentityUser)
+        //        {
+        //            await _adminService.PostAdminUserDataAsync(adminUser.Id);
+        //        }
+        //        for (int i = 0; i < identityUsers.Count; i++)
+        //        {
+        //            var user = identityUsers[i];
+        //            await _userDataService.PostUserDataAsync(user.Id, mockNames[namecounter]);
+        //            if (namecounter == mockNames.Count - 1)
+        //            {
+        //                namecounter = 0;
+        //            }
+        //            else
+        //            {
+        //                namecounter++;
+        //            }
+        //        }
+        //    }
+        //}
+        //private async Task LoadCategories()
+        //{
+        //    var adminUser = _context.AdminUserDatas.FirstOrDefault();
+        //    if (adminUser != null)
+        //    {
+        //        for (int i = 1; i < 5; i++)
+        //        {
+        //            Category category = new Category()
+        //            {
+        //                Title = $"Title Category {i}",
+        //                TimeStamp = DateTime.Now,
+        //                CreatorAdminUserData = adminUser
+        //            };
+        //            await _context.SaveChangesAsync();
+        //            await _categoryApiService.PostCategoryAsync($"Title Category {i}", adminUser);
+        //        }
+        //    }
+        //}
+        //private async Task LoadSubCategories()
+        //{
+        //    var adminUser = await _context.AdminUserDatas.FirstOrDefaultAsync();
+        //    var categories = await _categoryApiService.GetCategoriesAsync();
+        //    if (categories != null && categories.Count > 0)
+        //    {
+        //        foreach (var savedCategory in categories)
+        //        {
+        //            var categorysSubcategories = await _subCategoryService.GetSubCategoriesFromParentIdAsync(savedCategory.Id);
+        //            if (categorysSubcategories.Count<5)
+        //            {
+        //                for (int i = 0; i < 6; i++)
+        //                {
+        //                    SubCategory subCategory = new SubCategory()
+        //                    {
+        //                        ParentCategoryId = savedCategory.Id,
+        //                        Title = $"SubCategory {i} of {savedCategory.Title}",
+        //                        TimeStamp = DateTime.Now,
+        //                        CreatorAdminUserData = adminUser
+        //                    };
+        //                    await _context.SubCategories.AddAsync(subCategory);
+        //                    await _context.SaveChangesAsync();
+        //                }
+        //            }
+        //        }
+        //    }
+        //}
+        //private async Task LoadDiscussionThreads()
+        //{
+        //    var subCategories = await _context.SubCategories.ToListAsync();
+        //    //bool threadsExist = await _context.DiscussionThreads.AnyAsync();
+        //    bool threadsExist = false;
+        //    if (subCategories is List<SubCategory> && !threadsExist)
+        //    {
+        //        var users = await _context.UserDatas.ToListAsync();
+        //        if (users is List<UserData> && users.Count > 0)
+        //        {
+        //            int userCounter = 0;
+        //            foreach (var subCategory in subCategories)
+        //            {
+        //                for (int i = 0; i < 9; i++)
+        //                {
+        //                    var user = users[userCounter];
+        //                    if (user is UserData)
+        //                    {
+        //                        DiscussionThread subThread = new DiscussionThread()
+        //                        {
+        //                            DiscussionThreadUserData = user
+        //                            ,
+        //                            SubCategory = subCategory
+        //                            ,
+        //                            Title = $"DiscussionThread {i} in {subCategory.Title}"
+        //                            ,
+        //                            TimeStamp = DateTime.Now
+        //                            ,
+        //                            Text = LoremIpsum
+        //                        };
+        //                        await _context.DiscussionThreads.AddAsync(subThread);
+        //                        await _context.SaveChangesAsync();
+        //                        if (userCounter == users.Count-1)
+        //                        {
+        //                            userCounter = 0;
+        //                        }
+        //                        userCounter++;
+        //                    }
+        //                }
+        //            }
+        //        }
 
-                for (int i = 0; i <= identityUsers.Count; i++)
-                {
-                    var user = identityUsers[i];
-                    await _userDataService.PostUserDataAsync(user.Id);
-                }
-            }
-        }
-        private async Task LoadCategories()
-        {
-            var adminUser = _context.AdminUserDatas.FirstOrDefault();
-            if (adminUser != null)
-            {
-                for (int i = 1; i < 5; i++)
-                {
-                    Category category = new Category()
-                    {
-                        Title = $"Title Category {i}",
-                        TimeStamp = DateTime.Now,
-                        CreatorAdminUserData = adminUser
-                    };
-                    await _context.Categories.AddAsync(category);
-                    await _context.SaveChangesAsync();
-                    await _categoryApiService.PostCategoryAsync($"Title Category {i}", adminUser);
-                }
-            }
-        }
-        private async Task LoadSubCategories()
-        {
-            var adminUser = await _context.AdminUserDatas.FirstOrDefaultAsync();
-            var categories = await _categoryApiService.GetCategoriesAsync();
-            if (categories != null && categories.Count > 0)
-            {
-                foreach (var savedCategory in categories)
-                {
-                    var categorysSubcategories = await _subCategoryService.GetSubCategoriesFromParentIdAsync(savedCategory.Id);
-                    if (categorysSubcategories != null)
-                    {
-                        for (int i = 0; i < 5 - categorysSubcategories.Count; i++)
-                        {
-                            SubCategory subCategory = new SubCategory()
-                            {
-                                ParentCategoryId = savedCategory.Id,
-                                Title = $"Title SubCategory {i}",
-                                TimeStamp = DateTime.Now,
-                                CreatorAdminUserData = adminUser
-                            };
-                            await _context.SubCategories.AddAsync(subCategory);
-                            await _context.SaveChangesAsync();
-                        }
-                    }
-                }
-            }
-        }
-        private async Task LoadDiscussionThreads()
-        {
-            var subCategories = await _context.SubCategories.ToListAsync();
-            bool threadsExist = await _context.DiscussionThreads.AnyAsync();
-            if (subCategories is List<SubCategory> && !threadsExist)
-            {
-                var users = await _context.UserDatas.ToListAsync();
-                if (users is List<UserData> && users.Count > 0)
-                {
-                    int count = users.Count();
-                    int idCounter = 1;
-                    int userCounter = 1;
-                    foreach (var subCategory in subCategories)
-                    {
-                        for (int i = 0; i < 9; i++)
-                        {
-                            var user = users.FirstOrDefault(u => u.Id == userCounter);
-                            if (user is UserData)
-                            {
-                                DiscussionThread subThread = new DiscussionThread()
-                                {
-                                    DiscussionThreadUserData = user
-                                    ,
-                                    SubCategory = subCategory
-                                    ,
-                                    Title = $"DiscussionThread id {i} of subcategory {subCategory.Id}"
-                                    ,
-                                    TimeStamp = DateTime.Now
-                                    ,
-                                    Text = LoremIpsum
-                                };
-                                await _context.DiscussionThreads.AddAsync(subThread);
-                                await _context.SaveChangesAsync();
-                                if (userCounter == count)
-                                {
-                                    userCounter = 0;
-                                }
-                                userCounter++;
-                                idCounter++;
-                            }
-                        }
-                    }
-                }
+        //    }
+        //}
+        //private async Task LoadComments()
+        //{
+        //    var users = await _context.UserDatas.ToListAsync();
+        //    var discussionThreads = await _context.DiscussionThreads.ToListAsync();
+        //    if (users != null && discussionThreads != null)
+        //    {
+        //        foreach (DiscussionThread discussionThread in discussionThreads)
+        //        {
+        //            for (int i = 0; i <= users.Count - 1; i++)
+        //            {
+        //                Comment newComment = new Comment()
+        //                {
+        //                    CommentUserData = users[i]
+        //                    ,
+        //                    ParentDiscussionThreadId = discussionThread.Id
+        //                    ,
+        //                    TimeStamp = DateTime.Now
+        //                    ,
+        //                    Title = $"UD {i}-DT {discussionThread.Id}-SC{discussionThread.SubCategoryId}"
+        //                    ,
+        //                    Text = LoremIpsum
+        //                };
+        //                await _context.Comments.AddAsync(newComment);
+        //                await _context.SaveChangesAsync();
+        //            }
+        //        }
+        //    }
+        //}
 
-            }
-        }
-        private async Task LoadComments()
-        {
-            var users = await _context.UserDatas.ToListAsync();
-            var discussionThreads = await _context.DiscussionThreads.ToListAsync();
-            if (users != null && discussionThreads != null)
-            {
-                foreach (DiscussionThread discussionThread in discussionThreads)
-                {
-                    for (int i = 0; i <= users.Count - 1; i++)
-                    {
-                        Comment newComment = new Comment()
-                        {
-                            CommentUserData = users[i]
-                            ,
-                            ParentDiscussionThreadId = discussionThread.Id
-                            ,
-                            TimeStamp = DateTime.Now
-                            ,
-                            Title = $"UD {i}-DT {discussionThread.Id}-SC{discussionThread.SubCategoryId}"
-                            ,
-                            Text = LoremIpsum
-                        };
-                        await _context.Comments.AddAsync(newComment);
-                        await _context.SaveChangesAsync();
-                    }
-                }
-            }
-        }
+        //public async Task LoadMessages()
+        //{
+        //    var users = await _context.UserDatas.ToListAsync();
+        //    if (users != null)
+        //    {
+        //        for (int i = 0; i < users.Count; i++)
+        //        {
+        //            for (int j = 0; j < users.Count; j++)
+        //            {
+        //                if (i != j)
+        //                {
+        //                    Message newMessage = new Message()
+        //                    {
+        //                        Receiver = users[j]
+        //                        ,
+        //                        Sender = users[i]
+        //                        ,
+        //                        Text = LoremIpsum
+        //                        ,
+        //                        TimeStamp = DateTime.Now
+        //                        ,
+        //                        Title = $"Message from {users[i].Name} to {users[j].Name}"
+        //                        ,
+        //                        Read = false
+        //                    };
+        //                    await _context.Messages.AddAsync(newMessage);
+        //                    await _context.SaveChangesAsync();
+        //                }
+        //            }
+        //        }
+        //    }
+        //}
 
-        public async Task LoadMessages()
-        {
-            var users = await _context.UserDatas.ToListAsync();
-            if (users != null)
-            {
-                for (int i = 0; i < users.Count; i++)
-                {
-                    for (int j = 0; j < users.Count; j++)
-                    {
-                        if (i != j)
-                        {
-                            Message newMessage = new Message()
-                            {
-                                Receiver = users[j]
-                                ,
-                                Sender = users[i]
-                                ,
-                                Text = LoremIpsum
-                                ,
-                                TimeStamp = DateTime.Now
-                                ,
-                                Title = $"Message from {users[i].Id} to {users[j].Id}"
-                                ,
-                                Read = false
-                            };
-                            await _context.Messages.AddAsync(newMessage);
-                            await _context.SaveChangesAsync();
-                        }
-                    }
-                }
-            }
-        }
-        public async Task MockLoadsOfDataAsync()
-        {
-            await FillMessages();
-            await LoadIdentityUsers();
-            await LoadUserDatas();
-            await LoadCategories();
-            await LoadSubCategories();
-            await LoadDiscussionThreads();
-            await LoadComments();
-            await LoadMessages();
-        }
+        ////private async Task ClearDatabase()
+        ////{
+        ////    //    var messages = await _context.Messages.ToListAsync();
+        ////    //    if (messages != null)
+        ////    //    {
+        ////    //        foreach (var message in messages)
+        ////    //        {
+        ////    //            _context.Messages.Remove(message);
+        ////    //            await _context.SaveChangesAsync();
+        ////    //        }
+        ////    //    }
+        ////    //    var comments = await _context.Comments.ToListAsync();
+        ////    //    if (comments != null)
+        ////    //    {
+        ////    //        foreach (var comment in comments)
+        ////    //        {
+        ////    //            _context.Comments.Remove(comment);
+        ////    //            await _context.SaveChangesAsync();
+        ////    //        }
+        ////    //    }
+        ////    //    var discussionThreads = await _context.DiscussionThreads.ToListAsync();
+        ////    //    if (discussionThreads != null)
+        ////    //    {
+        ////    //        foreach (var discussionThread in discussionThreads)
+        ////    //        {
+        ////    //            _context.DiscussionThreads.Remove(discussionThread);
+        ////    //            await _context.SaveChangesAsync();
+        ////    //        }
+        ////    //    }
+        ////    //var subCategories = await _context.SubCategories.ToListAsync();
+        ////    //if (subCategories != null)
+        ////    //{
+        ////    //    foreach (var subCategory in subCategories)
+        ////    //    {
+        ////    //        _context.SubCategories.Remove(subCategory);
+        ////    //        await _context.SaveChangesAsync();
+        ////    //    }
+        ////    //}
+        ////    //    var categories = await _context.Categories.ToListAsync();
+        ////    //    if (categories != null)
+        ////    //    {
+        ////    //        foreach (var category in categories)
+        ////    //        {
+        ////    //            _context.Categories.Remove(category);
+        ////    //            await _context.SaveChangesAsync();
+        ////    //        }
+        ////    //    }
+        ////    //    //var userDatas = await _context.UserDatas.ToListAsync();
+        ////    //    //if (userDatas != null)
+        ////    //    //{
+        ////    //    //    foreach (var userData in userDatas)
+        ////    //    //    {
+        ////    //    //        _context.UserDatas.Remove(userData);
+        ////    //    //        await _context.SaveChangesAsync();
+        ////    //    //    }
+        ////    //    //}
+        ////    //    //var adminUserDatas = await _context.AdminUserDatas.ToListAsync();
+        ////    //    //if (adminUserDatas != null)
+        ////    //    //{
+        ////    //    //    foreach (var adminUserData in adminUserDatas)
+        ////    //    //    {
+        ////    //    //        _context.AdminUserDatas.Remove(adminUserData);
+        ////    //    //        await _context.SaveChangesAsync();
+        ////    //    //    }
+        ////    //    //}
+        ////}
+        //public async Task MockLoadsOfDataAsync()
+        //{
+        //    ////await ClearDatabase();
+        //    //await LoadUserDatas();
+        //    //await LoadCategories();
+        //    //await LoadSubCategories();
+        //    //await LoadDiscussionThreads();
+        //    //await LoadComments();
+        //    //await LoadMessages();
+        //    //await FillMessages();
+        //}
         private List<string> LoadRandomTexts()
         {
             List<string> texts = new List<string>();

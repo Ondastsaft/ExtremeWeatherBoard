@@ -5,7 +5,7 @@
 namespace ExtremeWeatherBoard.Migrations
 {
     /// <inheritdoc />
-    public partial class AzureMigration : Migration
+    public partial class AzureInit : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

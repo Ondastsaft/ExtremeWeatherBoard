@@ -76,9 +76,9 @@ namespace ExtremeWeatherBoard.DAL
             }
             return false;
         }
-        public async Task<UserData> PostUserDataAsync(string userId)
+        public async Task<UserData> PostUserDataAsync(string userId, string name)
         {
-            var userData = new UserData() { UserId = userId, Name = "Kurt Bengtsson", ImageURL = "/images/defaultuser.jpg" };
+            var userData = new UserData() { UserId = userId, Name = name, ImageURL = "/images/defaultuser.jpg" };
             _context.UserDatas.Add(userData);
             await _context.SaveChangesAsync();
             return userData;

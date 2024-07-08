@@ -36,15 +36,15 @@ namespace ExtremeWeatherBoard.Pages
         }
         public async Task OnGetAsync()
         {
-            await _dataGenerator.MockLoadsOfDataAsync();
-            //await _userDataService.CheckCurrentUserAsync(User);
-            //SideBarOptions = new SideBarPartialViewModel();
-            //SideBarOptions.NavigateTo = "/Categories";
-            //var categories = await _categoryApiService.GetCategoriesAsync();
-            //if (categories != null)
-            //{
-            //    SideBarOptions.SideBarOptions = categories.Cast<ISideBarOption>().ToList();
-            //}
+            //await _dataGenerator.MockLoadsOfDataAsync();
+            await _userDataService.CheckCurrentUserAsync(User);
+            SideBarOptions = new SideBarPartialViewModel();
+            SideBarOptions.NavigateTo = "/Categories";
+            var categories = await _categoryApiService.GetCategoriesAsync();
+            if (categories != null)
+            {
+                SideBarOptions.SideBarOptions = categories.Cast<ISideBarOption>().ToList();
+            }
         }
 
     }

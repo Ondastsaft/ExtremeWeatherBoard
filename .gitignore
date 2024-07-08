@@ -372,3 +372,5 @@ FodyWeavers.xsd
 /Properties
 /Properties
 Properties/serviceDependencies.json
+Properties/serviceDependencies.local.json
+/Properties

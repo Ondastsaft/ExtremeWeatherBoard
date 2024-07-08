@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ExtremeWeatherBoard.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240702164440_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20240708134250_NewInit")]
+    partial class NewInit
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
