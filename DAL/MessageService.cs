@@ -70,6 +70,7 @@ namespace ExtremeWeatherBoard.DAL
         }
         public async Task PostMessageAsync(ClaimsPrincipal userPrincipal, int receiverUserDataId, string title, string text)
         {
+            // Add check for logged in user a
             var senderUserData = await _userDataService.GetCurrentUserDataAsync(userPrincipal);
             if (senderUserData != null && senderUserData.Id !=0) 
             {
