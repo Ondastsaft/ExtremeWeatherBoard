@@ -1,49 +1,6 @@
 ﻿
 @{
     var mainContent = Model.MainContentList;
-    @if (mainContent[0] is Models.DiscussionThread)
-    {
-        <style>
-             .card-body {
-                    height: 10em; /* Adjust this value based on your font size */
-                    overflow: hidden;
-                    display: -webkit-box;
-                    -webkit-line-clamp: 7;
-                    -webkit-box-orient: vertical;
-                }
-        </style>        
-            var counter = 0;
-            for (int i = 0; i < mainContent.Count; i++)
-            {
-                if (counter % 3 == 0)
-                {                    
-                    @:<div class="row mb-4">
-                }
-
-                        var item = mainContent[i];
-                        <div class="col-3">
-                            <a asp-page="/Comments" asp-route-sidebarContentId="@item.Id" asp-route-mainContentId="@item.Id">
-                                <div class="card">
-                                    <div class="card-header">
-                                        @item.Title
-                                    </div>
-                                    <div class="card-body">
-                                        @item.Text
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-
-                        counter++;
-
-                if (counter % 3 == 0 || i == mainContent.Count - 1)
-                {
-                    @:</div>
-                }
-            }
-        
-        
-    }
     @if (mainContent[0] is Models.Comment)
     {
         var discussionThread = Model.CommentsParentDiscussionThread;
@@ -60,6 +17,7 @@
 
             @foreach (var item in mainContent)
             {
+
                     <div class="row" style="margin:1em;">
                             <div class="col-3">
                             </div>
@@ -76,11 +34,6 @@
             </div>
 
         }
-
-    }
-    if(mainContent is Models.UserData)
-    {
-        
 
     }
 }

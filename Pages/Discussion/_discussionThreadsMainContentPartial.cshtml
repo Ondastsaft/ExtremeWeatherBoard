@@ -1,0 +1,39 @@
+﻿
+@{
+    @model DiscussionIndexModel
+    @if(Model.MainContent != null  && Model.MainContent.MainContentList != null)
+    {
+        var mainContent = Model.MainContent.MainContentList.ToList();
+        var counter = 0;
+        if(mainContent[0] is Models.DiscussionThread)
+        {
+            for (int i = 0; i < mainContent.Count; i++)
+            {
+                if (counter % 3 == 0)
+                {                    
+                    @:<div class="row mb-4">
+                }
+                        var item = mainContent[i];
+                        <div class="col-3">
+                            <a asp-page="/Comments" asp-route-sidebarContentId="@item.Id" asp-route-mainContentId="@item.Id">
+                                <div class="card">
+                                    <div class="card-header">
+                                        @item.Title
+                                    </div>
+                                    <div class="discussion-thread-card-body">
+                                        @item.Text
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+
+                        counter++;
+
+                if (counter % 3 == 0 || i == mainContent.Count - 1)
+                {
+                    @:</div>
+                }
+            }
+        }
+    }
+}

@@ -6,9 +6,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Security.Claims;
 
-namespace ExtremeWeatherBoard.Pages
+namespace ExtremeWeatherBoard.Pages.Messages
 {
-    public class MessagesModel : BasePageModel
+    public class MessagesIndexModel : BasePageModel
     {
         private readonly UserManager<IdentityUser> _userManager;
         private readonly UserDataService _userDataService;
@@ -16,7 +16,7 @@ namespace ExtremeWeatherBoard.Pages
         public List<Message>? MessageThread { get; set; }
         public List<Message>? Messages { get; set; }
         public int UserDataId { get; set; }
-        public MessagesModel(
+        public MessagesIndexModel(
             UserManager<IdentityUser> userManager,
             MessageService messageService,
             UserDataService userDataService
@@ -57,7 +57,7 @@ namespace ExtremeWeatherBoard.Pages
                 if (messageId == 0)
                 {
                     await LoadMessagesAsync();
-                    
+
                 }
             }
             else

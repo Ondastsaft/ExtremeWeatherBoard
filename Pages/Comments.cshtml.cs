@@ -1,10 +1,8 @@
 using ExtremeWeatherBoard.DAL;
 using ExtremeWeatherBoard.Interfaces;
-using ExtremeWeatherBoard.Models;
+using ExtremeWeatherBoard.ViewModels.Shared;    
 using ExtremeWeatherBoard.Pages.PageModels;
-using ExtremeWeatherBoard.Pages.Shared.ViewModels;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
+
 
 namespace ExtremeWeatherBoard.Pages
 {
@@ -13,6 +11,7 @@ namespace ExtremeWeatherBoard.Pages
         private readonly SubCategoryService _subCategoryService;
         private readonly CommentService _commentService;
         private readonly DiscussionThreadService _discussionThreadService;
+        MainContentCardsViewModel MainContent { get; set; } = new MainContentCardsViewModel();
         public CommentsModel(SubCategoryService subCategoryService, CommentService commentService, DiscussionThreadService discussionThreadService)
         {
             _subCategoryService = subCategoryService;
@@ -32,10 +31,8 @@ namespace ExtremeWeatherBoard.Pages
             if (comments != null)
             {
                 var parentDiscussionThread = await _discussionThreadService.GetDiscussionThreadAsync(mainContentId);
-                MainContent = new MainContentViewModel()
                 {
-                    MainContentList = comments,
-                    CommentsParentDiscussionThread = parentDiscussionThread
+                    MainContent.MainContentList = comments.Count > 0 ? comments.Cast<IMainContent>().ToList() : new List<IMainContent>();
                 };
             }
         }

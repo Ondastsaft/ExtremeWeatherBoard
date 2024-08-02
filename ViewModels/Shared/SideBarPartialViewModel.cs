@@ -1,6 +1,6 @@
 ﻿using ExtremeWeatherBoard.Interfaces;
 
-namespace ExtremeWeatherBoard.Pages.Shared.ViewModels
+namespace ExtremeWeatherBoard.ViewModels.Shared
 {
     public class SideBarPartialViewModel
     {
