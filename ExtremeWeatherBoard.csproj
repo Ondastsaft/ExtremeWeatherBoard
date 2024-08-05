@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Remove="Pages\PagePartials\Messages\_postMessagePartial.cshtml" />
+    <Content Remove="Pages\PagePartials\Messages\_postMessageModalPartial.cshtml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -36,7 +36,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="Pages\PagePartials\Messages\_postMessagePartial.cshtml" />
+    <None Include="Pages\PagePartials\Messages\_postMessageModalPartial.cshtml" />
     <None Include="wwwroot\Images\defaultuser.jpg" />
   </ItemGroup>
 

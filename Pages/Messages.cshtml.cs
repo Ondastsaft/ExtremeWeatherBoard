@@ -26,7 +26,7 @@ namespace ExtremeWeatherBoard.Pages
             _messageService = messageService;
             _userDataService = userDataService;
         }
-        public async Task OnGetAsync(int messageId, int receiverId)
+        public async Task OnGetAsync(int messageId, int recipentId)
         {
             await LoadModel(messageId);
         }
