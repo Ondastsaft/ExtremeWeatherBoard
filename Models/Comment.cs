@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 
 namespace ExtremeWeatherBoard.Models
 {
-    public class Comment : IContent
+    public class Comment : IMainContent
     {
         public int Id { get; set; }
         [Required]

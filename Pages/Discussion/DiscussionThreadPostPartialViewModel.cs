@@ -1,7 +1,7 @@
-﻿namespace ExtremeWeatherBoard.Pages.Topic
+﻿namespace ExtremeWeatherBoard.Pages.Discussion
 {
     using Microsoft.AspNetCore.Mvc;
-    public class TopicPostPartialViewModel
+    public class DiscussionThreadPostPartialViewModel
     {
         [BindProperty]
         public string? Title { get; set; }

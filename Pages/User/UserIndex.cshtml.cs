@@ -1,8 +1,8 @@
 using ExtremeWeatherBoard.DAL;
 using ExtremeWeatherBoard.Interfaces;
 using ExtremeWeatherBoard.Models;
-using ExtremeWeatherBoard.Pages.Shared.Views;
 using ExtremeWeatherBoard.Pages.PageModels;
+using ExtremeWeatherBoard.ViewModels.Shared;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,6 +10,7 @@ namespace ExtremeWeatherBoard.Pages.User
 {
     public class UserIndexModel : BasePageModel
     {
+        private readonly UserDataService _userDataService;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SubCategoryService _subCategoryService;
         private readonly DiscussionThreadService _discussionThreadService;
@@ -28,8 +29,9 @@ namespace ExtremeWeatherBoard.Pages.User
             , CommentService commentService
             , CategoryApiService categoryService
             , MessageService messageService
-            ) :base(userDataService)
+            )
         {
+            _userDataService = userDataService;
             _userManager = userManager;
             _subCategoryService = subCategoryService;
             _discussionThreadService = discussionThreadService;
@@ -37,19 +39,16 @@ namespace ExtremeWeatherBoard.Pages.User
             _categoryApiService = categoryService;
             _messageService = messageService;
         }
-        protected override async Task LoadMainContent()
+        public async Task OnGetAsync()
         {
-            await LoadDataFromUser();
-        }
-        protected override async Task LoadSideBar()
-        {
-            PageSideBarPartialModel = new SideBarPartialViewModel();
-            PageSideBarPartialModel.NavigateTo = "/Categories";
+            SideBarOptions = new SideBarPartialViewModel();
+            SideBarOptions.NavigateTo = "/Categories";
             var categories = await _categoryApiService.GetCategoriesAsync();
             if (categories != null)
             {
-                PageSideBarPartialModel.SideBarOptions = categories.Cast<IContent>().ToList();
+                SideBarOptions.SideBarOptions = categories.Cast<ISideBarOption>().ToList();
             }
+            await LoadDataFromUser();
         }
         public async Task LoadDataFromUser()
         {

@@ -1,0 +1,16 @@
+﻿@page
+@model ExtremeWeatherBoard.Pages.CommentsModel
+@{
+    @section Sidebar {
+        @if (Model.SideBarOptions != null)
+        {
+            <partial name="_SideBarPartial" model="Model.SideBarOptions" />
+        }
+    }
+    @section MainContent {
+        @if (Model.MainContent != null)
+        {
+            <partial name="_MainContentPartial" model="Model.MainContent" />
+        }
+    }
+}

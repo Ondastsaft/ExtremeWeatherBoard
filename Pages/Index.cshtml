@@ -4,15 +4,15 @@
     ViewData["Title"] = "Home page";
 }
 @section Sidebar {
-    @if (@Model.PageSideBarPartialModel != null)
+    @if (Model.SideBarOptions != null)
     {
-        <partial name="/Pages/Shared/Views/_SideBarPartial.cshtml" model="@Model.PageSideBarPartialModel" />
+        <partial name="_SideBarPartial" model="Model.SideBarOptions" />
     }
 }
 @section MainContent {
-    @if (@Model.PageMainContentPartialModel != null)
+    @if (Model.MainContent != null)
     {
-        <partial name="/Pages/_IndexMainContentPartial.cshtml" model="@Model.PageMainContentPartialModel" />
+        <partial name="_MainContentPartial" model="Model.MainContent" />
     }
 }
 

@@ -4,7 +4,7 @@ using ExtremeWeatherBoard.Interfaces;
 
 namespace ExtremeWeatherBoard.Models
 {
-    public class DiscussionThread : IContent
+    public class DiscussionThread:IMainContent
     {
         public int Id { get; set; }
         [Required]

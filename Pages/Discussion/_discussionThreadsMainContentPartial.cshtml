@@ -1,9 +1,12 @@
-﻿    @model TopicIndexModel
-
-    @if(Model.PageMainContentPartialModel.MainContentList is List<Interfaces.IContent>)
+﻿
+@{
+    @model DiscussionIndexModel
+    @if(Model.MainContent != null  && Model.MainContent.MainContentList != null)
     {
-        var mainContent = Model.PageMainContentPartialModel.MainContentList;
+        var mainContent = Model.MainContent.MainContentList.ToList();
         var counter = 0;
+        if(mainContent[0] is Models.DiscussionThread)
+        {
             for (int i = 0; i < mainContent.Count; i++)
             {
                 if (counter % 3 == 0)
@@ -18,7 +21,7 @@
                                         @item.Title
                                     </div>
                                     <div class="discussion-thread-card-body">
-
+                                        @item.Text
                                     </div>
                                 </div>
                             </a>
@@ -31,5 +34,6 @@
                     @:</div>
                 }
             }
+        }
     }
-  
+}

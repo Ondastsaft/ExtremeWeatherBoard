@@ -1,5 +1,4 @@
 using ExtremeWeatherBoard.DAL;
-using ExtremeWeatherBoard.Interfaces;
 using ExtremeWeatherBoard.Models;
 using ExtremeWeatherBoard.Pages.PageModels;
 using Microsoft.AspNetCore.Identity;
@@ -12,27 +11,24 @@ namespace ExtremeWeatherBoard.Pages.Messages
     public class MessagesIndexModel : BasePageModel
     {
         private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserDataService _userDataService;
         private readonly MessageService _messageService;
-        private readonly CategoryApiService _categoryApiService;
         public List<Message>? MessageThread { get; set; }
         public List<Message>? Messages { get; set; }
         public int UserDataId { get; set; }
         public MessagesIndexModel(
             UserManager<IdentityUser> userManager,
             MessageService messageService,
-            UserDataService userDataService,
-            CategoryApiService categoryApiService
-            ) :  base(userDataService)
+            UserDataService userDataService
+            )
         {
             _userManager = userManager;
             _messageService = messageService;
-            _categoryApiService = categoryApiService;
+            _userDataService = userDataService;
         }
-        public override async Task OnGetAsync(int mainContentId, int sideBarContentId)
+        public async Task OnGetAsync(int messageId, int receiverId)
         {
-            MainContentId = mainContentId;
-            await LoadSideBar();
-            await LoadMainContent();            
+            await LoadModel(messageId);
         }
         public async Task OnPostAsync(string title, string text, int receiverId)
         {
@@ -40,21 +36,6 @@ namespace ExtremeWeatherBoard.Pages.Messages
             {
                 await _messageService.PostMessageAsync(User, receiverId, title, text);
             }
-        }
-        protected override async Task LoadSideBar()
-        {
-            var categories = await _categoryApiService.GetCategoriesAsync();
-            if(categories != null)
-            {
-                PageSideBarPartialModel.SideBarOptions = categories.Cast<IContent>()
-                .ToList();
-
-            }
-
-        }
-        protected override async Task LoadMainContent()
-        {
-            await LoadModel(MainContentId);
         }
         private async Task LoadModel(int messageId)
         {
