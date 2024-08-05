@@ -2,13 +2,15 @@ using ExtremeWeatherBoard.DAL;
 using ExtremeWeatherBoard.Interfaces;
 using ExtremeWeatherBoard.Models;
 using ExtremeWeatherBoard.Pages.PageModels;
-using ExtremeWeatherBoard.ViewModels.Shared;
+using ExtremeWeatherBoard.Pages.Shared.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Security.Claims;
 
-namespace ExtremeWeatherBoard.Pages.User
+namespace ExtremeWeatherBoard.Pages
 {
-    public class UserIndexModel : BasePageModel
+    public class UserModel : BasePageModel
     {
         private readonly UserDataService _userDataService;
         private readonly UserManager<IdentityUser> _userManager;
@@ -21,7 +23,7 @@ namespace ExtremeWeatherBoard.Pages.User
         public List<DiscussionThread>? DiscussionThreads { get; set; }
         public List<Comment>? Comments { get; set; }
         public List<Message>? Messages { get; set; }
-        public UserIndexModel(
+        public UserModel(
             UserDataService userDataService
             , UserManager<IdentityUser> userManager
             , SubCategoryService subCategoryService
@@ -90,14 +92,14 @@ namespace ExtremeWeatherBoard.Pages.User
                         ModelState.AddModelError("UploadedImage", "The file size exceeds 5 MB or is not an image");
                         return Page();
                     }
-                }
+                } 
             }
             return Page();
         }
         public bool CheckImageType(IFormFile image)
         {
             if (image != null)
-            {
+            {              
                 if (image.Length > 5 * 1024 * 1024)
                 {
                     ModelState.AddModelError("UploadedImage", "The file size exceeds 5 MB.");

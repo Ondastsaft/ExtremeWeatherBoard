@@ -114,10 +114,3 @@ body {
     font-weight: bold;
     background-color: #ededed;
 }
-.discussion-thread-card-body {
-    height: 10em;
-    overflow: hidden;
-    display: -webkit-box;
-    -webkit-line-clamp: 7;
-    -webkit-box-orient: vertical;
-}
