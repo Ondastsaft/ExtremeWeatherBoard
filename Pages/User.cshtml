@@ -72,7 +72,11 @@
                 <p class="border-3"><h3>Discussions</h3></p>
                 @if (Model.DiscussionThreads?.Count > 0)
                 {
-                    @for (int i = 0; i < 4; i++)
+                    int iterations;
+                    if (Model.DiscussionThreads.Count >= 4)
+                    { iterations = 4; }
+                    else iterations = Model.DiscussionThreads.Count;
+                    @for (int i = 0; i < iterations; i++)
                     {
                         var thread = Model.DiscussionThreads[i];
                         <div class="card" style="margin-bottom:10px;">
@@ -104,14 +108,12 @@
                         Models.Comment comment = Model.Comments[i];
                         <div class="card" style="margin-bottom:10px;">
                             <div class="card-header card-header-restricted" rows="2">
-                                <p>
                                     <a class="card-title"
                                        asp-page="/comments"
                                        asp-route-mainContentId="@comment.ParentDiscussionThread?.Id"
                                        asp-route-sideBarContentId="@comment.ParentDiscussionThread?.SubCategoryId">
                                         @comment.Title
                                     </a>
-                                </p>
                             </div>
                             <div class="card-body card-body-restricted" rows="4">
                                 <p class="card-text">@comment.Text</p>

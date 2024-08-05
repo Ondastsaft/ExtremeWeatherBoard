@@ -3,13 +3,39 @@
 @{
     @section MainContent
     {
-    @if (Model.MessageThread != null)
-    {
-            <partial name="PagePartials/Messages/_messageThreadPartial" model="Model" />
-    }
-    else if (Model.Messages != null)
-    {
-            <partial name="PagePartials/Messages/_allUsersMessagesPartial" model="Model" />
-    }
+        @switch (Model.PageState)
+        {
+            case 1:
+                <div class="row">
+                    <div class="col-md-6">
+                        <span class="page-header">@Model.MessageTitle</span>
+                    </div>
+                    <div class="col-md-6 d-flex justify-content-end align-items-end">
+                        <a asp-page="/Messages" asp-route-receiverId="@Model.PostMessageReceiverId" asp-route-messageThreadId="@Model.MessageId" class="btn btn-primary">Reply</a>
+                    </div>
+                </div>
+                <p class="page-header"></p>
+                <partial name="PagePartials/Messages/_messageThreadPartial" model="Model" />
+                break;
+
+            case 2:
+                <div class="post-new-message-container">
+                    <partial name="PagePartials/Messages/_PostNewMessagePartial" model="Model" />
+                </div>
+                break;
+
+            case 3:
+                <partial name="PagePartials/Messages/_allUsersMessagesPartial" model="Model" />
+                break;
+
+            case 4:
+                <partial name="PagePartials/Messages/_PostReplyMessagePartial" model="Model" />
+                break;
+
+            default:
+                RedirectToPage("/Index");
+                break;
+        }
+
     }
 }

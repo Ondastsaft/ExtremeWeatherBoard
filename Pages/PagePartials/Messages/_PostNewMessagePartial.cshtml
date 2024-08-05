@@ -1,0 +1,20 @@
+﻿@model ExtremeWeatherBoard.Pages.MessagesModel
+
+    <div class="row row-cols-auto post-message-header">
+        Message to <a>@Model.MessageReceiverName</a>
+    </div>
+    <form method="post">
+        <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-9 post-message-form-title">
+                <label for="Title"></label>
+                <input type="text" name="title" maxlength="40" placeholder="Message Title" />
+            </div>
+        </div>
+        <div class="row">
+            <label for="Message Text"></label>
+            <textarea class="post-message-form-text" name="text" placeholder="Message Text"></textarea>
+        </div>
+        <input type ="hidden" name="messageId" value="@Model.PostMessageReceiverId" />
+            <button type="submit" class="btn btn-primary">Send Message</button>
+    </form>

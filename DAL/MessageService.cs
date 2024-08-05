@@ -19,7 +19,7 @@ namespace ExtremeWeatherBoard.DAL
         }
         public async Task<Message?> GetMessageAsync(int messageId, ClaimsPrincipal userPrincipal)
         {
-            var message = await _context.Messages.FirstOrDefaultAsync(m => m.Id == messageId);
+            var message = await _context.Messages.Include(m => m.Receiver).FirstOrDefaultAsync(m => m.Id == messageId);
             var userData = await _userDataService.GetCurrentUserDataAsync(userPrincipal);
             if (message != null && userData != null)
             {
