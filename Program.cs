@@ -3,6 +3,7 @@ using ExtremeWeatherBoard.DAL;
 using ExtremeWeatherBoard.Data;
 using ExtremeWeatherBoard.Interfaces;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
 using System.Configuration;
 
@@ -33,7 +34,6 @@ namespace ExtremeWeatherBoard
             builder.Services.AddScoped<MockDataGenerator>();
             builder.Services.AddScoped<MessageService>();
             builder.Services.AddRazorPages();
-
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

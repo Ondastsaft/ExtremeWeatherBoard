@@ -5,7 +5,7 @@ using ExtremeWeatherBoard.Interfaces;
 
 namespace ExtremeWeatherBoard.Models
 {
-    public class SubCategory: ISideBarOption
+    public class SubCategory: IContent
     {
         public int Id { get; set; }
         [Required]

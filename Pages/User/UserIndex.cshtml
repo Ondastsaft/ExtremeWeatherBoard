@@ -3,9 +3,9 @@
 @{
     @section Sidebar
     {
-        @if (Model.SideBarOptions != null)
+        @if (Model.PageSideBarPartialModel != null)
         {
-            <partial name="_SideBarPartial" model="Model.SideBarOptions" />
+            <partial name="_SideBarPartial" model="Model.PageSideBarPartialModel" />
         }
     }
     @section MainContent

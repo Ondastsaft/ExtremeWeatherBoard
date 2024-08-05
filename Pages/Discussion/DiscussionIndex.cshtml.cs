@@ -1,48 +1,48 @@
 using ExtremeWeatherBoard.DAL;
-using ExtremeWeatherBoard.Pages.PageModels;
 using ExtremeWeatherBoard.Interfaces;
-using ExtremeWeatherBoard.ViewModels.Shared;
+using ExtremeWeatherBoard.Pages.PageModels;
+using ExtremeWeatherBoard.Pages.Shared.Views;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace ExtremeWeatherBoard.Pages.Discussion;
-
-public class DiscussionIndexModel : BasePageModel
+namespace ExtremeWeatherBoard.Pages.Discussion
 {
-    private readonly SubCategoryService _subCategoryService;
-    private readonly DiscussionThreadService _discussionThreadService;
-    public MainContentCardsViewModel MainContent { get; set; } = new MainContentCardsViewModel();
-    public DiscussionThreadPostPartialViewModel? DiscussionThreadsPostModel { get; set; }
-    public DiscussionIndexModel(SubCategoryService subCategoryService, DiscussionThreadService discussionThreadService)
+    public class DiscussionIndexModel : BasePageModel
     {
-        _subCategoryService = subCategoryService;
-        _discussionThreadService = discussionThreadService;
-    }
-    public async Task OnGetAsync(int sidebarContentId, int mainContentId, bool post)
-    {
-        await LoadSidebar(sidebarContentId);
-        if (!post)
+        private readonly SubCategoryService _subCategoryService;
+        private readonly CommentService _commentService;
+        private readonly DiscussionThreadService _discussionThreadService;
+
+        public DiscussionIndexModel(
+            UserDataService userDataService,
+            SubCategoryService subCategoryService,
+            CommentService commentService,
+            DiscussionThreadService discussionThreadService
+            ) : base(userDataService)
         {
-            await LoadMainContent(mainContentId);
+            _subCategoryService = subCategoryService;
+            _commentService = commentService;
+            _discussionThreadService = discussionThreadService;
         }
-        else
+        protected override async Task LoadMainContent()
         {
-            DiscussionThreadsPostModel = new DiscussionThreadPostPartialViewModel();
+            var comments = await _commentService.GetCommentsAsync(MainContentId);
+            if (comments != null)
+            {
+                var parentDiscussionThread = await _discussionThreadService.GetDiscussionThreadAsync(MainContentId);
+                {
+                    PageMainContentPartialModel.MainContentList = comments.Count > 0 ? comments.Cast<IContent>().ToList() : new List<IContent>();
+                };
+            }
         }
-    }
-    public async Task LoadSidebar(int sideBarContentId)
-    {
-        SideBarOptions = new SideBarPartialViewModel();
-        SideBarOptions.NavigateTo = "/Discussion/Index";
-        var sidebarOptions = await _subCategoryService.GetSubCategoriesFromParentIdAsync(sideBarContentId);
-        if (sidebarOptions != null)
+        protected override async Task LoadSideBar()
         {
-            SideBarOptions.SideBarOptions = sidebarOptions.Cast<ISideBarOption>().ToList();
+
+            var subCategories = await _subCategoryService.GetSubCategoriesFromParentIdAsync(SideBarContentId);
+            if (subCategories != null)
+            {
+                PageSideBarPartialModel = new SideBarPartialViewModel() { NavigateTo = "/DiscussionThreads", SideBarOptions = subCategories.Cast<IContent>().ToList() };
+            }
         }
-    }
-    public async Task LoadMainContent(int mainContentId)
-    {
-        MainContent = new MainContentCardsViewModel();
-        MainContent.MainContentList = (await _discussionThreadService.GetDiscussionThreadsAsync(mainContentId))
-            .Cast<IMainContent>().
-            ToList();
     }
 }

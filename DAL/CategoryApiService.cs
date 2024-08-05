@@ -20,6 +20,11 @@ namespace ExtremeWeatherBoard.DAL
             var categories = await _context.Categories.ToListAsync();
             return categories;
         }
+        public async Task<List<Category>?> GetCategoriesWithSubCategoriesAsync()
+        {
+            var categories = await _context.Categories.Include(c => c.SubCategories).ToListAsync();
+            return categories;
+        }
         //public async Task<List<Category>?> GetCategoriesAsync()
         //{
         //    using (HttpClient client = new HttpClient())

@@ -1,20 +1,16 @@
 ﻿@page
 @model ExtremeWeatherBoard.Pages.Discussion.DiscussionIndexModel
 @{
-    @section Sidebar {
-        @if (Model.SideBarOptions != null)
-        {
-            <partial name="_SideBarPartial" model="Model.SideBarOptions" />
-        }
+}
+@section Sidebar {
+    @if (Model.PageSideBarPartialModel != null)
+    {
+        <partial name="_SideBarPartial" model="Model.PageSideBarPartialModel" />
     }
-    @section MainContent {
-        @if (Model.DiscussionThreadsPostModel != null)
-        {
-            <partial name="_discussionThreadPostPartial" model="Model.DiscussionThreadsPostModel" />
-        }
-        else if (Model.MainContent != null)
-        {
-            <partial name="_discussionThreadsMainContentPartial" model="Model.MainContent" />
-        }
+}
+@section MainContent {
+    @if (Model.PageMainContentPartialModel != null)
+    {
+        <partial name="_MainContentPartial" model="Model.PageMainContentPartialModel" />
     }
 }

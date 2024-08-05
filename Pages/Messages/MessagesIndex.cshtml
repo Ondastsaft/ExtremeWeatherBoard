@@ -3,13 +3,13 @@
 @{
     @section MainContent
     {
-    @if (Model.MessageThread != null)
+    @if (Model.PageMainContentPartialModel.MainContentList != null)
     {
 
             <partial name="PagePartials/Messages/_messageThreadPartial" model="Model" />
 
     }
-    else if (Model.Messages != null)
+    else if (Model.PageMainContentPartialModel.MainContentList != null)
     {
             <partial name="PagePartials/Messages/_allUsersMessagesPartial" model="Model" />
     }

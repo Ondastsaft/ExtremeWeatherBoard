@@ -1,0 +1,30 @@
+﻿@model MainContentPartialViewModel
+<div class="main-content-container">
+    <div class="row main-content-title">
+        <div class="col-12">
+            @Model.PageTitle
+        </div>
+    </div>
+    @if (Model.MainContentList is List<Interfaces.IContent> && Model.MainContentList.Count > 0)
+    {
+        var itemList = Model.MainContentList;
+        <div class="row row-cols-lg-3 row-cols-md-3 row-cols-sm-1">
+            @foreach (var item in itemList)
+            {
+                MainContentListItemPartialViewModel listItemModel = new MainContentListItemPartialViewModel();
+                if (listItemModel != null)
+                {
+                    listItemModel.UnpackItem(item);
+                    <div class="col main-content-list-container">
+                        <partial name="/Pages/Shared/Views/_MainContentListItemPartial.cshtml" model="listItemModel" />
+                    </div>
+                }            
+            }
+        </div>
+    }
+</div>
+
+
+
+
+

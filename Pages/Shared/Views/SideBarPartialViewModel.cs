@@ -1,10 +1,10 @@
 ﻿using ExtremeWeatherBoard.Interfaces;
 
-namespace ExtremeWeatherBoard.ViewModels.Shared
+namespace ExtremeWeatherBoard.Pages.Shared.Views
 {
     public class SideBarPartialViewModel
     {
-        public List<ISideBarOption>? SideBarOptions { get; set; }
+        public List<IContent>? SideBarOptions { get; set; }
         public string NavigateTo { get; set; }
         public SideBarPartialViewModel()
         {
