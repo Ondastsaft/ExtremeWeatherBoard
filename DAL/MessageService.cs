@@ -80,6 +80,7 @@ namespace ExtremeWeatherBoard.DAL
                     Sender = senderUserData,
                     Title = title,
                     Text = text,
+                    Read = false,
                     TimeStamp = DateTime.UtcNow
                 };
                     _context.Messages.Add(sentMessage);

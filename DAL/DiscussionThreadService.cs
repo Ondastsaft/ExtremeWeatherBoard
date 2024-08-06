@@ -18,6 +18,7 @@ namespace ExtremeWeatherBoard.DAL
         public async Task<List<DiscussionThread>> GetDiscussionThreadsAsync(int subCategoryId)
         {
             var threads = await _context.DiscussionThreads
+                                           .Include(dt => dt.DiscussionThreadUserData)
                                            .Where(dt => dt.SubCategoryId == subCategoryId)
                                            .ToListAsync();
             return threads;

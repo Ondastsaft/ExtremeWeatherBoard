@@ -13,7 +13,7 @@ namespace ExtremeWeatherBoard.Models
         public string? Text { get; set; }    
         public DateTime TimeStamp { get; set; }
         public bool IsReported { get; set; }
-        public int? DiscussionThreadUserDataId { get; set; }
+        public int DiscussionThreadUserDataId { get; set; }
         [ForeignKey("DiscussionThreadUserDataId")]
         public virtual UserData? DiscussionThreadUserData { get; set; }
         public int SubCategoryId { get; set; }

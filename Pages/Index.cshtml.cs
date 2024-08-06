@@ -23,7 +23,7 @@ namespace ExtremeWeatherBoard.Pages
         private static Uri BaseAdress = new Uri("https://localhost:44311/api/");
 
         public IndexModel(  
-            CategoryApiService categoryApiService
+            CategoryApiService categoryApiService 
             ,UserDataService userDataService 
             ,UserManager<IdentityUser> usermanager
             , MockDataGenerator dataGenerator

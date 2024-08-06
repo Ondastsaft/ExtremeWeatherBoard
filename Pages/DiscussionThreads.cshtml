@@ -1,16 +1,59 @@
 ﻿@page
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
 @model ExtremeWeatherBoard.Pages.DiscussionThreadsModel
-@{
-    @section Sidebar {
-        @if (Model.SideBarOptions != null)
-        {
-            <partial name="_SideBarPartial" model="Model.SideBarOptions" />
-        }
+
+@section Sidebar {
+    @if (Model.SideBarOptions != null)
+    {
+        <partial name="_SideBarPartial" model="Model.SideBarOptions" />
     }
-    @section MainContent {
-        @if (Model.MainContent != null)
+}
+@section MainContent {
+    <style>
+        .card-body {
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 7;
+            -webkit-box-orient: vertical;
+        }
+    </style>
+    @if (Model.DiscussionThreads != null)
+    {
+        var mainContent = Model.DiscussionThreads;
+        bool isLoggedIn = User.Identity.IsAuthenticated;
+        @if (mainContent is List<DTO.DiscussionThreadDTO>)
         {
-            <partial name="_MainContentPartial" model="Model.MainContent" />
+            <div class="container-scrollable-maincontent">
+                <div class="row row-cols-1 row-cols-md-3 g-4">
+                    @for (int i = 0; i < mainContent.Count; i++)
+                    {
+                        var item = mainContent[i];
+                        <div class="col-3" style="margin-bottom:1vh">
+                            <div class="card">
+                                <div class="card-header">
+                                    @if(isLoggedIn)
+                                    {
+                                        <a asp-page="/PostMessage" asp-route-messageReceiverId="@item.UserDataId">@item.UserName</a>
+                                    }
+                                    else
+                                    {
+                                        @item.UserName
+                                    })
+                                    <a asp-page="/Comments" asp-route-sidebarContentId="@item.Id" asp-route-mainContentId="@item.Id">
+                                        @item.Title
+                                    </a>
+                                </div>
+                                <div class="card-body">
+                                    @item.Text
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
         }
     }
 }
+
+
