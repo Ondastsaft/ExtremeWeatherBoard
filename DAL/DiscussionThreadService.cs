@@ -32,7 +32,8 @@ namespace ExtremeWeatherBoard.DAL
         public async Task PostDiscussionThreadAsync(ClaimsPrincipal userPrincipal, int subCategoryId, string title, string text)
         {
             var user = await _userDataService.GetCurrentUserDataAsync(userPrincipal);
-            if (user == null)
+            var subCategory = await _context.SubCategories.FirstOrDefaultAsync(sc => sc.Id == subCategoryId);
+            if (user.Id == 0 || subCategory == null)
             {
                 Console.WriteLine("No user found");
                 Console.ReadKey();
@@ -43,15 +44,15 @@ namespace ExtremeWeatherBoard.DAL
                 {
                     DiscussionThread discussionThread = new DiscussionThread()
                     {
-                        DiscussionThreadUserData = user as UserData
-                        ,
-                        Text = text
-                        ,
-                        Title = title
-                        ,
+                        DiscussionThreadUserData = user as UserData,
+                        SubCategory = subCategory,
+                        Text = text,
+                        Title = title,
+                        IsReported = false,
                         TimeStamp = DateTime.UtcNow
                     };
                     await _context.DiscussionThreads.AddAsync(discussionThread);
+                    await _context.SaveChangesAsync();
                 }
             }
         }

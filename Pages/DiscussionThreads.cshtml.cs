@@ -13,13 +13,18 @@ namespace ExtremeWeatherBoard.Pages
         public List<DiscussionThreadDTO> DiscussionThreads { get; set; } = new();
         private readonly SubCategoryService _subCategoryService;
         private readonly DiscussionThreadService _discussionThreadService;
-        public DiscussionThreadsModel(SubCategoryService subCategoryService, DAL.DiscussionThreadService discussionThreadService)
+        public int SubCategoryId { get; set; }
+        public DiscussionThreadsModel(
+            SubCategoryService subCategoryService, 
+            DiscussionThreadService discussionThreadService
+            )
         {
             _subCategoryService = subCategoryService;
             _discussionThreadService = discussionThreadService;
         }
-        public async Task OnGetAsync(int sidebarContentId, int mainContentId)
+        public async Task OnGetAsync(int sidebarContentId, int subCategoryId)
         {
+            SubCategoryId = sidebarContentId;
             SideBarOptions = new SideBarPartialViewModel();
             SideBarOptions.NavigateTo = "/DiscussionThreads";
             var sidebarOptions = await _subCategoryService.GetSubCategoriesFromParentIdAsync(sidebarContentId);
@@ -27,11 +32,11 @@ namespace ExtremeWeatherBoard.Pages
             {
                 SideBarOptions.SideBarOptions = sidebarOptions.Cast<ISideBarOption>().ToList();
             }
-            await LoadDiscussionThreads(mainContentId);
+            await LoadDiscussionThreads(subCategoryId);
         }
-        public async Task LoadDiscussionThreads(int mainContentId)
+        public async Task LoadDiscussionThreads(int subCategoryId)
         {
-            var discussionThreads = await _discussionThreadService.GetDiscussionThreadsAsync(mainContentId);
+            var discussionThreads = await _discussionThreadService.GetDiscussionThreadsAsync(subCategoryId);
             if (discussionThreads != null)
             {
                 foreach(var dt in discussionThreads)

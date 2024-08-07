@@ -24,13 +24,13 @@
         <div class="row">
             <div class="col-md-3">Title</div>
                 <label for="Title"></label>
-               <input type="text" class="form-control" name="title" asp-for="Title" maxlength="40" placeholder="Message Title" />
+               <input type="text" class="form-control" asp-for="Title" maxlength="40" placeholder="Message Title" />
         </div>
         <div class="row">
             <label for="Message Text">Text</label>
             <textarea class="form-control" name="text" placeholder="Message Text" asp-for="Text" rows="10"></textarea>
         </div>
-        <input type="hidden" name="receiverId" value="@Model.ReceiverId" />
+        <input type="hidden" asp-for="ReceiverId"/>
         <div class="row justify-content-end">
             <button type="submit" class="btn">Send Message</button>
         </div>

@@ -21,9 +21,19 @@
     @if (Model.DiscussionThreads != null)
     {
         var mainContent = Model.DiscussionThreads;
-        bool isLoggedIn = User.Identity.IsAuthenticated;
+        bool isLoggedIn = false;
+        if (User.Identity != null)
+        {
+            isLoggedIn = User.Identity.IsAuthenticated;
+        }
         @if (mainContent is List<DTO.DiscussionThreadDTO>)
         {
+            @if (isLoggedIn)
+            {
+                <div class=" row page-header align-content-end">
+                    <a class="col-12 align-content-end" asp-page="/PostDiscussionThread" asp-route-subCategoryId="@Model.SubCategoryId">Post Topic</a>
+                </div>
+            }
             <div class="container-scrollable-maincontent">
                 <div class="row row-cols-1 row-cols-md-3 g-4">
                     @for (int i = 0; i < mainContent.Count; i++)
@@ -32,14 +42,14 @@
                         <div class="col-3" style="margin-bottom:1vh">
                             <div class="card">
                                 <div class="card-header">
-                                    @if(isLoggedIn)
+                                    @if (isLoggedIn)
                                     {
                                         <a asp-page="/PostMessage" asp-route-messageReceiverId="@item.UserDataId">@item.UserName</a>
                                     }
                                     else
                                     {
                                         @item.UserName
-                                    })
+                                    }
                                     <a asp-page="/Comments" asp-route-sidebarContentId="@item.Id" asp-route-mainContentId="@item.Id">
                                         @item.Title
                                     </a>
