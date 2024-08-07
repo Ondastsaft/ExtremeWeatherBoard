@@ -25,6 +25,12 @@ namespace ExtremeWeatherBoard.DAL
             return null;
         }
 
+        public async Task<Comment?> GetCommentFromId(int commentId)
+        {
+            var comment = await _context.Comments.Include(c => c.CommentUserData).FirstOrDefaultAsync(c => c.Id == commentId);
+                return comment;
+        }
+
         public async Task<List<Comment>> GetCommentsAsync(int discussionThreadId)
         {
             List<Comment> comments = await _context.Comments.Include(c => c.CommentUserData).Where(c => c.ParentDiscussionThreadId == discussionThreadId).ToListAsync();

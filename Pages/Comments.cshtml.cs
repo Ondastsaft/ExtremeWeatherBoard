@@ -14,6 +14,7 @@ namespace ExtremeWeatherBoard.Pages
         public DiscussionThreadDTO DiscussionThread { get; set; } = new();
         [BindProperty]
         public int DiscussionThreadId { get; set; }
+        public int ReportedCommentId { get; set; }
         public List<CommentDTO> Comments { get; set; } = new();
         private readonly SubCategoryService _subCategoryService;
         private readonly CommentService _commentService;
@@ -25,8 +26,9 @@ namespace ExtremeWeatherBoard.Pages
             _discussionThreadService = discussionThreadService;
 
         }
-        public async Task OnGetAsync(int sidebarContentId, int discussionThreadId)
+        public async Task OnGetAsync(int sidebarContentId, int discussionThreadId, int reportedCommentId)
         {
+            ReportedCommentId = reportedCommentId;
             DiscussionThreadId = discussionThreadId;
             var subCategories = await _subCategoryService.GetSubCategoriesFromParentIdAsync(sidebarContentId);
             if (subCategories != null)
@@ -36,7 +38,27 @@ namespace ExtremeWeatherBoard.Pages
             await LoadCommentsList(DiscussionThreadId);
             await LoadDiscussionThread(DiscussionThreadId);
         }
-        public async Task LoadDiscussionThread(int discussionThreadId)
+        public async Task<IActionResult> OnPostReportCommentAsync(int reportedCommentId, int discussionThreadId)
+        {
+            var result = await ReportComment(reportedCommentId);
+            if (result)
+            {
+                TempData["SuccessMessage"] = "Comment reported successfully.";
+            }
+            else TempData["ErrorMessage"] = "Something went wrong.";
+            return RedirectToPage("/Comments", new {discussionThreadId = discussionThreadId, reportedCommentId = reportedCommentId });
+        }
+        private async Task<bool> ReportComment(int commentId)
+        {
+            await _commentService.ReportComment(commentId);
+            var reportedComment  = await _commentService.GetCommentFromId(commentId);
+            if (reportedComment != null && reportedComment.IsReported)
+            {
+                return true;
+            }
+            else return false;
+        }
+        private async Task LoadDiscussionThread(int discussionThreadId)
         {
             var discussionThread = await _discussionThreadService.GetDiscussionThreadAsync(discussionThreadId);
             if (discussionThread != null)
@@ -54,7 +76,7 @@ namespace ExtremeWeatherBoard.Pages
             }
         }
 
-        public async Task LoadCommentsList(int discussionThreadId)
+        private async Task LoadCommentsList(int discussionThreadId)
         {
             var comments = await _commentService.GetCommentsAsync(discussionThreadId);
             if (comments != null)

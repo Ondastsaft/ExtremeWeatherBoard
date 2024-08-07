@@ -3,7 +3,7 @@
 @{
     @section Sidebar {
         <div>
-        <a asp-page="/PostComment" asp-route-postId="@Model.DiscussionThreadId">Post comment</a>
+            <a asp-page="/PostComment" asp-route-postId="@Model.DiscussionThreadId">Post comment</a>
         </div>
     }
 }
@@ -19,7 +19,7 @@
                         <a class="justify-content-end" asp-page="/PostMessage" asp-route-messageReceiverId="@Model.DiscussionThread.UserDataId">@Model.DiscussionThread.UserName</a>
                         <span class="justify-content-end">@Model.DiscussionThread.TimeStamp</span>
                     </div>
-                     <br> @Model.DiscussionThread.Title;
+                    <br> @Model.DiscussionThread.Title;
                 </div>
                 <div class="card-body">
                     @Model.DiscussionThread.Text;
@@ -27,7 +27,12 @@
             </div>
         </div>
 
-
+        @if (TempData["ErrorMessage"] != null)
+        {
+            <div class="alert alert-danger">
+                @TempData["ErrorMessage"]
+            </div>
+        }
         @foreach (var item in Model.Comments)
         {
             <div class="row" style="margin:1em;">
@@ -40,6 +45,23 @@
                         </div>
                         <div class"card-body">
                             "@item.Text"
+                        </div>
+                        <div class="card-footer">
+                            @if (item.Id == Model.ReportedCommentId && TempData["SuccessMessage"] != null)
+                            {
+                                <div class="alert alert-success">
+                                    @TempData["SuccessMessage"]
+                                </div>
+                            }
+                            else
+                            {
+                                <form method="post" asp-page-handler="ReportComment" asp-route-discussionThreadId="@Model.DiscussionThreadId">
+
+                                    <input type="hidden" name="reportedCommentId" value="@item.Id" />
+                                    <input type="hidden" name="discussionThreadId" value="@Model.DiscussionThreadId" />
+                                    <button type="submit" class="btn btn-primary">Report Comment</button>
+                                </form>
+                            }
                         </div>
                     </div>
                 </div>
