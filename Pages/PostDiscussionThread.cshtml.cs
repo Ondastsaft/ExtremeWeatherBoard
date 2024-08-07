@@ -14,6 +14,19 @@ namespace ExtremeWeatherBoard.Pages
         private readonly DiscussionThreadService _discussionThreadService;
         private readonly SubCategoryService _subCategoryService;
 
+
+        [BindProperty]
+        public int SubCategoryId { get; set; }
+        public string SubCategoryTitle { get; set; } = string.Empty;
+        [Required]
+        [StringLength(40, MinimumLength = 3, ErrorMessage = "Title can't exceed 40 characters")]
+        [BindProperty]
+        public string Title { get; set; } = string.Empty;
+        [Required]
+        [StringLength(2000, MinimumLength = 3, ErrorMessage = "Text can't exceed 2000 characters")]
+        [BindProperty]
+        public string Text { get; set; } = string.Empty;
+
         public PostDiscussionThreadModel(
             CategoryApiService categoryApiService,
             UserManager<IdentityUser> userManager,
@@ -26,17 +39,6 @@ namespace ExtremeWeatherBoard.Pages
             _discussionThreadService = discussionThreadService;
             _subCategoryService = subCategoryService;
         }
-        [BindProperty]
-        public int SubCategoryId { get; set; }
-        public string SubCategoryTitle { get; set; }
-        [Required]
-        [StringLength(40, MinimumLength = 3, ErrorMessage = "Title can't exceed 40 characters")]
-        [BindProperty]
-        public string Title { get; set; } = string.Empty;
-        [Required]
-        [StringLength(2000, MinimumLength = 3, ErrorMessage = "Text can't exceed 2000 characters")]
-        [BindProperty]
-        public string Text { get; set; } = string.Empty;
         public async Task<IActionResult> OnGetAsync(int subCategoryId)
         {
             if (subCategoryId != 0)

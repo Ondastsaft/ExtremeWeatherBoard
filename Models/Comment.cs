@@ -14,7 +14,7 @@ namespace ExtremeWeatherBoard.Models
         public string? Title { get; set; }
         public bool IsReported { get; set; }
         public DateTime TimeStamp { get; set; }
-        public int? CommentUserDataId { get; set; }
+        public int CommentUserDataId { get; set; }
         [ForeignKey("CommentUserDataId")]
         public virtual UserData? CommentUserData { get; set; }
         public int ParentDiscussionThreadId { get; set; }

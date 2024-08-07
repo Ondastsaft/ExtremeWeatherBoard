@@ -14,10 +14,10 @@ namespace ExtremeWeatherBoard.Models
         [Required]
         public bool? Read { get; set; }
         public DateTime TimeStamp { get; set; }
-        public int? SenderId { get; set; }
+        public int SenderId { get; set; }
         [ForeignKey("SenderId")]
         public virtual UserData? Sender { get; set; }
-        public int? ReceiverId { get; set; }
+        public int ReceiverId { get; set; }
         [ForeignKey("ReceiverId")]
         public virtual UserData? Receiver { get; set; }
     }

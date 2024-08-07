@@ -2,15 +2,48 @@
 @model ExtremeWeatherBoard.Pages.CommentsModel
 @{
     @section Sidebar {
-        @if (Model.SideBarOptions != null)
-        {
-            <partial name="_SideBarPartial" model="Model.SideBarOptions" />
-        }
+        <div>
+        <a asp-page="/PostComment" asp-route-postId="@Model.DiscussionThreadId">Post comment</a>
+        </div>
     }
-    @section MainContent {
-        @if (Model.MainContent != null)
+}
+
+@section MainContent {
+
+    @if (Model.Comments.Count > 0)
+    {
+        <div class="row-cols-auto" style="margin:1em; margin-bottom:3em;">
+            <div class="card">
+                <div class="card-header">
+                    <div class="row">
+                        <a class="justify-content-end" asp-page="/PostMessage" asp-route-messageReceiverId="@Model.DiscussionThread.UserDataId">@Model.DiscussionThread.UserName</a>
+                        <span class="justify-content-end">@Model.DiscussionThread.TimeStamp</span>
+                    </div>
+                     <br> @Model.DiscussionThread.Title;
+                </div>
+                <div class="card-body">
+                    @Model.DiscussionThread.Text;
+                </div>
+            </div>
+        </div>
+
+
+        @foreach (var item in Model.Comments)
         {
-            <partial name="_MainContentPartial" model="Model.MainContent" />
+            <div class="row" style="margin:1em;">
+                <div class="col-3">
+                </div>
+                <div class="col-9 mb-3">
+                    <div class="card">
+                        <div class="card-header">
+                            @item.UserName
+                        </div>
+                        <div class"card-body">
+                            "@item.Text"
+                        </div>
+                    </div>
+                </div>
+            </div>
         }
     }
 }

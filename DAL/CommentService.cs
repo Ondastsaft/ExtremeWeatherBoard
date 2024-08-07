@@ -27,7 +27,7 @@ namespace ExtremeWeatherBoard.DAL
 
         public async Task<List<Comment>> GetCommentsAsync(int discussionThreadId)
         {
-            List<Comment> comments = await _context.Comments.Where(c => c.ParentDiscussionThreadId == discussionThreadId).ToListAsync();
+            List<Comment> comments = await _context.Comments.Include(c => c.CommentUserData).Where(c => c.ParentDiscussionThreadId == discussionThreadId).ToListAsync();
             return comments;
         }
         public async Task PostCommentAsync(int discussionThreadId, string text, ClaimsPrincipal userPrincipal)
@@ -38,12 +38,14 @@ namespace ExtremeWeatherBoard.DAL
             {
                 Comment postedComment = new Comment()
                 {
+                    Title = "",
                     CommentUserData = userData,
                     ParentDiscussionThread = discussionThread,
                     Text = text,
                     TimeStamp = DateTime.UtcNow
                 };
                 await _context.Comments.AddAsync(postedComment);
+                await _context.SaveChangesAsync();
             }
         }
         public async Task DeleteCommentAsync(int commentId)
