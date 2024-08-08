@@ -15,11 +15,13 @@ namespace ExtremeWeatherBoard.DAL
             BaseAdress = new Uri("https://extremeweatherboardapi.azurewebsites.net");
             _context = context;
         }
-        //public async Task<List<Category>?> GetCategoriesAsync()
-        //{
-        //    var categories = await _context.Categories.ToListAsync();
-        //    return categories;
-        //}
+#if DEBUG
+        public async Task<List<Category>?> GetCategoriesAsync()
+        {
+            var categories = await _context.Categories.ToListAsync();
+            return categories;
+        }
+#else
         public async Task<List<Category>?> GetCategoriesAsync()
         {
             using (HttpClient client = new HttpClient())
@@ -42,7 +44,7 @@ namespace ExtremeWeatherBoard.DAL
                 return null;
             }
         }
-
+#endif
         public async Task<string> PostCategoryAsync(string title, AdminUserData poster)
             {
                 var newCategory = new Category() { Title = title, CreatorAdminUserData = poster, TimeStamp = DateTime.UtcNow };
