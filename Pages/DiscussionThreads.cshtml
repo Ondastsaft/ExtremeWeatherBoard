@@ -3,13 +3,6 @@
 @inject SignInManager<IdentityUser> SignInManager
 @model ExtremeWeatherBoard.Pages.DiscussionThreadsModel
 
-@section Sidebar {
-    @if (Model.SideBarOptions != null)
-    {
-        <partial name="_SideBarPartial" model="Model.SideBarOptions" />
-    }
-}
-@section MainContent {
     <style>
         .card-body {
             overflow: hidden;
@@ -64,6 +57,6 @@
             </div>
         }
     }
-}
+
 
 

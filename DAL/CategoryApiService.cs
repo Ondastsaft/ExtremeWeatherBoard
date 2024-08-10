@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using ExtremeWeatherBoard.Data;
 using Microsoft.EntityFrameworkCore;
+
 namespace ExtremeWeatherBoard.DAL
 {
     public class CategoryApiService
@@ -52,6 +53,12 @@ namespace ExtremeWeatherBoard.DAL
                 await _context.SaveChangesAsync();
                 return "true";
             }
+
+        internal async Task<List<Category>> GetCategoriesWithSubCategoriesAsync()
+        {
+            var categories = await _context.Categories.Include(c => c.SubCategories).ToListAsync();
+            return categories;
+        }
 
         //    public async Task<string> PostCategoryAsync(string title, AdminUserData poster)
         //{

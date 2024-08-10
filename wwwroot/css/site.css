@@ -21,6 +21,52 @@ body {
     margin-bottom: 60px;
 }
 
+.main-nav-object {
+    margin: 0;
+    padding: 0;
+}
+
+.main-container {
+    flex-grow: 1;
+    min-height: 80vh;
+    margin-top: 10vh;
+    margin-bottom:10vh;
+}
+
+.main-nav-object a {
+    color: black;
+    font-size: 1.5em;
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-block;
+    line-height: 1.2;
+    padding: 0 5px;
+}
+
+.main-nav-object a:hover {
+    font-weight: 700;
+}
+
+.main-nav-content {
+    margin: 0;
+    padding: 0;
+}
+
+.main-nav-content a {
+    color: black;
+    font-size: 1.1em;
+    text-decoration: none;
+    display: inline-block;
+    line-height: 1.2;
+    padding: 0 5px;
+}
+
+
+.main-nav-content a:hover {
+    font-weight: bold;
+}
+
+
 .card-header-restricted {
     display: -webkit-box;
     -webkit-line-clamp: 2;
@@ -96,7 +142,7 @@ body {
 }
 
 .chat-message-right {
-    font-weight: normal 
+    font-weight: normal
 }
 
 .chat-message-header-left {

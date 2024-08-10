@@ -8,9 +8,9 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/ExtremeWeatherBoard.styles.css" asp-append-version="true" />
 </head>
-<body style ="display: flex; flex-direction: column; min-height: 100vh;">
+<body style="display: flex; flex-direction: column; min-height: 100vh;">
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3 fixed-top" style="height: 10vh;">
             <div class="container">
                 <a class="navbar-brand" asp-area="" asp-page="/Index">ExtremeWeatherBoard</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -28,9 +28,9 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-page="/Index">Categories</a>
                         </li>
-                        @if(User.Identity != null)
+                        @if (User.Identity != null)
                         {
-                            @if(User.Identity.IsAuthenticated)
+                            @if (User.Identity.IsAuthenticated)
                             {
                                 <li class="nav-item">
                                     <a class="nav-link text-dark" asp-area="" asp-page="/User">User</a>
@@ -47,22 +47,10 @@
             </div>
         </nav>
     </header>
-
-    <div style="display: flex; flex-grow: 1;">
-        <div class="container flex-grow-1" style="display: flex; flex-direction: row; min-height: 0;">
-            <div class="row flex-grow-1 w-100">
-                <div class="col-md-2  border-end border-2" style="display: flex; flex-direction: column;">
-                    @await RenderSectionAsync("Sidebar", required: false)
-                </div>
-                <main role="main" class="col-md-9">
-                    @await RenderSectionAsync("MainContent", required: false)
-                    @RenderBody()
-                </main>
-            </div>
-        </div>
-    </div>
-    @RenderBody()
-    <footer class="border-top footer text-muted">
+<main>
+        @RenderBody()
+</main>
+    <footer class="border-top footer text-muted" style="height: 10vh;">
         <div class="container">
             &copy; 2024 - ExtremeWeatherBoard - <a asp-area="" asp-page="/Privacy">Privacy</a>
         </div>

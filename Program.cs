@@ -33,7 +33,6 @@ namespace ExtremeWeatherBoard
             builder.Services.AddScoped<CommentService>();
             builder.Services.AddScoped<UserDataService>();
             builder.Services.AddScoped<CategoryApiService>();
-            builder.Services.AddScoped<MockDataGenerator>();
             builder.Services.AddScoped<MessageService>();
             builder.Services.AddRazorPages();
 

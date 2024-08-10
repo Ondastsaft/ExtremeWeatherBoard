@@ -22,12 +22,12 @@ namespace ExtremeWeatherBoard.Pages
             _subCategoryService = subCategoryService;
             _discussionThreadService = discussionThreadService;
         }
-        public async Task OnGetAsync(int sidebarContentId, int subCategoryId)
+        public async Task OnGetAsync(int subCategoryId)
         {
-            SubCategoryId = sidebarContentId;
+            SubCategoryId = subCategoryId;
             SideBarOptions = new SideBarPartialViewModel();
             SideBarOptions.NavigateTo = "/DiscussionThreads";
-            var sidebarOptions = await _subCategoryService.GetSubCategoriesFromParentIdAsync(sidebarContentId);
+            var sidebarOptions = await _subCategoryService.GetSubCategoriesFromParentIdAsync(subCategoryId);
             if (sidebarOptions != null)
             {
                 SideBarOptions.SideBarOptions = sidebarOptions.Cast<ISideBarOption>().ToList();
