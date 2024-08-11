@@ -1,0 +1,40 @@
+﻿@page
+@model ExtremeWeatherBoard.Pages.AdminModel
+@{
+}
+
+<p><h2>Admin</h2></p>
+<p><h5>Select from dropdows to edit or assign admin</h5></p>
+<button class="btn btn-primary"></button>
+<button class="btn btn-primary"></button>
+
+<form method="post row-cols-3 ">
+    <div>
+        <label for="categories">Select Category:</label>
+        <select id="categories" name="categories">
+            @foreach (var category in Model.Categories)
+            {
+                <option value="@category.Id">@category.Title</option>
+            }
+        </select>
+    </div>
+    <div>
+        <label for="subCategories">Select SubCategory:</label>
+        <select id="subCategories" name="subCategories">
+            @foreach (var subCategory in Model.SubCategories)
+            {
+                <option value="@subCategory.Id">@subCategory.Title</option>
+            }
+        </select>
+    </div>
+    <div>
+        <label for="">Select User:</label>
+        <select id="subCategories" name="subCategories">
+            @foreach (var user in Model.UserDatas)
+            {
+                <option value="@user. ">@user.Name </option>
+            }
+        </select>
+    </div>
+    <button class="btn btn-primary" type="submit">Submit</button>
+</form>

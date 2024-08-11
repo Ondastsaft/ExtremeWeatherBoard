@@ -2,35 +2,59 @@
 @model ExtremeWeatherBoard.Pages.PostCommentModel
 @{
 }
-@section MainContent
-{
-            <div class="row-cols-auto" style="margin:1em; margin-bottom:3em;">
-            <div class="card">
-                <div class="card-header">
-                    <div class="row">
-                        <a class="justify-content-end" asp-page="/PostMessage" asp-route-messageReceiverId="@Model.DiscussionThread.UserDataId">@Model.DiscussionThread.UserName</a>
-                        <span class="justify-content-end">@Model.DiscussionThread.TimeStamp</span>
+<div class="row d-flex justify-content-end flex-grow-1 mb-4 w-100">
+    <div class="col-md-4">
+        <h1>Post Comment</h1>
+    </div>
+    <div class="col-md-8">
+        <div class="card d-flex">
+            <div class="card-header d-flex p-0 justify-content-end"
+                 style="height: 4em">
+                <div class="d-inline-flex" name="header content">
+                    <img src="@Model.DiscussionThread.ImageUrl"
+                         alt="Picture of user"
+                         class="object-fit-cover profile-image" />
+                    <div class="d-flex flex-column justify-content-end align-items-end post-info">
+                        <p class="h5 m-0">Post by @Model.DiscussionThread.UserName</p>
+                        <small class="fw-light">@Model.DiscussionThread.TimeStamp</small>
                     </div>
-                     <br> @Model.DiscussionThread.Title
                 </div>
-                <div class="card-body">
+            </div>
+            <div class="card-title h6 mt-3 word-break text-end mb-0">
+                <p>@Model.DiscussionThread.Title</p>
+            </div>
+            <div class="card-body my-0 py-0">
+                <p>
                     @Model.DiscussionThread.Text
+                </p>
+            </div>
+            <div class="card-footer d-flex justify-content-end">
+                <div class="w-50 d-flex justify-content-end">
+                    <form method="post" asp-page-handler="ReportComment" asp-route-discussionThreadId="@Model.DiscussionThread.Id"
+                          class="me-3" style="width: 8em;">
+                        <input type="hidden" name="discussionThreadId" value="@Model.DiscussionThread.Id" />
+                        <button type="submit" class="btn btn-danger w-100" title="Report this post" aria-label="Report this post">
+                            Report
+                        </button>
+                    </form>
+                    <a asp-page="/PostMessage" asp-route-recipentId="@Model.DiscussionThread.UserDataId" class="btn btn-secondary me-3 " style="width: 8em;" title="Send message to user" aria-label="Send message to user">Message</a>
+                    <a asp-page="User" asp-route-userDataId="@Model.DiscussionThread.UserDataId" class="btn btn-secondary" style="width: 8em;" title="View user profile" aria-label="View user profile">User</a>
                 </div>
             </div>
         </div>
-    <div class="row mb-3">
-        <h1>Post Comment</h1>
     </div>
-    <form method="post">
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        <div class="row">
-            <label for="Topic Text">Text</label>
-            <textarea class="form-control" placeholder="Topic Text" asp-for="Comment" rows="10"></textarea>
-            <span asp-validation-for="Comment" class="text-danger"></span>
-        </div>
-        <input type="hidden" asp-for="PostId" value="@Model.PostId" asp-route-postId="@Model.PostId"/>
-        <div class="row justify-content-end">
-            <button type="submit" class="btn">Post Comment</button>
-        </div>
-    </form>
-}
+</div>
+
+
+<form method="post" class="row w-100">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="row mb-3">
+        <label for="Topic Text">Text</label>
+        <textarea class="form-control" placeholder="Topic Text" asp-for="Comment" rows="10"></textarea>
+        <span asp-validation-for="Comment" class="text-danger"></span>
+    </div>
+    <input type="hidden" asp-for="PostId" value="@Model.PostId" asp-route-postId="@Model.PostId" />
+    <div class="row d-flex justify-content-end w-100">
+        <button type="submit" class="btn btn-primary w-25">Post Comment</button>
+    </div>
+</form>

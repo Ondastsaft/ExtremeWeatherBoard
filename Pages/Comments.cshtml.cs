@@ -6,6 +6,7 @@ using ExtremeWeatherBoard.Pages.PageModels;
 using ExtremeWeatherBoard.Pages.Shared.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Globalization;
 
 namespace ExtremeWeatherBoard.Pages
 {
@@ -70,7 +71,8 @@ namespace ExtremeWeatherBoard.Pages
                     Text = discussionThread.Text == null ? "text not found" : discussionThread.Text,
                     UserDataId = discussionThread.DiscussionThreadUserDataId,
                     UserName = discussionThread.DiscussionThreadUserData?.Name ?? "User name not found",
-                    TimeStamp = discussionThread.TimeStamp.ToShortTimeString(),
+                    ImageUrl = discussionThread.DiscussionThreadUserData?.ImageURL ?? "User image URL not found",
+                    TimeStamp = discussionThread.TimeStamp.ToString("yyyy-MM-dd HH:mm", CultureInfo.CurrentCulture),
                     SubCategoryId = discussionThread.SubCategoryId
                 };   
             }
@@ -90,8 +92,9 @@ namespace ExtremeWeatherBoard.Pages
                             Id = comment.Id,
                             Text = comment.Text,
                             UserDataId = comment.CommentUserDataId,
+                            ImageURL = comment.CommentUserData.ImageURL ?? "ImageUrlNotFound",
                             UserName = comment.CommentUserData.Name,
-                            TimeStamp = comment.TimeStamp.ToShortTimeString(),
+                            TimeStamp = comment.TimeStamp.ToString("yyyy-MM-dd HH:mm", CultureInfo.CurrentCulture),
                             IsReported = comment.IsReported
                         });
                     }

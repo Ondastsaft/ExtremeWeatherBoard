@@ -15,6 +15,8 @@ namespace ExtremeWeatherBoard.DAL
         private readonly CommentService _commentService;
         private readonly AdminLogService _adminLogService;
         private readonly UserManager<IdentityUser> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
+
         public AdminService
             (
             ApplicationDbContext context
@@ -24,6 +26,8 @@ namespace ExtremeWeatherBoard.DAL
             , CommentService commentService
             , AdminLogService adminLogService
             , UserManager<IdentityUser> userManager
+            , RoleManager<IdentityRole> roleManager
+
             )
         {
             _context = context;
@@ -33,6 +37,7 @@ namespace ExtremeWeatherBoard.DAL
             _commentService = commentService;
             _adminLogService = adminLogService;
             _userManager = userManager;
+            _roleManager = roleManager;
         }
         public async Task PostCategoryAsync(string title, ClaimsPrincipal userPrincipal)
         {
@@ -42,6 +47,19 @@ namespace ExtremeWeatherBoard.DAL
                 if (adminUserData != null)
                 {
                     await _categoryAPIService.PostCategoryAsync(title, adminUserData);
+                }
+            }
+        }
+
+        public async Task EditCategoryAsync(int categoryId, Category updatedCategory)
+        {
+            if (categoryId > 0)
+            {
+                var category = await _context.Categories.FirstOrDefaultAsync(c => c.Id == categoryId);
+                if (category != null)
+                {
+                    category = updatedCategory;
+                    await _context.SaveChangesAsync();
                 }
             }
         }
@@ -85,6 +103,19 @@ namespace ExtremeWeatherBoard.DAL
                 }
             }
         }
+
+        public async Task EditSubCategoryAsync(int subCategoryId, SubCategory updatedSubCategory)
+        {
+            if (subCategoryId > 0)
+            {
+                var subCategory = await _context.SubCategories.FirstOrDefaultAsync(c => c.Id == subCategoryId);
+                if (subCategory != null)
+                {
+                    subCategory = updatedSubCategory;
+                    await _context.SaveChangesAsync();
+                }
+            }
+        }
         public async Task DeleteSubCategoryAsync(int subCategoryId, ClaimsPrincipal userPrincipal)
         {
             if (userPrincipal.Identity?.Name != null)
@@ -99,6 +130,19 @@ namespace ExtremeWeatherBoard.DAL
                         await _context.SaveChangesAsync();
                     }
                 }
+            }
+        }
+
+        public async Task AddAdminRole(int userId)
+        {
+            if (!await _roleManager.RoleExistsAsync("Admin"))
+            {
+                await _roleManager.CreateAsync(new IdentityRole("Admin"));
+            }
+            var user = await _userManager.FindByIdAsync(userId.ToString());
+            if (user != null)
+            {
+                await _userManager.AddToRoleAsync(user, "Admin");
             }
         }
         public async Task PostAdminUserDataAsync(string userId)

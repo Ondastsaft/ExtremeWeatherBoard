@@ -33,6 +33,11 @@ namespace ExtremeWeatherBoard.DAL
                 }            
                 return GuestUserService.GuestUserData;
         }
+
+        public async Task<List<UserData>> GetAllUserDataAsync()
+        {
+            return await _context.UserDatas.ToListAsync();
+        }
         public async Task<UserData> GetUserDataAsync(int id)
         {
             var foundUserData = await _context.UserDatas.FirstOrDefaultAsync(ud => ud.Id == id);

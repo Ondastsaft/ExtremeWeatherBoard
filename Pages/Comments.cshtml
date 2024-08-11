@@ -1,65 +1,162 @@
 ﻿@page
 @model ExtremeWeatherBoard.Pages.CommentsModel
 @{
-
-
-    @if (Model.Comments.Count > 0)
+    @if (Model.DiscussionThread != null)
     {
-        <div class="row-cols-auto" style="margin:1em; margin-bottom:3em;">
-            <div class="card">
-                <div class="card-header">
-                    <div class="row">
-                        <a class="justify-content-end" asp-page="/PostMessage" asp-route-messageReceiverId="@Model.DiscussionThread.UserDataId">@Model.DiscussionThread.UserName</a>
-                        <span class="justify-content-end">@Model.DiscussionThread.TimeStamp</span>
+
+        <div class="row d-flex justify-content-end flex-grow-1 my-4 w-100">
+            <div class="col-md-8">
+                <div class="card d-flex">
+                    <div class="card-header d-flex p-0 justify-content-end bg-success bg-opacity-25 "
+                         style="height: 4em">
+                        <div class="d-inline-flex" name="header content">
+                            <img src="@Model.DiscussionThread.ImageUrl"
+                                 alt="Picture of user"
+                                 class="object-fit-cover profile-image" />
+                            <div class="d-flex flex-column justify-content-center align-items-end post-info">
+                                <p class="h5 m-0">Post by @Model.DiscussionThread.UserName</p>
+                                <small class="fw-light">@Model.DiscussionThread.TimeStamp</small>
+                            </div>
+                        </div>
                     </div>
-                    <br> @Model.DiscussionThread.Title;
-                </div>
-                <div class="card-body">
-                    @Model.DiscussionThread.Text;
+                    <div class="card-title h6 mt-3 word-break text-end mb-0">
+                        <p>@Model.DiscussionThread.Title</p>
+                    </div>
+                    <div class="card-body my-0 py-0">
+                        <p>
+                            @Model.DiscussionThread.Text
+                        </p>
+                    </div>
+                    <div class="card-footer d-flex justify-content-end bg-success bg-opacity-10 ">
+                        <div class="w-50 d-flex justify-content-end">
+                            <form method="post" asp-page-handler="ReportComment" asp-route-discussionThreadId="@Model.DiscussionThreadId"
+                                  class="me-3" style="width: 8em;">
+                                <input type="hidden" name="discussionThreadId" value="@Model.DiscussionThreadId" />
+                                <button type="submit" class="btn btn-danger w-100" title="Report this post" aria-label="Report this post">
+                                    Report
+                                </button>
+                            </form>
+                            <a asp-page="/PostMessage" asp-route-recipentId="@Model.DiscussionThread.UserDataId" class="btn btn-secondary me-3 " style="width: 8em;" title="Send message to user" aria-label="Send message to user">Message</a>
+                            <a asp-page="User" asp-route-userDataId="@Model.DiscussionThread.UserDataId" class="btn btn-secondary" style="width: 8em;" title="View user profile" aria-label="View user profile">User>User</a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-
-        @if (TempData["ErrorMessage"] != null)
+        @if (Model.Comments.Count > 0)
         {
-            <div class="alert alert-danger">
-                @TempData["ErrorMessage"]
-            </div>
-        }
-        @foreach (var item in Model.Comments)
-        {
-            <div class="row" style="margin:1em;">
-                <div class="col-3">
-                </div>
-                <div class="col-9 mb-3">
-                    <div class="card">
-                        <div class="card-header">
-                            @item.UserName
-                        </div>
-                        <div class"card-body">
-                            "@item.Text"
-                        </div>
-                        <div class="card-footer">
-                            @if (item.Id == Model.ReportedCommentId && TempData["SuccessMessage"] != null)
-                            {
-                                <div class="alert alert-success">
-                                    @TempData["SuccessMessage"]
+            @foreach (var comment in Model.Comments)
+            {
+                <div class="row d-flex flex-grow-1  mb-4 w-100">
+                    <div class="col-md-8">
+                        <div class="card d-flex flex-grow-1">
+                            <div class="card-header d-flex p-0 ms-2 bg-success bg-opacity-25"
+                                 style="height: 4em">
+                                <div class="d-inline-flex" name="header content">
+                                    <img src="@comment.ImageURL"
+                                         alt="Picture of user"
+                                         class="object-fit-scale profile-image" />
+                                    <div class="d-flex flex-column justify-content-center post-info">
+                                        <p class="h5 m-0">Comment by @comment.UserName</p>
+                                        <small class="fw-light">@comment.TimeStamp</small>
+                                    </div>
                                 </div>
-                            }
-                            else
-                            {
-                                <form method="post" asp-page-handler="ReportComment" asp-route-discussionThreadId="@Model.DiscussionThreadId">
-
-                                    <input type="hidden" name="reportedCommentId" value="@item.Id" />
-                                    <input type="hidden" name="discussionThreadId" value="@Model.DiscussionThreadId" />
-                                    <button type="submit" class="btn btn-primary">Report Comment</button>
-                                </form>
-                            }
+                            </div>
+                            <div class="card-body my-0 py-0">
+                                <p>
+                                    @comment.Text
+                                </p>
+                            </div>
+                            <div class="card-footer d-flex justify-content-end bg-success bg-opacity-10">
+                                <div class="w-50 d-flex justify-content-end">
+                                    <form method="post" asp-page-handler="ReportComment" asp-route-discussionThreadId="@Model.DiscussionThreadId"
+                                          class="me-3" style="width: 8em;">
+                                        <input type="hidden" name="discussionThreadId" value="@Model.DiscussionThreadId" />
+                                        <input type="hidden" name="commentId" value="@comment.Id" />
+                                        <button type="submit" class="btn btn-danger w-100" title="Report this post" aria-label="Report this post">
+                                            Report
+                                        </button>
+                                    </form>
+                                    <a asp-page="/PostMessage" asp-route-recipentId="@comment.UserDataId"
+                                       class="btn btn-secondary me-3 "
+                                       style="width: 8em;"
+                                       title="Send message to user"
+                                       aria-label="Send message to user">Message</a>
+                                    <a asp-page="User" asp-route-userDataId="@comment.UserDataId"
+                                       class="btn btn-secondary"
+                                       style="width: 8em;"
+                                       title="View user profile"
+                                       aria-label="View user profile">User>User</a>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
+            }
+            <div class="row d-flex justify-content-center w-100">
+                <a asp-page="/PostComment" asp-route-postId="@Model.DiscussionThreadId"
+                   class="btn btn-primary me-3 "
+                   style="width: 14em; height: 4em;"
+                   title="Post comment in topic"
+                   aria-label="Post comment in topic">Post comment</a>
+
             </div>
         }
+        // @if (Model.Comments.Count > 0)
+        // {
+        //     <div class="row-cols-auto" style="margin:1em; margin-bottom:3em;">
+        //         <div class="card">
+        //             <div class="card-header">
+        //                 <div class="row">
+        //                     <a class="justify-content-end" asp-page="/PostMessage" asp-route-messageReceiverId="@Model.DiscussionThread.UserDataId">@Model.DiscussionThread.UserName</a>
+        //                     <span class="justify-content-end">@Model.DiscussionThread.TimeStamp</span>
+        //                 </div>
+        //                 <br> @Model.DiscussionThread.Title;
+        //             </div>
+        //             <div class="card-body">
+        //                 @Model.DiscussionThread.Text;
+        //             </div>
+        //         </div>
+        //     </div>
+
+        //     @if (TempData["ErrorMessage"] != null)
+        //     {
+        //         <div class="alert alert-danger">
+        //             @TempData["ErrorMessage"]
+        //         </div>
+        //     }
+        //     @foreach (var item in Model.Comments)
+        //     {
+        //         <div class="row" style="margin:1em;">
+        //             <div class="col-3">
+        //             </div>
+        //             <div class="col-9 mb-3">
+        //                 <div class="card">
+        //                     <div class="card-header">
+        //                         @item.UserName
+        //                     </div>
+        //                     <div class"card-body">
+        //                         "@item.Text"
+        //                     </div>
+        //                     <div class="card-footer">
+        //                         @if (item.Id == Model.ReportedCommentId && TempData["SuccessMessage"] != null)
+        //                         {
+        //                             <div class="alert alert-success">
+        //                                 @TempData["SuccessMessage"]
+        //                             </div>
+        //                         }
+        //                         else
+        //                         {
+        //                             <form method="post" asp-page-handler="ReportComment" asp-route-discussionThreadId="@Model.DiscussionThreadId">
+        //                                 <input type="hidden" name="reportedCommentId" value="@item.Id" />
+        //                                 <input type="hidden" name="discussionThreadId" value="@Model.DiscussionThreadId" />
+        //                             </form>
+        //                         }
+        //                     </div>
+        //                 </div>
+        //             </div>
+        //         </div>
+        //     }
 
     }
 }

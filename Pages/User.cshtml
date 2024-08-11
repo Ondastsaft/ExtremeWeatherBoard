@@ -1,16 +1,9 @@
 ﻿@page
 @model ExtremeWeatherBoard.Pages.UserModel
 @{
-    @section Sidebar
-    {
-        @if (Model.SideBarOptions != null)
-        {
-            <partial name="_SideBarPartial" model="Model.SideBarOptions" />
-        }
-    }
-    @section MainContent
-    {
-        <div class="row h-25">
+
+    <div class="row h-25 d-flex ">
+    
             <div class="col-md-9 content-area" style=" display: flex; flex-direction: column; justify-content: space-between;">
                 <div>
                     @if (Model.CurrentUserData != null)
@@ -40,86 +33,89 @@
                     <img src="/Images/defaultuser.jpg" alt="User image" width="100" height="130" />
                 }
             </div>
+    </div>
+
+    <div class="row h-75">
+        <div class="col-4">
+            <p><h3 a asp-page="/Messages">Messages</h3></p>
+            @if (Model.Messages?.Count > 0)
+            {
+                @for (int i = 0; i < 4; i++)
+                {
+                    var message = Model.Messages[i];
+                    <div class="card" style="margin-bottom:10px;">
+                        <div class="card-header card-header-restricted" rows="2">
+                            <a class="card-title"
+                               a asp-page="/messages"
+                               asp-route-messageId="@message.Id">
+                                @message.Sender?.Name -
+                            </a>
+                            <p class="card-title">@message.Title</p>
+                        </div>
+                        <div class="card-body card-body-restricted" rows="3">
+                            <p class="card-text">@message.Text</p>
+                        </div>
+                    </div>
+                }
+            }
         </div>
 
+        <div class="col-4" style="">
+            <p class="border-3"><h3>Discussions</h3></p>
+            @if (Model.DiscussionThreads?.Count > 0)
+            {
 
-        <div class="row h-75" >
-            <div class="col-4">
-                <p><h3 a asp-page="/Messages">Messages</h3></p>
-                @if (Model.Messages?.Count > 0)
+                @for (int i = 0; i < Model.DiscussionThreads.Count; i++)
                 {
-                    @for (int i = 0; i < 4; i++)
-                    {
-                        var message = Model.Messages[i];
-                        <div class="card" style="margin-bottom:10px;" >
-                            <div class="card-header card-header-restricted" rows="2">
-                                <a class="card-title" 
-                                a asp-page="/messages" 
-                                asp-route-messageId="@message.Id">
-                                @message.Sender?.Name - 
+                    var thread = Model.DiscussionThreads[i];
+                    <div class="card" style="margin-bottom:10px;">
+                        <div class="card-header card-header-restricted" rows="1">
+                            <p>
+                                <a class="card-title"
+                                   asp-page="/comments"
+                                   asp-route-mainContentId="@thread.Id"
+                                   asp-route-sideBarContentId="@thread.SubCategoryId">
+                                    @thread.Title
                                 </a>
-                                <p class="card-title">@message.Title</p>
-                            </div>
-                            <div class="card-body card-body-restricted" rows="3">
-                                <p class="card-text">@message.Text</p>
-                            </div>
+                            </p>
                         </div>
-                    }
-                }
-            </div>
-
-            <div class="col-4" style="">
-                <p class="border-3"><h3>Discussions</h3></p>
-                @if (Model.DiscussionThreads?.Count > 0)
-                {
-                    @for (int i = 0; i < 4; i++)
-                    {
-                        var thread = Model.DiscussionThreads[i];
-                        <div class="card" style="margin-bottom:10px;">
-                                <div class="card-header card-header-restricted" rows="1" >
-                                    <p>
-                                        <a class="card-title"
-                                           asp-page="/comments"
-                                           asp-route-mainContentId="@thread.Id"
-                                           asp-route-sideBarContentId="@thread.SubCategoryId">
-                                            @thread.Title
-                                        </a>
-                                    </p>
-                                </div>
-                                <div class="card-body card-body-restricted" rows="4">
-                                    <p class="card-text">@thread.Text</p>
-                                </div>
-                            </div>
-                        
-                    }
-                }
-            </div>
-
-            <div class="col-4">
-                <p class="border-3"><h3>Comments</h3></p>
-                @if (Model.Comments?.Count > 0)
-                {
-                    @for (int i = 0; i < 4; i++)
-                    {
-                        Models.Comment comment = Model.Comments[i];
-                        <div class="card" style="margin-bottom:10px;">
-                            <div class="card-header card-header-restricted" rows="2">
-                                <p>
-                                    <a class="card-title"
-                                       asp-page="/comments"
-                                       asp-route-mainContentId="@comment.ParentDiscussionThread?.Id"
-                                       asp-route-sideBarContentId="@comment.ParentDiscussionThread?.SubCategoryId">
-                                        @comment.Title
-                                    </a>
-                                </p>
-                            </div>
-                            <div class="card-body card-body-restricted" rows="4">
-                                <p class="card-text">@comment.Text</p>
-                            </div>
+                        <div class="card-body card-body-restricted" rows="4">
+                            <p class="card-text">@thread.Text</p>
                         </div>
+                    </div>
+                    @if (i == 4)
+                    {
+                        break;
                     }
                 }
-            </div>
+            }
         </div>
-    }
+
+        <div class="col-4">
+            <p class="border-3"><h3>Comments</h3></p>
+            @if (Model.Comments?.Count > 0)
+            {
+                @for (int i = 0; i < 4; i++)
+                {
+                    Models.Comment comment = Model.Comments[i];
+                    <div class="card" style="margin-bottom:10px;">
+                        <div class="card-header card-header-restricted" rows="2">
+                            <p>
+                                <a class="card-title"
+                                   asp-page="/comments"
+                                   asp-route-mainContentId="@comment.ParentDiscussionThread?.Id"
+                                   asp-route-sideBarContentId="@comment.ParentDiscussionThread?.SubCategoryId">
+                                    @comment.Title
+                                </a>
+                            </p>
+                        </div>
+                        <div class="card-body card-body-restricted" rows="4">
+                            <p class="card-text">@comment.Text</p>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+
 }

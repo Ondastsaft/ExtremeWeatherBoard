@@ -4,13 +4,16 @@
     ViewData["Title"] = "Home page";
 }
 
-<div class="container main-container d-flex flex-wrap p-md-5" role="main">
-    <div class="row justify-content-between mx-5 w-100 mb-0">
+<div class="container main-container d-flex flex-wrap px-md-5 py-0 mt-2" role="main">
+    <div class="row justify-content-between mt-0 mb-0 px-0">
+        <div class="row d-flex justify-content-center p-0 m-0 display-6">
+        Welcome to the extreme weatherboard!
+        </div>
         @foreach (var navObject in Model.MainNavObjects)
         {
-            <div class="col-12 col-md-6 col-lg-4 d-flex justify-content-evenly mb-lg-5 ">
+            <div class="col-12 col-md-6 col-lg-4 d-flex justify-content-evenly mb-0  mt-0">
                 <div class="text-end">
-                    <p class="main-nav-object">
+                    <p class="main-nav-object ">
                         @if(Model.SubCategoryState)
                         {
                             <a asp-page="/DiscussionThreads" asp-route-subCategoryId="@navObject.Id">@navObject.Title</a>

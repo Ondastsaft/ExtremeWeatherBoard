@@ -15,6 +15,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Remove="Pages\Admin.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Azure.Extensions.AspNetCore.Configuration.Secrets" Version="1.3.1" />
     <PackageReference Include="Azure.Identity" Version="1.12.0" />
     <PackageReference Include="Azure.Security.KeyVault.Secrets" Version="4.6.0" />
@@ -32,7 +36,16 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="Pages\Admin.cshtml" />
     <None Include="wwwroot\Images\defaultuser.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Pages\Admin.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Pages\Admin.cshtml" />
   </ItemGroup>
 
 </Project>

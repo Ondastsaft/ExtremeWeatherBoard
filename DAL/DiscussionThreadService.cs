@@ -26,6 +26,7 @@ namespace ExtremeWeatherBoard.DAL
         public async Task<DiscussionThread?> GetDiscussionThreadAsync(int discussionThreadId)
         {
             var discussionThread = await _context.DiscussionThreads
+                                                .Include(dt => dt.DiscussionThreadUserData)
                                                 .FirstOrDefaultAsync(dt => dt.Id == discussionThreadId);
             return discussionThread;
         }
@@ -83,23 +84,23 @@ namespace ExtremeWeatherBoard.DAL
                 var discussionThreadUser = _userDataService.GetCurrentUserDataAsync(userPrincipal);
                 var targetDiscussionThread = await _context.DiscussionThreads.FirstOrDefaultAsync(d => d.Id == discussionThreadId);
 
-                        if (targetDiscussionThread?.DiscussionThreadUserData?.Id == discussionThreadUser.Id)
-                        {
-                            _context.DiscussionThreads.Remove(targetDiscussionThread);
-                            await _context.SaveChangesAsync();
-                        }
-                        if(isAdmin && targetDiscussionThread != null)
-                        {
-                            _context.DiscussionThreads.Remove(targetDiscussionThread);
-                            await _context.SaveChangesAsync();
-                        }
+                if (targetDiscussionThread?.DiscussionThreadUserData?.Id == discussionThreadUser.Id)
+                {
+                    _context.DiscussionThreads.Remove(targetDiscussionThread);
+                    await _context.SaveChangesAsync();
+                }
+                if (isAdmin && targetDiscussionThread != null)
+                {
+                    _context.DiscussionThreads.Remove(targetDiscussionThread);
+                    await _context.SaveChangesAsync();
+                }
             }
 
         }
         public async Task ReportDiscussionThread(int discussionThreadId)
         {
             var discussionThread = _context.DiscussionThreads.FirstOrDefault(dt => dt.Id == discussionThreadId);
-            if(discussionThread != null)
+            if (discussionThread != null)
             {
                 discussionThread.IsReported = true;
                 await _context.SaveChangesAsync();

@@ -6,6 +6,7 @@
         public string Title { get; set; } = string.Empty;
         public string Text { get; set; } = string.Empty;
         public int UserDataId { get; set; }
+        public string ImageUrl { get; set; } = "/images/defaultuser.jpg";
         public int SubCategoryId { get; set; }
         public string UserName { get; set; } = string.Empty;
         public string TimeStamp { get; set; } = string.Empty;

@@ -1,6 +1,9 @@
 html {
     font-size: 14px;
 }
+html, body {
+    font-family: Verdana, sans-serif;
+}
 
 @media (min-width: 768px) {
     html {
@@ -159,4 +162,14 @@ body {
     font-size: 1.2em;
     font-weight: bold;
     background-color: #ededed;
+}
+
+.profile-image {
+    height: 3.8em;
+    border-radius: 50%;
+}
+
+.post-info {
+    margin-right: 0.5em;
+    margin-left: 1em;
 }
