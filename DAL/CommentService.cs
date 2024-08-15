@@ -14,9 +14,9 @@ namespace ExtremeWeatherBoard.DAL
             _context = context;
             _userDataService = userDataService;
         }
-        public async Task<List<Comment>?> GetCommentsRelatedToUserAsync(ClaimsPrincipal userPrincipal)
+        public async Task<List<Comment>?> GetCommentsRelatedToUserAsync(ClaimsPrincipal claimsPrincipal)
         {
-            var userData = await _userDataService.GetCurrentUserDataAsync(userPrincipal);
+            var userData = await _userDataService.GetCurrentUserDataAsync(claimsPrincipal);
             if (userData != null)
             {
                 List<Comment> comments = await _context.Comments.Where(c => c.CommentUserData == userData).ToListAsync();
@@ -36,9 +36,9 @@ namespace ExtremeWeatherBoard.DAL
             List<Comment> comments = await _context.Comments.Include(c => c.CommentUserData).Where(c => c.ParentDiscussionThreadId == discussionThreadId).ToListAsync();
             return comments;
         }
-        public async Task PostCommentAsync(int discussionThreadId, string text, ClaimsPrincipal userPrincipal)
+        public async Task PostCommentAsync(int discussionThreadId, string text, ClaimsPrincipal claimsPrincipal)
         {
-            UserData userData = await _userDataService.GetCurrentUserDataAsync(userPrincipal);
+            UserData userData = await _userDataService.GetCurrentUserDataAsync(claimsPrincipal);
             var discussionThread = await _context.DiscussionThreads.FirstOrDefaultAsync(dt => dt.Id == discussionThreadId);
             if (discussionThread is DiscussionThread)
             {

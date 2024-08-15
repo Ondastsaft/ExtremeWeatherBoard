@@ -9,13 +9,13 @@
 
   <ItemGroup>
     <Compile Remove="obj\**" />
+    <Compile Remove="Pages\Versions\**" />
     <Content Remove="obj\**" />
+    <Content Remove="Pages\Versions\**" />
     <EmbeddedResource Remove="obj\**" />
+    <EmbeddedResource Remove="Pages\Versions\**" />
     <None Remove="obj\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Remove="Pages\Admin.cshtml" />
+    <None Remove="Pages\Versions\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -36,16 +36,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="Pages\Admin.cshtml" />
     <None Include="wwwroot\Images\defaultuser.jpg" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <UpToDateCheckInput Remove="Pages\Admin.cshtml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <_ContentIncludedByDefault Remove="Pages\Admin.cshtml" />
   </ItemGroup>
 
 </Project>

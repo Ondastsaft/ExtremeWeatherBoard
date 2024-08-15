@@ -3,60 +3,64 @@
 @inject SignInManager<IdentityUser> SignInManager
 @model ExtremeWeatherBoard.Pages.DiscussionThreadsModel
 
-    <style>
-        .card-body {
-            overflow: hidden;
-            display: -webkit-box;
-            -webkit-line-clamp: 7;
-            -webkit-box-orient: vertical;
-        }
-    </style>
-    @if (Model.DiscussionThreads != null)
+@if (Model.DiscussionThreads != null)
+{
+    if (User.Identity != null)
     {
-        var mainContent = Model.DiscussionThreads;
-        bool isLoggedIn = false;
-        if (User.Identity != null)
+        @if (User.Identity.IsAuthenticated)
         {
-            isLoggedIn = User.Identity.IsAuthenticated;
-        }
-        @if (mainContent is List<DTO.DiscussionThreadDTO>)
-        {
-            @if (isLoggedIn)
-            {
-                <div class=" row page-header align-content-end">
-                    <a class="col-12 align-content-end" asp-page="/PostDiscussionThread" asp-route-subCategoryId="@Model.SubCategoryId">Post Topic</a>
-                </div>
-            }
-            <div class="container-scrollable-maincontent">
-                <div class="row row-cols-1 row-cols-md-3 g-4">
-                    @for (int i = 0; i < mainContent.Count; i++)
-                    {
-                        var item = mainContent[i];
-                        <div class="col-3" style="margin-bottom:1vh">
-                            <div class="card">
-                                <div class="card-header">
-                                    @if (isLoggedIn)
-                                    {
-                                        <a asp-page="/PostMessage" asp-route-messageReceiverId="@item.UserDataId">@item.UserName</a>
-                                    }
-                                    else
-                                    {
-                                        @item.UserName
-                                    }
-                                    <a asp-page="/Comments" asp-route-sidebarContentId="@item.Id" asp-route-discussionThreadId="@item.Id">
-                                        @item.Title
-                                    </a>
-                                </div>
-                                <div class="card-body">
-                                    @item.Text
-                                </div>
-                            </div>
-                        </div>
-                    }
-                </div>
+            <div class=" row page-header w-100 mt-5">
+                <a class="col-md-3 justify-content-end" asp-page="/PostDiscussionThread" asp-route-subCategoryId="@Model.SubCategoryId">Post Topic</a>
+                <h1 class="col-md-9 d-flex justify-content-end">@Model.SubCategoryTitle</h1>
             </div>
         }
+
     }
+    <div class="row d-flex justify-content-end flex-grow-1 my-4 w-100">
+        @foreach (var discussionThread in Model.DiscussionThreads)
+        {
+            <div class="col-md-8 mb-5 mt-3">
+                <div class="card d-flex">
+                    <div class="card-header d-flex p-0 justify-content-end bg-success bg-opacity-25 "
+                         style="height: 4em">
+                        <div class="d-inline-flex" name="header content">
+                            <img src="@discussionThread.ImageUrl"
+                                 alt="Picture of user"
+                                 class="object-fit-cover profile-image" />
+                            <div class="d-flex flex-column justify-content-center align-items-end post-info">
+                                <p class="h5 m-0">Post by @discussionThread.UserName</p>
+                                <small class="fw-light">@discussionThread.TimeStamp</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-title h6 mt-3 word-break text-end mb-0">
+                        <p>@discussionThread.Title</p>
+                    </div>
+                    <div class="card-body my-0 py-0 text-truncate">
+                        <p>
+                            @discussionThread.Text
+                        </p>
+                    </div>
+                    <div class="card-footer d-flex justify-content-end bg-success bg-opacity-10 ">
+                        <div class="w-50 d-flex justify-content-end">
+                            <form method="post" asp-page-handler="ReportTopic" asp-route-discussionThreadId="@discussionThread.Id"
+                                  class="me-3" style="width: 8em;">
+                                <input type="hidden" name="discussionThreadId" value="@discussionThread.Id" />
+                                <button type="submit" class="btn btn-danger w-100" title="Report this post" aria-label="Report this post">
+                                    Report
+                                </button>
+                            </form>
+                            <a asp-page="/PostMessage" asp-route-recipentId="@discussionThread.UserDataId" class="btn btn-secondary me-3 " style="width: 8em;" title="Send message to user" aria-label="Send message to user">Message</a>
+                            <a asp-page="User" asp-route-userDataId="@discussionThread.UserDataId" class="btn btn-secondary" style="width: 8em;" title="View user profile" aria-label="View user profile">User</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        }
+    </div>
+}
+
 
 
 

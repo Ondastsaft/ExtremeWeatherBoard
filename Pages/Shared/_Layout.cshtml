@@ -10,7 +10,7 @@
 </head>
 <body style="display: flex; flex-direction: column; min-height: 100vh;">
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow mb-0 bg-success bg-opacity-25 > style="height: 10vh;">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow mb-0 bg-success bg-opacity-25"  style="height: 10vh;">
             <div class="container">
                 <a class="navbar-brand" asp-area="" asp-page="/Index">ExtremeWeatherBoard</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -39,6 +39,13 @@
                                 <li class="nav-item">
                                     <a class="nav-link text-dark" asp-area="" asp-page="/Messages">Messages</a>
                                 </li>
+                                @if(User.IsInRole("Admin"))
+                                {
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="" asp-page="/Admin">Admin</a>
+                                    </li>
+                                }
+
                             }
                         }
                     </ul>

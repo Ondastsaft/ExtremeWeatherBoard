@@ -25,7 +25,7 @@ namespace ExtremeWeatherBoard.DAL
                 .ToListAsync();
             return subCategories;
         }
-        public async Task<SubCategory> GetSubCategory (int subCategoryId) 
+        public async Task<SubCategory> GetSubCategoryAsync (int subCategoryId) 
         {
             var subCategory = await _context.SubCategories.FirstOrDefaultAsync(sc => sc.Id == subCategoryId);
             if (subCategory != null)

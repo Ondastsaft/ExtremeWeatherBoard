@@ -4,17 +4,21 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using ExtremeWeatherBoard.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
+using System.Security.Claims;
 
 namespace ExtremeWeatherBoard.DAL
 {
     public class CategoryApiService
     {
-        protected Uri BaseAdress { get; }                
+        protected Uri BaseAdress { get; }
         private readonly ApplicationDbContext _context;
-        public CategoryApiService(ApplicationDbContext context)
+        private readonly UserManager<IdentityUser> _userManager;
+        public CategoryApiService(ApplicationDbContext context, UserManager<IdentityUser> userManager)
         {
             BaseAdress = new Uri("https://extremeweatherboardapi.azurewebsites.net");
             _context = context;
+            _userManager = userManager;
         }
 #if DEBUG
         public async Task<List<Category>?> GetCategoriesAsync()
@@ -46,14 +50,12 @@ namespace ExtremeWeatherBoard.DAL
             }
         }
 #endif
-        public async Task<string> PostCategoryAsync(string title, AdminUserData poster)
-            {
-                var newCategory = new Category() { Title = title, CreatorAdminUserData = poster, TimeStamp = DateTime.UtcNow };
-                _context.Categories.Add(newCategory);
-                await _context.SaveChangesAsync();
-                return "true";
-            }
 
+        internal async Task<Category?> GetCategoryAsync(int categoryId)
+        {
+            var category = await _context.Categories.FirstOrDefaultAsync(c => c.Id == categoryId);
+            return category;
+        }
         internal async Task<List<Category>> GetCategoriesWithSubCategoriesAsync()
         {
             var categories = await _context.Categories.Include(c => c.SubCategories).ToListAsync();

@@ -2,33 +2,33 @@
 @model PostDiscussionThreadModel
 @{
 }
-@section MainContent
-{
-    <div class="row">
-        <h1> Topic to be posted in <a>@Model.SubCategoryTitle</a></h1>
-    </div>
-    <form method="post">
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        <div class="row">
-            <div class="col-md-3">Title</div>
-            <label for="Topic Title"></label>
-            <input type="text" class="form-control" asp-for="Title" maxlength="40" placeholder="Topic Title" />
-            <span asp-validation-for="Title" class="text-danger"></span>
-        </div>
-        <div class="row">
-            <label for="Topic Text">Text</label>
-            <textarea class="form-control" placeholder="Topic Text" asp-for="Text" rows="10"></textarea>
-            <span asp-validation-for="Text" class="text-danger"></span>
-        </div>
-        <input type="hidden" asp-for="SubCategoryId"/>
-        <div class="row justify-content-end">
-            <button type="submit" class="btn">Post Topic</button>
-        </div>
-    </form>
-}
 
-@section Sidebar {
-<p> 
-    You should put some sidebaroptions here
-</p>
-}
+    <div class="row w-100 align-content-center">
+        <div class="col-12 d-flex justify-content-center">
+            <h1> Topic to be posted in <a>@Model.SubCategoryTitle</a></h1>
+        </div>
+    </div>
+
+<div class="row w-100 justify-content-center">
+    <div class="col-md-8 align-self-center">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="row">
+                <div class="col-md-3">Title</div>
+                <label for="Topic Title"></label>
+                <input type="text" class="form-control" asp-for="Title" maxlength="40" placeholder="Topic Title" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            <div class="row">
+                <label for="Topic Text">Text</label>
+                <textarea class="form-control" placeholder="Topic Text" asp-for="Text" rows="10"></textarea>
+                <span asp-validation-for="Text" class="text-danger"></span>
+            </div>
+            <input type="hidden" asp-for="SubCategoryId" />
+            <div class="row justify-content-center">
+                <button type="submit" class="btn btn-primary">Post Topic</button>
+            </div>
+        </form>
+    </div>
+</div>
+    

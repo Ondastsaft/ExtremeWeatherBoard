@@ -17,10 +17,10 @@ namespace ExtremeWeatherBoard.DAL
             _userDataService = userDataService;
             _userManager = userManager;
         }
-        public async Task<Message?> GetMessageAsync(int messageId, ClaimsPrincipal userPrincipal)
+        public async Task<Message?> GetMessageAsync(int messageId, ClaimsPrincipal claimsPrincipal)
         {
             var message = await _context.Messages.FirstOrDefaultAsync(m => m.Id == messageId);
-            var userData = await _userDataService.GetCurrentUserDataAsync(userPrincipal);
+            var userData = await _userDataService.GetCurrentUserDataAsync(claimsPrincipal);
             if (message != null && userData != null)
             {
                 if (message.SenderId == userData.Id || message.ReceiverId == userData.Id)
@@ -30,10 +30,10 @@ namespace ExtremeWeatherBoard.DAL
             }
             return null;
         }
-        public async Task<List<Message>> GetFirstMessageForEachtThreadAsync(ClaimsPrincipal userPrincipal)
+        public async Task<List<Message>> GetFirstMessageForEachtThreadAsync(ClaimsPrincipal claimsPrincipal)
         {
             List<Message> messageThreads = new List<Message>();
-            var usersMessages = await GetMessagesRelatedToUserAsync(userPrincipal);
+            var usersMessages = await GetMessagesRelatedToUserAsync(claimsPrincipal);
             if (usersMessages != null)
             {
                 foreach (var message in usersMessages) 
@@ -52,10 +52,10 @@ namespace ExtremeWeatherBoard.DAL
             }
             return messageThreads;
         }
-        public async Task<List<Message>> GetAllMessagesInThreadAsync(ClaimsPrincipal userPrincipal,Message originalMessage)
+        public async Task<List<Message>> GetAllMessagesInThreadAsync(ClaimsPrincipal claimsPrincipal,Message originalMessage)
         {
             List<Message> messageThread = new List<Message>();
-            var usersMessages = await GetMessagesRelatedToUserAsync(userPrincipal);
+            var usersMessages = await GetMessagesRelatedToUserAsync(claimsPrincipal);
             if (usersMessages != null)
             {
                 foreach (var message in usersMessages)
@@ -68,9 +68,9 @@ namespace ExtremeWeatherBoard.DAL
             }
             return messageThread;
         }
-        public async Task PostMessageAsync(ClaimsPrincipal userPrincipal, int receiverUserDataId, string title, string text)
+        public async Task PostMessageAsync(ClaimsPrincipal claimsPrincipal, int receiverUserDataId, string title, string text)
         {
-            var senderUserData = await _userDataService.GetCurrentUserDataAsync(userPrincipal);
+            var senderUserData = await _userDataService.GetCurrentUserDataAsync(claimsPrincipal);
             if (senderUserData != null && senderUserData.Id !=0) 
             {
                 UserData receiverUserData = await _userDataService.GetUserDataAsync(receiverUserDataId);
@@ -96,9 +96,9 @@ namespace ExtremeWeatherBoard.DAL
                 _context.Messages.Remove(messsageToBeDeleted);
             }
         }
-        internal async Task<List<Message>> GetMessagesRelatedToUserAsync(ClaimsPrincipal userPrincipal)
+        internal async Task<List<Message>> GetMessagesRelatedToUserAsync(ClaimsPrincipal claimsPrincipal)
         {
-            var userData = await _userDataService.GetCurrentUserDataAsync(userPrincipal);
+            var userData = await _userDataService.GetCurrentUserDataAsync(claimsPrincipal);
 
             List<Message> messages = new List<Message>();
                     var sentMessages = await _context.Messages.Include(m => m.Sender).Include(m => m.Receiver).Where(m => m.SenderId == userData.Id).ToListAsync();

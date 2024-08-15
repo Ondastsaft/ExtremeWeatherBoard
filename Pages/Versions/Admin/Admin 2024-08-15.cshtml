@@ -1,0 +1,135 @@
+﻿@page
+@model ExtremeWeatherBoard.Pages.AdminModel
+@{
+    ViewData["Title"] = "Admin";
+}
+
+
+<div class="container row row-cols-lg-3 row-cols-md-2">
+    <div class="row d-flex w-100 mt-4">
+        <div class="col-auto">
+            <h2>Admin</h2>
+        </div>
+    </div>
+    <div class="col d-flex col-auto">
+        <form method="post" asp-page-handler="CreateCategory" class="row d-flex flex-grow ps-0 ms-0 mt-2">
+            <div class="row w-100 justify-content-start ">
+                <div class="col m-0 p-0">
+                    <label for="categoryId" class="form-label ms-0">Select Category:</label>
+                    <select id="categoryId" name="CategoryId" class="form-select ms-0">
+                        @foreach (var category in Model.Categories)
+                        {
+                            <option value="@category.Id">@category.Title</option>
+                        }
+                    </select>
+                </div>
+            </div>
+            <div class="row w-100 justify-content-start my-3">
+                <div class="col m-0 p-0">
+                    <label for="categoryTitle" class="form-label mb-1">New Title:</label>
+                    <input type="text" id="categoryTitle" name="CategoryTitle" class="form-control ms-0" maxlength="25" />
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                    <div class="col-auto">
+                    <button type="submit" class="btn btn-primary">Create Category</button>
+                    </div>                    
+            </div>
+        </form>
+    </div>
+
+    <div class="col d-flex flex-column justify-content-between mt-2">
+        <form method="post" asp-page-handler="CreateSubCategory">
+            <div>
+                <label for="subCategoryId">Select SubCategory:</label>
+                <select id="subCategoryId" name="SubCategoryId" class="form-select">
+                    @foreach (var subCategory in Model.SubCategories)
+                    {
+                        <option value="@subCategory.Id">@subCategory.Title</option>
+                    }
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary mt-2">Create SubCategory</button>
+        </form>
+    </div>
+
+    <div class="col d-flex flex-column justify-content-between mt-2">
+        <form method="post" asp-page-handler="AssignAdmin">
+            <div>
+                <label for="userId">Select user to assign admin role:</label>
+                <select id="userId" name="UserId" class="form-select">
+                    @foreach (var user in Model.UserDatas)
+                    {
+                        <option value="@user.Id">@user.Name</option>
+                    }
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary mt-2">Assign Admin Role</button>
+        </form>
+    </div>
+
+    <div class="col d-flex flex-column justify-content-between mt-2">
+        <form method="post" asp-page-handler="EditCategory">
+            <div>
+                <label for="editCategoryId">Select category to edit title:</label>
+                <select id="editCategoryId" name="CategoryId" class="form-select">
+                    @foreach (var category in Model.Categories)
+                    {
+                        <option value="@category.Id">@category.Title</option>
+                    }
+                </select>
+            </div>
+            <div class="row mt-2">
+                <label for="newCategoryTitle" class="form-label">New Title:</label>
+                <input type="text" id="newCategoryTitle" name="NewCategoryTitle" class="form-control" maxlength="25" />
+            </div>
+            <button type="submit" class="btn btn-primary mt-2">Edit Category</button>
+        </form>
+    </div>
+
+    <div class="col d-flex flex-column justify-content-between mt-2">
+        <form method="post" asp-page-handler="EditSubCategory">
+            <div>
+                <label for="editParentCategoryId">Select Category:</label>
+                <select id="editParentCategoryId" name="ParentCategoryId" class="form-select" onchange="this.form.submit()">
+                    @foreach (var category in Model.Categories)
+                    {
+                        <option value="@category.Id">@category.Title</option>
+                    }
+                </select>
+            </div>
+            <div class="mt-2">
+                <label for="editSubCategoryId">Select SubCategory:</label>
+                <select id="editSubCategoryId" name="SubCategoryId" class="form-select">
+                    @if (Model.ParentCategoryId != 0)
+                    {
+                        @foreach (var subCategory in Model.SubCategories)
+                        {
+                            if (subCategory.ParentCategoryId == Model.ParentCategoryId)
+                            {
+                                <option value="@subCategory.Id">@subCategory.Title</option>
+                            }
+                        }
+                    }
+                    else
+                    {
+                        <option>Select a category to edit its subcategory</option>
+                    }
+                </select>
+            </div>
+            <div class="row mt-2">
+                <label for="newSubCategoryTitle" class="form-label">New Title:</label>
+                <input type="text" id="newSubCategoryTitle" name="NewSubCategoryTitle" class="form-control" maxlength="25" />
+            </div>
+            <button type="submit" class="btn btn-primary mt-2">Edit SubCategory</button>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.getElementById('editParentCategoryId').addEventListener('change', function () {
+            this.form.submit();
+        });
+    </script>
+}

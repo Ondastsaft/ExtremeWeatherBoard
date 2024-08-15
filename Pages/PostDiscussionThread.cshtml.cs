@@ -44,7 +44,7 @@ namespace ExtremeWeatherBoard.Pages
             if (subCategoryId != 0)
             {
                 this.SubCategoryId = subCategoryId;
-                var subcategory = await _subCategoryService.GetSubCategory(SubCategoryId);
+                var subcategory = await _subCategoryService.GetSubCategoryAsync(SubCategoryId);
                 if (subcategory.Title != null)
                 {
                     SubCategoryTitle = subcategory.Title;

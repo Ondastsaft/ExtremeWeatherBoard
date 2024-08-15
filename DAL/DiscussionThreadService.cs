@@ -30,9 +30,9 @@ namespace ExtremeWeatherBoard.DAL
                                                 .FirstOrDefaultAsync(dt => dt.Id == discussionThreadId);
             return discussionThread;
         }
-        public async Task PostDiscussionThreadAsync(ClaimsPrincipal userPrincipal, int subCategoryId, string title, string text)
+        public async Task PostDiscussionThreadAsync(ClaimsPrincipal claimsPrincipal, int subCategoryId, string title, string text)
         {
-            var user = await _userDataService.GetCurrentUserDataAsync(userPrincipal);
+            var user = await _userDataService.GetCurrentUserDataAsync(claimsPrincipal);
             var subCategory = await _context.SubCategories.FirstOrDefaultAsync(sc => sc.Id == subCategoryId);
             if (user.Id == 0 || subCategory == null)
             {
@@ -57,11 +57,11 @@ namespace ExtremeWeatherBoard.DAL
                 }
             }
         }
-        public async Task UpdateDiscussionThreadAsync(ClaimsPrincipal userPrincipal, int discussionThreadId, string text)
+        public async Task UpdateDiscussionThreadAsync(ClaimsPrincipal claimsPrincipal, int discussionThreadId, string text)
         {
-            if (userPrincipal.Identity != null)
+            if (claimsPrincipal.Identity != null)
             {
-                var discussionThreadUser = _userDataService.GetCurrentUserDataAsync(userPrincipal);
+                var discussionThreadUser = _userDataService.GetCurrentUserDataAsync(claimsPrincipal);
                 var targetDiscussionThread = await _context.DiscussionThreads.FindAsync(discussionThreadId);
                 if (targetDiscussionThread != null)
                 {
@@ -76,12 +76,12 @@ namespace ExtremeWeatherBoard.DAL
                 }
             }
         }
-        public async Task DeleteDiscussionThreadAsync(ClaimsPrincipal userPrincipal, int discussionThreadId)
+        public async Task DeleteDiscussionThreadAsync(ClaimsPrincipal claimsPrincipal, int discussionThreadId)
         {
-            bool isAdmin = await _userDataService.CheckIfAdminAsync(userPrincipal);
-            if (userPrincipal.Identity != null)
+            bool isAdmin = await _userDataService.CheckIfAdminAsync(claimsPrincipal);
+            if (claimsPrincipal.Identity != null)
             {
-                var discussionThreadUser = _userDataService.GetCurrentUserDataAsync(userPrincipal);
+                var discussionThreadUser = _userDataService.GetCurrentUserDataAsync(claimsPrincipal);
                 var targetDiscussionThread = await _context.DiscussionThreads.FirstOrDefaultAsync(d => d.Id == discussionThreadId);
 
                 if (targetDiscussionThread?.DiscussionThreadUserData?.Id == discussionThreadUser.Id)
@@ -106,9 +106,9 @@ namespace ExtremeWeatherBoard.DAL
                 await _context.SaveChangesAsync();
             }
         }
-        public async Task<List<DiscussionThread>?> GetDiscussionThreadsRelatedTouserAsync(ClaimsPrincipal userPrincipal)
+        public async Task<List<DiscussionThread>?> GetDiscussionThreadsRelatedTouserAsync(ClaimsPrincipal claimsPrincipal)
         {
-            var user = await _userDataService.GetCurrentUserDataAsync(userPrincipal);
+            var user = await _userDataService.GetCurrentUserDataAsync(claimsPrincipal);
             if (user != null)
             {
                 var threads = await _context.DiscussionThreads.Where(dt => dt.DiscussionThreadUserDataId == user.Id).ToListAsync();

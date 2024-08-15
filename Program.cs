@@ -24,8 +24,10 @@ namespace ExtremeWeatherBoard
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
             builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+                .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             builder.Services.AddScoped<UserManager<IdentityUser>>();
+            builder.Services.AddScoped<RoleManager<IdentityRole>>();
             builder.Services.AddScoped<SubCategoryService>();
             builder.Services.AddScoped<AdminLogService>();
             builder.Services.AddScoped<AdminService>();
@@ -35,7 +37,6 @@ namespace ExtremeWeatherBoard
             builder.Services.AddScoped<CategoryApiService>();
             builder.Services.AddScoped<MessageService>();
             builder.Services.AddRazorPages();
-
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

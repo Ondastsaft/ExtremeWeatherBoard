@@ -1,40 +1,299 @@
 ﻿@page
 @model ExtremeWeatherBoard.Pages.AdminModel
 @{
+    ViewData["Title"] = "Admin";
 }
+<div class="row d-flex w-100 mt-3 justify-content-around">
+    <div class="col-auto">
+        <h1>Admin</h1>
+    </div>
+</div>
+<div class="container row w-100">
 
-<p><h2>Admin</h2></p>
-<p><h5>Select from dropdows to edit or assign admin</h5></p>
-<button class="btn btn-primary"></button>
-<button class="btn btn-primary"></button>
+    <div class="row d-flex w-100 my-5">
+        <div class="col-12 text-center bg-success bg-opacity-25">
+            <h3>Category Management</h3>
+        </div>
 
-<form method="post row-cols-3 ">
-    <div>
-        <label for="categories">Select Category:</label>
-        <select id="categories" name="categories">
-            @foreach (var category in Model.Categories)
-            {
-                <option value="@category.Id">@category.Title</option>
-            }
-        </select>
+        <!-- Create Category -->
+        <div class="col-lg-4 col-md-6 col-12 d-flex mb-4 h-100">
+            <form method="post" asp-page-handler="CreateNewCategory" class="row d-flex flex-grow ps-0 ms-0 mt-2">
+                <div class="row w-100 d-flex justify-content-center align-items-start m-0 p-0">
+                    <div class="col d-flex justify-content-center m-0 p-0">
+                        <h5 class="m-0 p-0">Create Category</h5>
+                    </div>
+                </div>
+                <div class="row w-100 justify-content-start align-self-">
+                    <div class="col m-0 p-0">
+                        <label for="NewCategoryTitle" class="form-label mb-1">New Category Title:</label>
+                        <input type="text" id="NewCategoryTitle" name="NewCategoryTitle" class="form-control ms-0" maxlength="25" />
+                    </div>
+                </div>
+                <div class="row justify-content-center align-content-end">
+                    <div class="col-auto">
+                        <button type="submit" class="btn btn-primary">Create Category</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <!-- Edit Category -->
+        <div class="col-lg-4 col-md-6 col-12 d-flex mb-4 h-100">
+            <form method="post" asp-page-handler="EditCategory" class="row d-flex flex-grow ps-0 ms-0 mt-2">
+                <div class="row w-100 d-flex justify-content-center align-items-start m-0 p-0">
+                    <div class="col d-flex justify-content-center m-0 p-0">
+                        <h5 class="m-0 p-0">Edit Category</h5>
+                    </div>
+                </div>
+                <div class="row w-100 justify-content-start">
+                    <div class="col m-0 p-0">
+                        <label for="EditCategoryId"></label>
+                        <select id="EditCategoryId" name="EditCategoryId" class="form-select">
+                            <option value="" disabled selected>Select a category</option>
+                            @foreach (var category in Model.Categories)
+                            {
+                                <option value="@category.Id">@category.Title</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="row w-100 justify-content-start my-3">
+                    <div class="col m-0 p-0">
+                        <label for="EditCategoryTitle" class="form-label">New Title:</label>
+                        <input type="text" id="EditCategoryTitle" name="EditCategoryTitle" class="form-control" maxlength="25" />
+                    </div>
+                </div>
+                <div class="row justify-content-center align-content-end">
+                    <div class="col-auto">
+                        <button type="submit" class="btn btn-primary">Edit Category</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <!-- Delete Category -->
+        <div class="col-lg-4 col-md-6 col-12 d-flex mb-4 h-100">
+            <form method="post" asp-page-handler="DeleteCategory" class="row d-flex flex-grow ps-0 ms-0 mt-2">
+                <div class="row w-100 d-flex justify-content-center align-items-start m-0 p-0">
+                    <div class="col d-flex justify-content-center m-0 p-0">
+                        <h5 class="m-0 p-0">Delete Category</h5>
+                    </div>
+                </div>
+                <div class="row w-100 justify-content-start">
+                    <div class="col m-0 p-0">
+                        <label for="DeleteCategoryId">Select category to delete:</label>
+                        <select id="DeleteCategoryId" name="DeleteCategoryId" class="form-select">
+                            <option value="" disabled selected>Select a category</option>
+                            @foreach (var category in Model.Categories)
+                            {
+                                <option value="@category.Id">@category.Title</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="row justify-content-center align-content-end">
+                    <div class="col-auto">
+                        <button type="submit" class="btn btn-primary">Delete Category</button>
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
-    <div>
-        <label for="subCategories">Select SubCategory:</label>
-        <select id="subCategories" name="subCategories">
-            @foreach (var subCategory in Model.SubCategories)
-            {
-                <option value="@subCategory.Id">@subCategory.Title</option>
-            }
-        </select>
+
+    <div class="row d-flex w-100 my-5">
+        <div class="col-12 text-center bg-success bg-opacity-25">
+            <h3>SubCategory Management</h3>
+        </div>
+
+        <!-- Create SubCategory -->
+        <div class="col-lg-4 col-md-6 col-12 d-flex mb-4 h-100">
+            <form method="post" asp-page-handler="CreateSubCategory" class="row d-flex flex-grow ps-0 ms-0 mt-2">
+                <div class="row w-100 d-flex justify-content-center align-items-start m-0 p-0">
+                    <div class="col d-flex justify-content-center m-0 p-0">
+                        <h5 class="m-0 p-0">Create SubCategory</h5>
+                    </div>
+                </div>
+                <div class="row w-100 justify-content-start">
+                    <div class="col m-0 p-0">
+                        <label for="NewSubCategoryParentCategoryId">Select Parent Category:</label>
+                        <select id="NewSubCategoryParentCategoryId" name="NewSubCategoryParentCategoryId" class="form-select">
+                            <option value="" disabled selected>Select a category</option>
+                            @foreach (var category in Model.Categories)
+                            {
+                                <option value="@category.Id">@category.Title</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="row w-100 justify-content-start my-3">
+                    <div class="col m-0 p-0">
+                        <label for="NewSubCategoryTitle" class="form-label mb-1">New SubCategory Title:</label>
+                        <input type="text" id="NewSubCategoryTitle" name="NewSubCategoryTitle" class="form-control ms-0" maxlength="25" />
+                    </div>
+                </div>
+                <div class="row justify-content-center align-content-end">
+                    <div class="col-auto">
+                        <button type="submit" class="btn btn-primary">Create SubCategory</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <!-- Edit SubCategory -->
+        <div class="col-lg-4 col-md-6 col-12 d-flex mb-4 h-100">
+            <form method="post" asp-page-handler="EditSubCategory" class="row d-flex flex-grow ps-0 ms-0 mt-2">
+                <div class="row w-100 d-flex justify-content-center align-items-start m-0 p-0">
+                    <div class="col d-flex justify-content-center m-0 p-0">
+                        <h5 class="m-0 p-0">Edit SubCategory</h5>
+                    </div>
+                </div>
+                <div class="row w-100 justify-content-start my-3">
+                    <div class="col m-0 p-0">
+                        <label for="EditSubCategoryId">Select SubCategory:</label>
+                        <select id="EditSubCategoryId" name="EditSubCategoryId" class="form-select">
+                            <option value="" disabled selected>Select a subcategory</option>
+                            @foreach (var subCategory in Model.SubCategories)
+                            {
+                                <option value="@subCategory.Id">@subCategory.Title</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="row w-100 justify-content-start my-3">
+                    <div class="col m-0 p-0">
+                        <label for="EditSubCategoryTitle" class="form-label mb-1">New SubCategory Title:</label>
+                        <input type="text" id="EditSubCategoryTitle" name="EditSubCategoryTitle" class="form-control ms-0" maxlength="25" />
+                    </div>
+                </div>
+                <div class="row justify-content-center align-content-end">
+                    <div class="col-auto">
+                        <button type="submit" class="btn btn-primary">Edit SubCategory</button>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+
+        <!-- Remove SubCategory -->
+        <div class="col-lg-4 col-md-6 col-12 d-flex mb-4 h-100">
+            <form method="post" asp-page-handler="RemoveSubCategory" class="row d-flex flex-grow ps-0 ms-0 mt-2">
+                <div class="row w-100 d-flex justify-content-center align-items-start m-0 p-0">
+                    <div class="col d-flex justify-content-center m-0 p-0">
+                        <h5 class="m-0 p-0">Remove SubCategory</h5>
+                    </div>
+                </div>
+                <div class="row w-100 justify-content-start">
+                    <div class="col m-0 p-0">
+                        <label for="RemoveSubCategoryId">Select SubCategory to remove:</label>
+                        <select id="RemoveSubCategoryId" name="RemoveSubCategoryId" class="form-select">
+                            <option value="" disabled selected>Select a subcategory</option>
+                            @foreach (var subCategory in Model.SubCategories)
+                            {
+                                <option value="@subCategory.Id">@subCategory.Title</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="row justify-content-center align-content-end">
+                    <div class="col-auto">
+                        <button type="submit" class="btn btn-primary">Remove SubCategory</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="row w-100 bg-success bg-opacity-10">
+            <div class="col-12"></div>
+        </div>
     </div>
-    <div>
-        <label for="">Select User:</label>
-        <select id="subCategories" name="subCategories">
-            @foreach (var user in Model.UserDatas)
-            {
-                <option value="@user. ">@user.Name </option>
-            }
-        </select>
+
+    <div class="row d-flex w-100 my-5">
+        <div class="col-12 text-center bg-success bg-opacity-25">
+            <h3>User Management</h3>
+        </div>
+    <!-- Assign Admin Role -->
+    <div class="col-lg-4 col-md-6 col-12 d-flex mb-4 h-100">
+        <form method="post" asp-page-handler="AssignAdminRole" class="row d-flex flex-grow ps-0 ms-0 mt-2">
+            <div class="row w-100 d-flex justify-content-center align-items-start m-0 p-0">
+                <div class="col d-flex justify-content-center m-0 p-0">
+                    <h5 class="m-0 p-0">Assign Admin Role</h5>
+                </div>
+            </div>
+            <div class="row w-100 justify-content-start">
+                <div class="col m-0 p-0">
+                    <label for="AssignAdminUserDataId">Select user to assign admin role:</label>
+                    <select id="AssignAdminUserDataId" name="AssignAdminUserDataId" class="form-select">
+                        <option value="" disabled selected>Select a user</option>
+                        @foreach (var user in Model.UserDatas)
+                        {
+                            <option value="@user.Id">@user.Name</option>
+                        }
+                    </select>
+                </div>
+            </div>
+            <div class="row justify-content-center align-content-end">
+                <div class="col-auto">
+                    <button type="submit" class="btn btn-primary">Assign Admin Role</button>
+                </div>
+            </div>
+        </form>
     </div>
-    <button class="btn btn-primary" type="submit">Submit</button>
-</form>
+
+    <!-- Remove Admin Role -->
+    <div class="col-lg-4 col-md-6 col-12 d-flex mb-4 h-100">
+        <form method="post" asp-page-handler="RemoveAdminRole" class="row d-flex flex-grow ps-0 ms-0 mt-2">
+            <div class="row w-100 d-flex justify-content-center align-items-start m-0 p-0">
+                <div class="col d-flex justify-content-center m-0 p-0">
+                    <h5 class="m-0 p-0">Remove Admin Role</h5>
+                </div>
+            </div>
+            <div class="row w-100 justify-content-start">
+                <div class="col m-0 p-0">
+                    <label for="RemoveAdminUserDataId">Select user to remove admin role:</label>
+                    <select id="RemoveAdminUserDataId" name="RemoveAdminUserDataId" class="form-select">
+                        <option value="" disabled selected>Select a user</option>
+                        @foreach (var user in Model.UserDatas)
+                        {
+                            <option value="@user.Id">@user.Name</option>
+                        }
+                    </select>
+                </div>
+            </div>
+            <div class="row justify-content-center align-content-end">
+                <div class="col-auto">
+                    <button type="submit" class="btn btn-primary">Remove Admin Role</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!-- Remove User -->
+    <div class="col-lg-4 col-md-6 col-12 d-flex mb-4 h-100">
+        <form method="post" asp-page-handler="RemoveUser" class="row d-flex flex-grow ps-0 ms-0 mt-2">
+            <div class="row w-100 d-flex justify-content-center align-items-start m-0 p-0">
+                <div class="col d-flex justify-content-center m-0 p-0">
+                    <h5 class="m-0 p-0">Remove User</h5>
+                </div>
+            </div>
+            <div class="row w-100 justify-content-start">
+                <div class="col m-0 p-0">
+                    <label for="RemoveUserDataId">Select user to remove:</label>
+                    <select id="RemoveUserDataId" name="RemoveUserDataId" class="form-select">
+                        <option value="" disabled selected>Select a user</option>
+                        @foreach (var user in Model.UserDatas)
+                        {
+                            <option value="@user.Id">@user.Name</option>
+                        }
+                    </select>
+                </div>
+            </div>
+            <div class="row justify-content-center align-content-end">
+                <div class="col-auto">
+                    <button type="submit" class="btn btn-primary">Remove User</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+</div>
+
+

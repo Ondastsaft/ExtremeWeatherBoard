@@ -17,11 +17,11 @@ namespace ExtremeWeatherBoard.DAL
             _context = context;
             _userManager = userManager;
         }
-        public async Task<UserData> GetCurrentUserDataAsync(ClaimsPrincipal userPrincipal)
+        public async Task<UserData> GetCurrentUserDataAsync(ClaimsPrincipal claimsPrincipal)
         {         
-                if (userPrincipal.Identity?.IsAuthenticated != null)
+                if (claimsPrincipal.Identity?.IsAuthenticated != null)
                 {
-                var userId = _userManager.GetUserId(userPrincipal);
+                var userId = _userManager.GetUserId(claimsPrincipal);
                 if (userId != null)
                     {
                         var currentUserData = await _context.UserDatas.FirstOrDefaultAsync(ud => ud.UserId == userId);
@@ -47,13 +47,13 @@ namespace ExtremeWeatherBoard.DAL
             }
             return GuestUserService.GuestUserData;
         }
-        public async Task<bool> CheckUserDataAsync(ClaimsPrincipal userPrincipal)
+        public async Task<bool> CheckUserDataAsync(ClaimsPrincipal claimsPrincipal)
         {
-            if (userPrincipal.Identity != null)
+            if (claimsPrincipal.Identity != null)
             {
-                if (userPrincipal.Identity.IsAuthenticated)
+                if (claimsPrincipal.Identity.IsAuthenticated)
                 {
-                    var userId = _userManager.GetUserId(userPrincipal);
+                    var userId = _userManager.GetUserId(claimsPrincipal);
                     if (await _context.UserDatas.AnyAsync(u => u.UserId == userId))
                     {
                         return true;
@@ -69,11 +69,11 @@ namespace ExtremeWeatherBoard.DAL
             }
             return false;
         }
-        public async Task<bool> CheckIfAdminAsync(ClaimsPrincipal userPrincipal)
+        public async Task<bool> CheckIfAdminAsync(ClaimsPrincipal claimsPrincipal)
         {
-            if (userPrincipal.Identity?.Name != null)
+            if (claimsPrincipal.Identity?.Name != null)
             {
-                var adminUserData = await _context.AdminUserDatas.FirstOrDefaultAsync(ud => ud.UserId == userPrincipal.Identity.Name);
+                var adminUserData = await _context.AdminUserDatas.FirstOrDefaultAsync(ud => ud.UserId == claimsPrincipal.Identity.Name);
                 if (adminUserData != null)
                 {
                     return true;
@@ -88,11 +88,11 @@ namespace ExtremeWeatherBoard.DAL
             await _context.SaveChangesAsync();
             return userData;
         }
-        public async Task<bool> CheckCurrentUserAsync(ClaimsPrincipal userPrincipal)
+        public async Task<bool> CheckCurrentUserAsync(ClaimsPrincipal claimsPrincipal)
         {
-            if (userPrincipal.Identity != null && userPrincipal.Identity.IsAuthenticated)
+            if (claimsPrincipal.Identity != null && claimsPrincipal.Identity.IsAuthenticated)
             {
-                var userId = _userManager.GetUserId(userPrincipal);
+                var userId = _userManager.GetUserId(claimsPrincipal);
                 if (_context.UserDatas.Any(ud => ud.UserId == userId))
                 {
                     return true;
@@ -112,14 +112,14 @@ namespace ExtremeWeatherBoard.DAL
             _context.UserDatas.Update(userData);
             await _context.SaveChangesAsync();
         }
-        public async Task PostUserImage(ClaimsPrincipal userPrincipal,IFormFile file)
+        public async Task PostUserImage(ClaimsPrincipal claimsPrincipal,IFormFile file)
         {
             var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Images", file.FileName);
             using (var stream = new FileStream(filePath, FileMode.Create))
             {
                 await file.CopyToAsync(stream);
             }
-            var userid = _userManager.GetUserId(userPrincipal);
+            var userid = _userManager.GetUserId(claimsPrincipal);
             if (userid != null)
             {
                 var userData = await _context.UserDatas.FirstOrDefaultAsync(ud => ud.UserId == userid);
