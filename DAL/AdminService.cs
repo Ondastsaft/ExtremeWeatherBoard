@@ -66,12 +66,12 @@ namespace ExtremeWeatherBoard.DAL
             if (categoryId > 0 && claimsPrincipal.IsInRole("Admin"))
             {
                 await DeleteAllSubCategoriesFromCategory(categoryId);
-                    var category = await _context.Categories.FirstOrDefaultAsync(c => c.Id == categoryId);
-                    if (category != null)
-                    {
-                        _context.Categories.Remove(category);
-                        await _context.SaveChangesAsync();
-                    }                
+                var category = await _context.Categories.FirstOrDefaultAsync(c => c.Id == categoryId);
+                if (category != null)
+                {
+                    _context.Categories.Remove(category);
+                    await _context.SaveChangesAsync();
+                }
             }
         }
         public async Task PostSubCategoryAsync(string title, int parentCategoryId, ClaimsPrincipal claimsPrincipal)
@@ -98,7 +98,7 @@ namespace ExtremeWeatherBoard.DAL
                 }
             }
         }
-        public async Task EditSubCategoryAsync(int subCategoryId, string title, int parentCategoryId, ClaimsPrincipal claimsPrincipal)
+        public async Task EditSubCategoryAsync(int subCategoryId, string title, ClaimsPrincipal claimsPrincipal)
         {
             if (claimsPrincipal.IsInRole("Admin"))
             {
@@ -110,12 +110,7 @@ namespace ExtremeWeatherBoard.DAL
                     if (subCategory != null)
                     {
                         subCategory.Title = title;
-                        var parentCategory = await _context.Categories.FirstOrDefaultAsync(c => c.Id == parentCategoryId);
-                        if (parentCategory != null)
-                        {
-                            subCategory.ParentCategory = parentCategory;
-                            await _context.SaveChangesAsync();
-                        }
+                        await _context.SaveChangesAsync();
                     }
                 }
             }
@@ -126,14 +121,14 @@ namespace ExtremeWeatherBoard.DAL
             if (claimsPrincipal.IsInRole("Admin"))
             {
 
-                    var subCategory = await _context.SubCategories.FirstOrDefaultAsync(c => c.Id == subCategoryId);
-                    if (subCategory != null)
-                    {
-                        await DeleteAllThreadsFromSubCategory(subCategoryId);
-                        _context.SubCategories.Remove(subCategory);
-                        await _context.SaveChangesAsync();
-                    }
-                
+                var subCategory = await _context.SubCategories.FirstOrDefaultAsync(c => c.Id == subCategoryId);
+                if (subCategory != null)
+                {
+                    await DeleteAllThreadsFromSubCategory(subCategoryId);
+                    _context.SubCategories.Remove(subCategory);
+                    await _context.SaveChangesAsync();
+                }
+
             }
         }
         public async Task AssignAdminRoleAsync(int userId, ClaimsPrincipal claimsPrincipal)

@@ -107,7 +107,7 @@ namespace ExtremeWeatherBoard.Pages
         {
             if (User.Identity != null && User.IsInRole("Admin"))
             {
-                await _adminService.EditSubCategoryAsync(EditSubCategoryId, EditSubCategoryTitle, EditSubCategoryParentCategoryId, User);
+                await _adminService.EditSubCategoryAsync(EditSubCategoryId, EditSubCategoryTitle, User);
                 return RedirectToPage();
             }
             return Page();
