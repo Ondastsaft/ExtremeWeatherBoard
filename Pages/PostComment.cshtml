@@ -37,7 +37,7 @@
                             Report
                         </button>
                     </form>
-                    <a asp-page="/PostMessage" asp-route-recipentId="@Model.DiscussionThread.UserDataId" class="btn btn-secondary me-3 " style="width: 8em;" title="Send message to user" aria-label="Send message to user">Message</a>
+                    <a asp-page="/PostMessage" asp-route-messageReceiverId="@Model.DiscussionThread.UserDataId" class="btn btn-secondary me-3 " style="width: 8em;" title="Send message to user" aria-label="Send message to user">Message</a>
                     <a asp-page="User" asp-route-userDataId="@Model.DiscussionThread.UserDataId" class="btn btn-secondary" style="width: 8em;" title="View user profile" aria-label="View user profile">User</a>
                 </div>
             </div>

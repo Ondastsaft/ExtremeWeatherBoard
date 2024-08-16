@@ -21,8 +21,7 @@ namespace ExtremeWeatherBoard.Pages
         public string Text { get; set; } = String.Empty;
         [BindProperty]
         public string Title { get; set; } = String.Empty;
-        [BindProperty]
-
+        [BindProperty]     
         public int ReceiverId { get; set; }
         public PostMessageModel(
         UserManager<IdentityUser> userManager,
@@ -36,17 +35,21 @@ namespace ExtremeWeatherBoard.Pages
             _userDataService = userDataService;
             _categoryApiService = categoryApiService;
         }
-        public async Task OnGetAsync(int messageReceiverId, int messageId)
+        public async Task<IActionResult> OnGetAsync(int messageReceiverId, int messageId)
         {
-            if (messageReceiverId != 0)
+            if (User.Identity != null && User.Identity.IsAuthenticated)
             {
-
-                if (messageId != 0)
+                if (messageReceiverId != 0)
                 {
-                    await LoadMainContentviewModel(messageReceiverId, messageId);
+                    if (messageId != 0)
+                    {
+                        await LoadMainContentviewModel(messageReceiverId, messageId);
+                    }
+                    else await LoadNewMessageDataAsync(messageReceiverId);
                 }
-                else await LoadNewMessageDataAsync(messageReceiverId);
+                return Page();
             }
+            else return RedirectToPage("/Index");
         }
         public async Task<IActionResult> OnPostAsync()
         {
