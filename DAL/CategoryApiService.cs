@@ -20,13 +20,13 @@ namespace ExtremeWeatherBoard.DAL
             _context = context;
             _userManager = userManager;
         }
-#if DEBUG
-        public async Task<List<Category>?> GetCategoriesAsync()
-        {
-            var categories = await _context.Categories.ToListAsync();
-            return categories;
-        }
-#else
+//#if DEBUG
+//        public async Task<List<Category>?> GetCategoriesAsync()
+//        {
+//            var categories = await _context.Categories.ToListAsync();
+//            return categories;
+//        }
+//#else
         public async Task<List<Category>?> GetCategoriesAsync()
         {
             using (HttpClient client = new HttpClient())
@@ -49,7 +49,7 @@ namespace ExtremeWeatherBoard.DAL
                 return null;
             }
         }
-#endif
+//#endif
 
         internal async Task<Category?> GetCategoryAsync(int categoryId)
         {

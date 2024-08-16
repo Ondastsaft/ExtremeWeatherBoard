@@ -85,7 +85,7 @@ namespace ExtremeWeatherBoard.Pages
         private async Task<List<MainNavObjectDTO>> LoadCategoryNavObjectsAsync()
         {
             var mainNavObjectList = new List<MainNavObjectDTO>();
-            var navObjects = await _categoryApiService.GetCategoriesWithSubCategoriesAsync();
+            var navObjects = await _categoryApiService.GetCategoriesAsync();
 
             foreach (var category in navObjects)
             {
