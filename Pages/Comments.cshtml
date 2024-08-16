@@ -93,12 +93,15 @@
                     </div>
                 </div>
             }
+
             <div class="row d-flex justify-content-center w-100">
-                <a asp-page="/PostComment" asp-route-postId="@Model.DiscussionThreadId"
-                   class="btn btn-primary me-3 "
-                   style="width: 14em; height: 4em;"
-                   title="Post comment in topic"
-                   aria-label="Post comment in topic">Post comment</a>
+                <div class="col-4">
+                    <a asp-page="/PostComment" asp-route-postId="@Model.DiscussionThreadId"
+                       class="btn btn-primary me-3 "
+                       style="width: 14em; height: 4em;"
+                       title="Post comment in topic"
+                       aria-label="Post comment in topic">Post comment</a>
+                </div>
             </div>
         }
         // @if (Model.Comments.Count > 0)

@@ -2,8 +2,7 @@
 @model ExtremeWeatherBoard.Pages.PostMessageModel
 @{
 }
-@section MainContent
-{
+
 @*     @if(Model.MainContent != null)
     {
         <div class="row">
@@ -16,33 +15,28 @@
         <h1> Message to <a>@Model.Receivername</a></h1>
     </div>
     } *@
-    <div class="row">
-        <h1> Message to <a>@Model.Receivername</a></h1>
-    </div>
+<div class="row w-100">
+    <h1> Message to <a>@Model.Receivername</a></h1>
+</div>
+<div class="row w-100 ">
     <form method="post">
-
-        <div class="row">
-            <div class="col-md-3">Title</div>
-                <label for="Title"></label>
-               <input type="text" class="form-control" asp-for="Title" maxlength="40" placeholder="Message Title" />
+        <div class="row w-100 justify-content-end">
+            <div class="col-md-8">
+                <label for="Title">
+                    Title
+                </label>
+                <input type="text" class="form-control" asp-for="Title" maxlength="40" placeholder="Message Title" />
+            </div>
         </div>
-        <div class="row">
-            <label for="Message Text">Text</label>
-            <textarea class="form-control" name="text" placeholder="Message Text" asp-for="Text" rows="10"></textarea>
-        </div>
-        <input type="hidden" asp-for="ReceiverId"/>
         <div class="row justify-content-end">
-            <button type="submit" class="btn">Send Message</button>
-        </div>
+            <div class="col-md-10">
+                <label for="Message Text">Text</label>
+                <textarea class="form-control" name="text" placeholder="Message Text" asp-for="Text" rows="10"></textarea>
+            </div>
+            <input type="hidden" asp-for="ReceiverId" />
+            <div class="row justify-content-end">
+                <button type="submit" class="btn">Send Message</button>
+            </div>
+            </div>
     </form>
-
-
-    }
-
-
-@section Sidebar {
-    @if (Model.SideBarOptions != null)
-    {
-        <partial name="_SideBarPartial" model="Model.SideBarOptions" />
-    }
-}
+</div>

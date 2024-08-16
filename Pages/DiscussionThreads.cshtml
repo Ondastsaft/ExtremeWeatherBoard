@@ -21,26 +21,29 @@
         {
             <div class="col-md-8 mb-5 mt-3">
                 <div class="card d-flex">
-                    <div class="card-header d-flex p-0 justify-content-end bg-success bg-opacity-25 "
-                         style="height: 4em">
-                        <div class="d-inline-flex" name="header content">
-                            <img src="@discussionThread.ImageUrl"
-                                 alt="Picture of user"
-                                 class="object-fit-cover profile-image" />
-                            <div class="d-flex flex-column justify-content-center align-items-end post-info">
-                                <p class="h5 m-0">Post by @discussionThread.UserName</p>
-                                <small class="fw-light">@discussionThread.TimeStamp</small>
+                    <a asp-page="/Comments" asp-route-discussionThreadId="@discussionThread.Id" style="text-decoration:none; color:black;">
+                        <div class="card-header d-flex p-0 justify-content-end bg-success bg-opacity-25 "
+                             style="height: 4em">
+                            <div class="d-inline-flex" name="header content">
+                                <img src="@discussionThread.ImageUrl"
+                                     alt="Picture of user"
+                                     class="object-fit-cover profile-image" />
+                                <div class="d-flex flex-column justify-content-center align-items-end post-info">
+                                    <p class="h5 m-0">Post by @discussionThread.UserName</p>
+                                    <small class="fw-light">@discussionThread.TimeStamp</small>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="card-title h6 mt-3 word-break text-end mb-0">
-                        <p>@discussionThread.Title</p>
-                    </div>
-                    <div class="card-body my-0 py-0 text-truncate">
-                        <p>
-                            @discussionThread.Text
-                        </p>
-                    </div>
+
+                        <div class="card-title h6 mt-3 word-break text-end mb-0">
+                            <p>@discussionThread.Title</p>
+                        </div>
+                        <div class="card-body my-0 py-0 text-truncate">
+                            <p>
+                                @discussionThread.Text
+                            </p>
+                        </div>
+                    </a>
                     <div class="card-footer d-flex justify-content-end bg-success bg-opacity-10 ">
                         <div class="w-50 d-flex justify-content-end">
                             <form method="post" asp-page-handler="ReportTopic" asp-route-discussionThreadId="@discussionThread.Id"

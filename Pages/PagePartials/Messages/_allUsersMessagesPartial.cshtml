@@ -1,47 +1,48 @@
-﻿@{
-    <h1 style="padding-bottom:40px;">Messages</h1>
-    <div class="container-scrollable-maincontent-table">
-        <table class="table">
-            <tr>
-                <th class="col-md-7">Title</th>
-                <th class="col-md-3">Contact</th>
-                <th class="col-md-2">Time</th>
-            </tr>
-        </table>
-        <table class="table table-hover">
-            <tbody>
-                @for (int i = 0; i < 5; i++)
-                {
-                    @foreach (Models.Message message in Model.Messages)
-                    {
-                        var contact = new Models.UserData();
-                        if (message.SenderId == Model.UserDataId)
-                        {
-                            contact = message.Receiver;
-                        }
-                        else
-                        {
-                            contact = message.Sender;
-                        }
-                        <tr>
-                            @if (contact != null && contact.Name != null)
-                            {
-                                <td class="col-md-7">
-                                    <a asp-page="Messages" asp-route-messageId="@message.Id" class="no-style-link">@message.Title</a>
-                                </td>
-                                <td class="col-md-3">
-                                    <a asp-page="Messages" asp-route-recipentId="@contact.Id" class="no-style-link">@contact.Name</a>
-                                </td>
-                                <td class="col-md-2">
-                                    @message.TimeStamp
-                                </td>
-                            }
-                        </tr>
-                    }
-                }
-            </tbody>
-        </table>
-
-    </div>
-
+﻿@model ExtremeWeatherBoard.Pages.MessagesModel
+@{
 }
+<h1 style="padding-bottom:40px;">Messages</h1>
+<div class="container-scrollable-maincontent-table">
+    <table class="table">
+        <tr>
+            <th class="col-md-7">Title</th>
+            <th class="col-md-3">Contact</th>
+            <th class="col-md-2">Time</th>
+        </tr>
+    </table>
+    <table class="table table-hover">
+        <tbody>
+            @for (int i = 0; i < 5; i++)
+            {
+                @foreach (Models.Message message in Model.Messages)
+                {
+                    var contact = new Models.UserData();
+                    if (message.SenderId == Model.UserDataId)
+                    {
+                        contact = message.Receiver;
+                    }
+                    else
+                    {
+                        contact = message.Sender;
+                    }
+                    <tr>
+                        @if (contact != null && contact.Name != null)
+                        {
+                            <td class="col-md-7">
+                                <a asp-page="Messages" asp-route-messageId="@message.Id" class="no-style-link">@message.Title</a>
+                            </td>
+                            <td class="col-md-3">
+                                <a asp-page="Messages" asp-route-recipentId="@contact.Id" class="no-style-link">@contact.Name</a>
+                            </td>
+                            <td class="col-md-2">
+                                @message.TimeStamp
+                            </td>
+                        }
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+
+</div>
+
